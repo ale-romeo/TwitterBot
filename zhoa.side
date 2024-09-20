@@ -1,0 +1,162 @@
+{
+  "id": "a8ebd41a-a8bb-4047-b81f-a032e39780fc",
+  "version": "2.0",
+  "name": "zhoa",
+  "url": "https://x.com/login",
+  "tests": [{
+    "id": "d0de42b6-f014-4fb0-a59f-f6f08b267097",
+    "name": "test1",
+    "commands": [{
+      "id": "baec675e-2a60-4496-ab18-fe450c2bc309",
+      "comment": "",
+      "command": "open",
+      "target": "https://x.com/i/flow/login",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "083ca8c2-3f56-474d-9228-5b9965ad0380",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1734x1392",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "8de528c3-61ef-40ed-8245-45e873030c37",
+      "comment": "",
+      "command": "click",
+      "target": "name=text",
+      "targets": [
+        ["name=text", "name"],
+        ["css=.r-30o5oe", "css:finder"],
+        ["xpath=//input[@name='text']", "xpath:attributes"],
+        ["xpath=//div[@id='layers']/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/div/div[4]/label/div/div[2]/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "a76444ec-276b-4a90-a2bb-317760673dfb",
+      "comment": "",
+      "command": "type",
+      "target": "name=text",
+      "targets": [
+        ["name=text", "name"],
+        ["css=.r-30o5oe", "css:finder"],
+        ["xpath=//input[@name='text']", "xpath:attributes"],
+        ["xpath=//div[@id='layers']/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/div/div[4]/label/div/div[2]/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "alexhaxtv@gmail.com"
+    }, {
+      "id": "1bb6b202-3f25-4f27-b3e4-0a11d5e4b087",
+      "comment": "",
+      "command": "click",
+      "target": "css=.r-jc7xae > .css-146c3p1",
+      "targets": [
+        ["css=.r-jc7xae > .css-146c3p1", "css:finder"],
+        ["xpath=//div[@id='layers']/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/div/button[2]/div", "xpath:idRelative"],
+        ["xpath=//button[2]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "2bd899cb-dbc7-4bd7-ac63-9d95182912fb",
+      "comment": "",
+      "command": "click",
+      "target": "name=text",
+      "targets": [
+        ["name=text", "name"],
+        ["css=.r-30o5oe", "css:finder"],
+        ["xpath=//input[@name='text']", "xpath:attributes"],
+        ["xpath=//div[@id='layers']/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/div[2]/label/div/div[2]/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "98ed73aa-0ece-4c56-b812-c98819dd4d08",
+      "comment": "",
+      "command": "type",
+      "target": "name=text",
+      "targets": [
+        ["name=text", "name"],
+        ["css=.r-30o5oe", "css:finder"],
+        ["xpath=//input[@name='text']", "xpath:attributes"],
+        ["xpath=//div[@id='layers']/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/div[2]/label/div/div[2]/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "ZHOAMaster"
+    }, {
+      "id": "2c31d109-5aeb-401c-b9a6-4ceb2134af1d",
+      "comment": "",
+      "command": "click",
+      "target": "css=.r-19yznuf > .css-146c3p1",
+      "targets": [
+        ["css=.r-19yznuf > .css-146c3p1", "css:finder"],
+        ["xpath=//div[@id='layers']/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div[2]/div/div/div/button/div", "xpath:idRelative"],
+        ["xpath=//div[2]/div/div/div/button/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "47f6b53d-9d7c-49bf-90b6-05e351da4ae3",
+      "comment": "",
+      "command": "mouseOver",
+      "target": "css=.r-19yznuf > .css-146c3p1",
+      "targets": [
+        ["css=.r-19yznuf > .css-146c3p1", "css:finder"],
+        ["xpath=//div[@id='layers']/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div[2]/div/div/div/div/button/div", "xpath:idRelative"],
+        ["xpath=//div[2]/div/div/div/div/button/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "747fc173-4461-4422-9a43-27fbb7bf19f4",
+      "comment": "",
+      "command": "type",
+      "target": "name=password",
+      "targets": [
+        ["name=password", "name"],
+        ["css=.r-homxoj", "css:finder"],
+        ["xpath=//input[@name='password']", "xpath:attributes"],
+        ["xpath=//div[@id='layers']/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/div/div[3]/div/label/div/div[2]/div/input", "xpath:idRelative"],
+        ["xpath=//div[3]/div/label/div/div[2]/div/input", "xpath:position"]
+      ],
+      "value": "$$ZHOA$$1B"
+    }, {
+      "id": "54cd5f23-b676-4848-8073-0ad0b5aaa6af",
+      "comment": "",
+      "command": "mouseOut",
+      "target": "css=.r-19yznuf > .css-146c3p1",
+      "targets": [
+        ["css=.r-19yznuf > .css-146c3p1", "css:finder"],
+        ["xpath=//div[@id='layers']/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div[2]/div/div/div/div/button/div", "xpath:idRelative"],
+        ["xpath=//div[2]/div/div/div/div/button/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "b7d5162f-da51-4d91-b8df-7e387aaab896",
+      "comment": "",
+      "command": "click",
+      "target": "css=.r-19yznuf > .css-146c3p1",
+      "targets": [
+        ["css=.r-19yznuf > .css-146c3p1", "css:finder"],
+        ["xpath=//div[@id='layers']/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div[2]/div/div/div/div/button/div", "xpath:idRelative"],
+        ["xpath=//div[2]/div/div/div/div/button/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "ad3dfb26-40d2-42c9-b216-7c1e62578a41",
+      "comment": "",
+      "command": "close",
+      "target": "",
+      "targets": [],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "4ffeacad-ec45-4094-8f79-df5d16aa9389",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": []
+  }],
+  "urls": ["https://x.com/", "https://x.com/login"],
+  "plugins": []
+}
