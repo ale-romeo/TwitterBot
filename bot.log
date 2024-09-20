@@ -1,0 +1,304 @@
+2024-09-20 18:16:44,361 - INFO - Logged in successfully
+2024-09-20 18:16:44,700 - INFO - Telegram bot initialized
+2024-09-20 18:16:44,801 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getMe "HTTP/1.1 200 OK"
+2024-09-20 18:16:44,837 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/deleteWebhook "HTTP/1.1 200 OK"
+2024-09-20 18:16:44,837 - INFO - Application started
+2024-09-20 18:16:54,916 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:17:04,944 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:17:14,971 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:17:24,997 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:17:35,023 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:17:45,049 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:17:55,075 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:18:05,102 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:18:15,127 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:18:25,154 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:18:35,179 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:18:45,206 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:18:55,232 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:19:05,259 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:19:15,285 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:19:25,311 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:19:34,364 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:19:34,379 - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\alexr\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\telegram\ext\_application.py", line 1335, in process_update
+    await coroutine
+  File "C:\Users\alexr\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\telegram\ext\_handlers\basehandler.py", line 157, in handle_update
+    return await self.callback(update, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: object NoneType can't be used in 'await' expression
+2024-09-20 18:19:44,408 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:19:54,433 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:20:04,460 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:20:14,486 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:20:24,513 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:20:34,539 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:20:44,564 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:20:54,591 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:21:04,617 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:21:14,643 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:21:24,670 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:21:34,697 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:21:44,723 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:21:54,749 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:21:55,586 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:21:55,587 - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\alexr\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\telegram\ext\_application.py", line 1335, in process_update
+    await coroutine
+  File "C:\Users\alexr\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\telegram\ext\_handlers\basehandler.py", line 157, in handle_update
+    return await self.callback(update, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: object NoneType can't be used in 'await' expression
+2024-09-20 18:22:05,613 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:22:15,641 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:22:25,667 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:22:35,693 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:22:45,720 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:22:55,746 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:23:05,779 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:23:15,805 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:23:19,131 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:23:19,131 - INFO - Application is stopping. This might take a moment.
+2024-09-20 18:23:19,131 - INFO - Application.stop() complete
+2024-09-20 18:23:43,413 - INFO - Logged in successfully
+2024-09-20 18:23:43,760 - INFO - Telegram bot initialized
+2024-09-20 18:23:43,846 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getMe "HTTP/1.1 200 OK"
+2024-09-20 18:23:43,874 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/deleteWebhook "HTTP/1.1 200 OK"
+2024-09-20 18:23:43,875 - INFO - Application started
+2024-09-20 18:23:53,952 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:23:56,720 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:23:56,724 - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\alexr\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\telegram\ext\_application.py", line 1335, in process_update
+    await coroutine
+  File "C:\Users\alexr\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\telegram\ext\_handlers\basehandler.py", line 157, in handle_update
+    return await self.callback(update, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: object NoneType can't be used in 'await' expression
+2024-09-20 18:24:06,751 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:24:16,780 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:24:26,809 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:24:36,837 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:24:46,873 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:24:56,900 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:25:06,927 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:25:16,964 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:25:26,991 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:25:37,021 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:25:47,049 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:25:57,077 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:26:07,104 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:26:17,132 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:26:27,162 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:26:37,192 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:26:47,228 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:26:57,261 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:27:07,289 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:27:17,317 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:27:27,344 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:27:37,371 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:27:47,397 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:27:57,426 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:28:07,455 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:28:17,483 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:28:27,517 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:28:37,544 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:28:47,571 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:28:57,600 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:29:07,629 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:29:17,666 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:29:27,693 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:29:37,720 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:29:47,747 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:29:57,777 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:30:07,804 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:30:17,832 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:30:27,859 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:30:37,888 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:30:47,915 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:30:57,942 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:31:07,970 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:31:17,999 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:31:28,029 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:31:38,057 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:31:48,085 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:31:58,112 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:32:08,140 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:32:18,166 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:32:28,195 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:32:38,221 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:32:48,249 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:32:58,277 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:33:08,305 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:33:18,331 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:33:28,360 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:33:38,387 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:33:48,414 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:33:58,440 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:34:08,489 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:34:18,521 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:34:28,548 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:34:38,575 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:34:48,605 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:34:58,634 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:35:08,661 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:35:18,688 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:35:23,804 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:35:23,805 - INFO - Application is stopping. This might take a moment.
+2024-09-20 18:35:23,805 - INFO - Application.stop() complete
+2024-09-20 18:35:48,919 - INFO - Logged in successfully
+2024-09-20 18:35:49,258 - INFO - Telegram bot initialized
+2024-09-20 18:35:49,349 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getMe "HTTP/1.1 200 OK"
+2024-09-20 18:35:49,379 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/deleteWebhook "HTTP/1.1 200 OK"
+2024-09-20 18:35:49,380 - INFO - Application started
+2024-09-20 18:35:55,988 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:35:56,198 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/sendMessage "HTTP/1.1 200 OK"
+2024-09-20 18:36:06,016 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:36:16,048 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:36:26,075 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:36:36,105 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:36:46,132 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:36:56,162 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:37:01,320 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:37:01,320 - INFO - Application is stopping. This might take a moment.
+2024-09-20 18:37:01,320 - INFO - Application.stop() complete
+2024-09-20 18:37:24,482 - INFO - Logged in successfully
+2024-09-20 18:37:24,826 - INFO - Telegram bot initialized
+2024-09-20 18:37:24,911 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getMe "HTTP/1.1 200 OK"
+2024-09-20 18:37:24,950 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/deleteWebhook "HTTP/1.1 200 OK"
+2024-09-20 18:37:24,951 - INFO - Application started
+2024-09-20 18:37:35,050 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:37:39,754 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:37:39,966 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/sendMessage "HTTP/1.1 200 OK"
+2024-09-20 18:37:49,787 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:37:59,814 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:38:09,844 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:38:19,876 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:38:29,904 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:38:39,951 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:38:49,984 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:39:00,013 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:39:10,046 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:39:10,911 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:39:20,948 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:39:30,981 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:39:41,047 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:39:48,847 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:39:49,055 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/sendMessage "HTTP/1.1 200 OK"
+2024-09-20 18:39:58,879 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:40:08,906 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:40:18,937 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:40:28,999 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:40:39,037 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:40:49,067 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:40:59,095 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:41:05,548 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:41:05,548 - INFO - Application is stopping. This might take a moment.
+2024-09-20 18:41:05,549 - INFO - Application.stop() complete
+2024-09-20 18:41:36,597 - INFO - Logged in successfully
+2024-09-20 18:41:36,951 - INFO - Telegram bot initialized
+2024-09-20 18:41:37,041 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getMe "HTTP/1.1 200 OK"
+2024-09-20 18:41:37,068 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/deleteWebhook "HTTP/1.1 200 OK"
+2024-09-20 18:41:37,068 - INFO - Application started
+2024-09-20 18:41:37,147 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:41:37,300 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/sendMessage "HTTP/1.1 200 OK"
+2024-09-20 18:41:45,232 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:41:45,470 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/sendMessage "HTTP/1.1 200 OK"
+2024-09-20 18:41:57,689 - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\alexr\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\telegram\ext\_application.py", line 1335, in process_update
+    await coroutine
+  File "C:\Users\alexr\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\telegram\ext\_handlers\basehandler.py", line 157, in handle_update
+    return await self.callback(update, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\alexr\OneDrive\Documenti\personal_projects\TwitterBot\twitterBot.py", line 127, in handle_message
+    self.x_actions.like_tweet(twitter_link)
+  File "C:\Users\alexr\OneDrive\Documenti\personal_projects\TwitterBot\twitterBot.py", line 58, in like_tweet
+    like_button = WebDriverWait(self.driver, 10).until(
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\alexr\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\selenium\webdriver\support\wait.py", line 105, in until
+    raise TimeoutException(message, screen, stacktrace)
+selenium.common.exceptions.TimeoutException: Message: 
+Stacktrace:
+	GetHandleVerifier [0x00007FF7DA879412+29090]
+	(No symbol) [0x00007FF7DA7EE239]
+	(No symbol) [0x00007FF7DA6AB1DA]
+	(No symbol) [0x00007FF7DA6FEFE7]
+	(No symbol) [0x00007FF7DA6FF23C]
+	(No symbol) [0x00007FF7DA7497C7]
+	(No symbol) [0x00007FF7DA72672F]
+	(No symbol) [0x00007FF7DA7465A2]
+	(No symbol) [0x00007FF7DA726493]
+	(No symbol) [0x00007FF7DA6F09D1]
+	(No symbol) [0x00007FF7DA6F1B31]
+	GetHandleVerifier [0x00007FF7DAB9871D+3302573]
+	GetHandleVerifier [0x00007FF7DABE4243+3612627]
+	GetHandleVerifier [0x00007FF7DABDA417+3572135]
+	GetHandleVerifier [0x00007FF7DA935EB6+801862]
+	(No symbol) [0x00007FF7DA7F945F]
+	(No symbol) [0x00007FF7DA7F4FB4]
+	(No symbol) [0x00007FF7DA7F5140]
+	(No symbol) [0x00007FF7DA7E461F]
+	BaseThreadInitThunk [0x00007FFFDD6F257D+29]
+	RtlUserThreadStart [0x00007FFFDEB0AF28+40]
+
+2024-09-20 18:41:57,691 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:42:07,718 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:42:17,754 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:42:27,780 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:42:37,813 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:42:47,841 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:42:57,867 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:43:07,893 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:43:17,920 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:43:27,948 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:43:38,003 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:43:48,030 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:43:58,056 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:44:08,083 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:44:18,112 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:44:28,139 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:44:38,169 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:44:48,196 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:44:58,224 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:45:08,251 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:45:18,277 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:45:28,303 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:45:38,332 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:45:48,359 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:45:58,386 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:46:08,416 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:46:18,444 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:46:28,472 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:46:38,500 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:46:48,527 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:46:58,555 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:47:08,583 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:47:18,609 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:47:28,636 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:47:38,663 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:47:48,691 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:47:58,719 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:48:08,746 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:48:18,773 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:48:28,800 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:48:38,827 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:48:48,853 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:48:58,880 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:49:08,907 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:49:18,934 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:49:28,962 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:49:38,990 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:49:49,017 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:49:59,045 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:50:09,071 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:50:19,098 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:50:29,126 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:50:39,153 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:50:49,181 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:50:59,208 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:51:09,235 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:51:19,262 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
+2024-09-20 18:51:29,288 - INFO - HTTP Request: POST https://api.telegram.org/bot7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o/getUpdates "HTTP/1.1 200 OK"
