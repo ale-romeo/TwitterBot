@@ -6,6 +6,10 @@ import time
 import re
 from telegram.ext import Application, CommandHandler, MessageHandler, filters
 import logging
+import random
+
+def random_delay():
+    time.sleep(random.uniform(2, 5))
 
 logging.basicConfig(level=logging.INFO, filename='bot.log', filemode='a',
                     format='%(asctime)s - %(levelname)s - %(message)s')
@@ -17,31 +21,30 @@ class xActions():
     def login(self):
         try:
             self.driver.get("https://x.com/i/flow/login")
-            time.sleep(2)
+            random_delay()
+
+            # Enter email
             self.driver.find_element(By.NAME, "text").send_keys("alexhaxtv@gmail.com")
-            # Wait for the "Next" button to be clickable
             button = WebDriverWait(self.driver, 10).until(
                 EC.element_to_be_clickable((By.XPATH, "//span[contains(text(), 'Next')]"))
             )
             button.click()
-            time.sleep(5)
+            random_delay()
 
-
+            # Enter username
             self.driver.find_element(By.NAME, "text").send_keys("ZHOAMaster")
-            # Wait for the "Next" button to be clickable
             button = WebDriverWait(self.driver, 10).until(
                 EC.element_to_be_clickable((By.XPATH, "//span[contains(text(), 'Next')]"))
             )
             button.click()
-            time.sleep(5)
+            random_delay()
 
-
+            # Enter password
             self.driver.find_element(By.NAME, "password").send_keys("$$ZHOA$$1B")
             button = WebDriverWait(self.driver, 10).until(
                 EC.element_to_be_clickable((By.XPATH, "//span[contains(text(), 'Log in')]"))
             )
             button.click()
-            time.sleep(5)
             logging.info("Logged in successfully")
 
         except Exception as e:
@@ -49,55 +52,90 @@ class xActions():
             logging.error("Failed to login")
             self.teardown()
 
-    def like_tweet(self, tweet_url):
+    def get_tweet(self, tweet_url):
+        self.driver.get(tweet_url)
+
+    def like(self, tweet_url):
         try:
-            # Open the tweet
-            self.driver.get(tweet_url)
-            time.sleep(2)
+            random_delay()
             
             # Click the like button
             like_button = WebDriverWait(self.driver, 10).until(
-                EC.element_to_be_clickable((By.CSS_SELECTOR, "div[data-testid='like']"))
+                EC.element_to_be_clickable((By.CSS_SELECTOR, "[data-testid='like']"))
             )
-            like_button.click()
+            self.driver.execute_script("arguments[0].click();", like_button)
             logging.info(f"Liked tweet at {tweet_url}")
+            return True
         except Exception as e:
             print(e)
             logging.error(f"Failed to like tweet at {tweet_url}")
+            return False
 
-    def retweet(self, tweet_url):
-        # Open the tweet
-        self.driver.get(tweet_url)
-        time.sleep(2)
+    def repost(self, tweet_url):
+        try:
+            random_delay()
 
-        # Click the retweet button
-        retweet_button = WebDriverWait(self.driver, 10).until(
-            EC.element_to_be_clickable((By.CSS_SELECTOR, "div[data-testid='retweet']"))
-        )
-        retweet_button.click()
+            # Click the repost button
+            retweet_button = WebDriverWait(self.driver, 10).until(
+                EC.element_to_be_clickable((By.CSS_SELECTOR, "[data-testid='retweet']"))
+            )
+            self.driver.execute_script("arguments[0].click();", retweet_button)
 
-    def comment_on_tweet(self, tweet_url, comment):
-        # Open the tweet
-        self.driver.get(tweet_url)
-        time.sleep(2)
-        
-        # Click reply button
-        reply_button = WebDriverWait(self.driver, 10).until(
-            EC.element_to_be_clickable((By.CSS_SELECTOR, "div[data-testid='reply']"))
-        )
-        reply_button.click()
+            # Confirm repost
+            confirm_button = WebDriverWait(self.driver, 10).until(
+                EC.element_to_be_clickable((By.CSS_SELECTOR, "[data-testid='retweetConfirm']"))
+            )
+            self.driver.execute_script("arguments[0].click();", confirm_button)
+            logging.info(f"Reposted tweet at {tweet_url}")
+            return True
+        except Exception as e:
+            print(e)
+            logging.error(f"Failed to repost tweet at {tweet_url}")
+            return False
 
-        # Type the comment
-        comment_box = WebDriverWait(self.driver, 10).until(
-            EC.element_to_be_clickable((By.CSS_SELECTOR, "div[role='textbox']"))
-        )
-        comment_box.send_keys(comment)
+    def comment(self, tweet_url, comment):
+        try:
+            random_delay()
+            # Click reply button
+            reply_button = WebDriverWait(self.driver, 10).until(
+                EC.element_to_be_clickable((By.CSS_SELECTOR, "[data-testid='reply']"))
+            )
+            self.driver.execute_script("arguments[0].click();", reply_button)
+            random_delay()
 
-        # Submit comment
-        submit_button = WebDriverWait(self.driver, 10).until(
-            EC.element_to_be_clickable((By.CSS_SELECTOR, "div[data-testid='tweetButton']"))
-        )
-        submit_button.click()
+            # Type the comment
+            comment_box = WebDriverWait(self.driver, 10).until(
+                EC.element_to_be_clickable((By.CSS_SELECTOR, "[data-testid='tweetTextarea_0']"))
+            )
+            comment_box.send_keys(comment)
+
+            # Submit comment
+            submit_button = WebDriverWait(self.driver, 10).until(
+                EC.element_to_be_clickable((By.CSS_SELECTOR, "[data-testid='tweetButton']"))
+            )
+            submit_button.click()
+            logging.info(f"Commented on tweet at {tweet_url}")
+            return True
+        except Exception as e:
+            print(e)
+            logging.error(f"Failed to comment on tweet at {tweet_url}")
+            return False        
+
+    def bookmark(self, tweet_url):
+        try:
+            random_delay()
+            
+            # Click the bookmark button
+            bookmark_button = WebDriverWait(self.driver, 10).until(
+                EC.element_to_be_clickable((By.CSS_SELECTOR, "[data-testid='bookmark']"))
+            )
+            self.driver.execute_script("arguments[0].click();", bookmark_button)
+            logging.info(f"Bookmarked tweet at {tweet_url}")
+            return True
+        except Exception as e:
+            print(e)
+            logging.error(f"Failed to bookmark tweet at {tweet_url}")
+            return False
 
     def teardown(self):
         # Close the browser
@@ -113,29 +151,18 @@ class tgActions():
 
             # Register command and message handlers
             self.application.add_handler(CommandHandler('start', self.start))
+            self.application.add_handler(CommandHandler('help', self.commands))
             self.application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, self.handle_message))
             logging.info("Telegram bot initialized")
         except Exception as e:
             print(e)
             logging.error("Failed to initialize Telegram bot")
 
-    async def start(self, update, context):
-        await update.message.reply_text('Hi! I am your Twitter Raid bot! I will monitor for Twitter links.')
-
-    async def handle_message(self, update, context):
-        text = update.message.text
-        twitter_link = self.extract_twitter_link(text)
-        if twitter_link:
-            await update.message.reply_text(f'Twitter link found: {twitter_link}')
-            
-            # Example: Like the tweet
-            self.x_actions.like_tweet(twitter_link)
-            await update.message.reply_text(f'Liked the tweet at {twitter_link}')
-        else:
-            await update.message.reply_text('No Twitter link detected.')
-
     async def commands(self, update, context):
         await update.message.reply_text('Available commands:\n/start - Start the bot\n/help - Show this help message')
+
+    async def start(self, update, context):
+        await update.message.reply_text('Hi! I am your Twitter Raid bot! I will monitor for Twitter links.')
 
     def extract_twitter_link(self, text):
         twitter_regex = r'https?://(www\.)?x\.com/[a-zA-Z0-9_]+/status/\d+'
@@ -143,6 +170,35 @@ class tgActions():
         if match:
             return match.group(0)
         return None
+
+    async def handle_message(self, update, context):
+        text = update.message.text
+        twitter_link = self.extract_twitter_link(text)
+        if twitter_link:
+            await update.message.reply_text(f'Twitter link found: {twitter_link}')
+            
+            self.x_actions.get_tweet(twitter_link)
+            like = self.x_actions.like(twitter_link)
+            bookmark = self.x_actions.bookmark(twitter_link)
+            repost = self.x_actions.repost(twitter_link)
+            comment = self.x_actions.comment(twitter_link, "TO THE MOON!")
+            if not like:
+                await update.message.reply_text(f'Failed to like the tweet at {twitter_link}')
+
+            if not bookmark:
+                await update.message.reply_text(f'Failed to bookmark the tweet at {twitter_link}')
+
+            if not repost:
+                await update.message.reply_text(f'Failed to repost the tweet at {twitter_link}')
+
+            if not comment:
+                await update.message.reply_text(f'Failed to comment on the tweet at {twitter_link}')
+
+            await update.message.reply_text(f'Other actions completed on tweet at {twitter_link}')
+
+        else:
+            await update.message.reply_text('No Twitter link detected.')
+    
 
     def start_polling(self):
         self.application.run_polling()
