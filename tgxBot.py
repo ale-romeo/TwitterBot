@@ -11,9 +11,9 @@ import random
 def random_delay():
     time.sleep(random.uniform(2, 5))
 
-def get_random_message():
+def get_random_message(token):
     # Pool of messages to comment on $ZHOA
-    messages = [
+    zhoa = [
     "$ZHOA to the moon! CZ is leading us to the stars! #ZHOA #CZarmy ",
     "The next big thing in crypto is here, and it's called $ZHOA! CZ is making history once again! #ZHOAworld ",
     "If you're not holding $ZHOA, are you even in the crypto game?  CZ is the GOAT!  #BinanceBoss #ZHOAarmy ",
@@ -21,7 +21,7 @@ def get_random_message():
     "Big things are coming for $ZHOA! The future of crypto is bright with CZ at the helm.  #CZfam #ZHOAHype ",
     "The Binance CEO creating a meme coin? That's all I need to hear. $ZHOA is going viral!  #CZlegend #ZHOAcoin ",
     "$ZHOA isn't just a coin, it's the ultimate tribute to the king of crypto, CZ!  #CZcult #ZHOAarmy ",
-    "Every $ZHOA holder knows - this is the start of something legendary!  CZ leads, we follow! #CZarmy #ZHOAmoon ",
+    "Every $ZHOA holder knows - this is the start of something legendary!  CZ leads, we follow! 🐉 #CZarmy #ZHOAmoon ",
     "$ZHOA holders are the chosen ones. CZ is taking us to financial freedom!  #CZfam #ZHOAWarriors ",
     "Ready for the next crypto explosion? $ZHOA is going to change the game!  CZ is the mastermind behind it all!  #CZhype #ZHOAarmy ",
     "CZ said it, I believe it: $ZHOA is gonna be legendary!  #CZknowsbest #ZHOAmoonshot ",
@@ -30,15 +30,34 @@ def get_random_message():
     "When CZ speaks, crypto listens. $ZHOA is the next chapter in the CZ empire!  #CZfam #ZHOArise ",
     "The cult of CZ grows stronger with $ZHOA! This is the future of meme coins, and we're here for it!  #CZcult #ZHOAarmy "
 ]
-    return random.choice(messages)
 
-accounts = [
-    {
-        "email": "alexhaxtv@gmail.com",
-        "username": "ZHOAMaster",
-        "password": "$$ZHOA$$1B"
-    },
-]
+    # Pool of messages to comment on generic tokens
+    generic = [
+        "This token is going to change the game!  #HODL #CryptoRevolution ",
+        "The future of crypto is here, and it's looking bright!  #NextBigThing #ToTheMoon ",
+        "If you're not in, you're missing out!  Time to load up before it's too late! #CryptoRise #MoonMission ",
+        "Get ready for a wild ride, this token is about to take off! #CryptoBoom #BuyTheDip ",
+        "Holding strong and waiting for the moon!  #HODLgang #CryptoJourney ",
+        "This token is more than just hype - it's the real deal!  #BelieveTheHype #CryptoLife ",
+        "The crypto market never sleeps, and this token is waking up!  #AllNightHODL #CryptoDreams ",
+        "Big things are coming for this token!  Don't miss out on the next wave!  #CryptoGrowth #FutureOfFinance ",
+        "In crypto we trust!  This token is just getting started! #BuyAndHold #CryptoFaith ",
+        "It's not a matter of if, it's a matter of when!  #PatiencePays #CryptoPower ",
+        "The only way is up!  Keep holding and watch this token fly! #MoonShot #CryptoJourney ",
+        "Every dip is an opportunity!  This token is going to explode soon! #CryptoDip #HODLStrong ",
+        "Get ready for the next big breakout!  This token is set to soar!  #BreakingResistance #CryptoRise ",
+        "This is just the beginning, we're headed for new heights!  #HODLandProsper #CryptoFuture ",
+        "Feeling bullish on this one!  The next leg up is coming! #CryptoBullRun #NextMoonMission ",
+        "This token has the potential to go parabolic!  #Next100x #CryptoGains ",
+        "Every great journey starts with the first step!  This token is on the move! #NextCryptoGem #FutureOfFinance ",
+        "Get in before the FOMO kicks in!  This token is about to make waves!  #EarlyAdopter #CryptoFOMO ",
+        "HODLing this token like my life depends on it!  Big gains are coming! #CryptoDiamondHands #MoonMission ",
+        "The road to financial freedom starts here!  This token is the way forward! #NextBigCrypto #FinancialRevolution ",
+    ]
+    if token == "$ZHOA":
+        return random.choice(zhoa)
+    else:
+        return random.choice(generic)
 
 logging.basicConfig(level=logging.INFO, filename='bot.log', filemode='a',
                     format='%(asctime)s - %(levelname)s - %(message)s')
@@ -49,13 +68,13 @@ class xActions():
         self.driver = webdriver.Chrome()
         self.driver.set_window_size(1600, 900)
     
-    def login(self, email, username, password):
+    def login(self):
         try:
             self.driver.get("https://x.com/i/flow/login")
             random_delay()
 
             # Enter email
-            self.driver.find_element(By.NAME, "text").send_keys(email)
+            self.driver.find_element(By.NAME, "text").send_keys("alexhaxtv@gmail.com")
             button = WebDriverWait(self.driver, 10).until(
                 EC.element_to_be_clickable((By.XPATH, "//span[contains(text(), 'Next')]"))
             )
@@ -63,7 +82,7 @@ class xActions():
             random_delay()
 
             # Enter username
-            self.driver.find_element(By.NAME, "text").send_keys(username)
+            self.driver.find_element(By.NAME, "text").send_keys("ZHOAMaster")
             button = WebDriverWait(self.driver, 10).until(
                 EC.element_to_be_clickable((By.XPATH, "//span[contains(text(), 'Next')]"))
             )
@@ -71,7 +90,7 @@ class xActions():
             random_delay()
 
             # Enter password
-            self.driver.find_element(By.NAME, "password").send_keys(password)
+            self.driver.find_element(By.NAME, "password").send_keys("$$ZHOA$$1B")
             button = WebDriverWait(self.driver, 10).until(
                 EC.element_to_be_clickable((By.XPATH, "//span[contains(text(), 'Log in')]"))
             )
@@ -93,14 +112,10 @@ class xActions():
                     EC.presence_of_element_located((By.XPATH, "//article[@data-testid='tweet'][@tabindex='-1']"))
                 )
             except:
-                try:
-                    # If not found, fall back to finding the tweet without tabindex
-                    self.tweet = WebDriverWait(self.driver, 10).until(
-                        EC.presence_of_element_located((By.XPATH, "//article[@data-testid='tweet']"))
-                    )
-                except:
-                    logging.error("Failed to find the tweet")
-                    return None
+                # If not found, fall back to finding the tweet without tabindex
+                self.tweet = WebDriverWait(self.driver, 10).until(
+                    EC.presence_of_element_located((By.XPATH, "//article[@data-testid='tweet']"))
+                )
 
         except Exception as e:
             print(f"Failed to retrieve the tweet: {e}")
@@ -109,40 +124,20 @@ class xActions():
     def like(self):
         try:
             random_delay()
-            # Check if the tweet is already liked
-            try:
-                unlike_button = self.tweet.find_element(By.CSS_SELECTOR, "[data-testid='unlike']")
-                if unlike_button:
-                    logging.info("Tweet already liked")
-                    return True
-            except Exception as e:
-                # If "unlike" button is not found, proceed to like the tweet
-                logging.info("Tweet is not liked yet, proceeding to like")
-
-            # Try to find and click the "like" button
+            # Click the like button
             like_button = self.tweet.find_element(By.CSS_SELECTOR, "[data-testid='like']")
             self.driver.execute_script("arguments[0].click();", like_button)
-            logging.info("Liked tweet successfully")
+            logging.info(f"Liked tweet")
             return True
         except Exception as e:
-            logging.error(f"Failed to like tweet: {e}")
+            print(e)
+            logging.error(f"Failed to like tweet")
             return False
-
 
     def repost(self):
         try:
             random_delay()
-            # Check if the tweet is already reposted
-            try:
-                unretweet_button = self.tweet.find_element(By.CSS_SELECTOR, "[data-testid='unretweet']")
-                if unretweet_button:
-                    logging.info("Tweet already reposted")
-                    return True
-            except Exception as e:
-                # If "unretweet" button is not found, proceed to repost the tweet
-                logging.info("Tweet is not reposted yet, proceeding to repost")
-            
-            # Try to find and click the "repost" button
+            # Click the repost button
             retweet_button = self.tweet.find_element(By.CSS_SELECTOR, "[data-testid='retweet']")
             self.driver.execute_script("arguments[0].click();", retweet_button)
 
@@ -151,12 +146,12 @@ class xActions():
                 EC.element_to_be_clickable((By.CSS_SELECTOR, "[data-testid='retweetConfirm']"))
             )
             self.driver.execute_script("arguments[0].click();", confirm_button)
-            logging.info("Reposted tweet successfully")
+            logging.info(f"Reposted tweet")
             return True
         except Exception as e:
-            logging.error(f"Failed to repost tweet: {e}")
+            print(e)
+            logging.error(f"Failed to repost tweet")
             return False
-
 
     def comment(self, message):
         try:
@@ -188,52 +183,18 @@ class xActions():
         try:
             random_delay()
             
-            # Check if the tweet is already bookmarked
-            try:
-                unbookmark_button = self.ttweet.find_element(By.CSS_SELECTOR, "[data-testid='unbookmark']")
-                if unbookmark_button:
-                    logging.info("Tweet already bookmarked")
-                    return True
-            except Exception as e:
-                # If the "unbookmark" button is not found, proceed to bookmark the tweet
-                logging.info("Tweet is not bookmarked yet, proceeding to bookmark")
-            
-            # Try to find and click the "bookmark" button
+            # Click the bookmark button
             bookmark_button = self.tweet.find_element(By.CSS_SELECTOR, "[data-testid='bookmark']")
             self.driver.execute_script("arguments[0].click();", bookmark_button)
-            logging.info("Bookmarked tweet successfully")
+            logging.info(f"Bookmarked tweet")
             return True
         except Exception as e:
-            logging.error(f"Failed to bookmark the tweet: {e}")
+            print(e)
+            logging.error(f"Failed to bookmark")
             return False
 
-    def raid(self, tweet_url):
-        raid_success = True
-        for account in accounts:
-            self.login(account["email"], account["username"], account["password"])
-            random_delay()
-            self.get_tweet(tweet_url=tweet_url)
-            like = self.like()
-            repost = self.repost()
-            comment = self.comment(get_random_message())
-            bookmark = self.bookmark()
-            random_delay()
-            self.restart()
-
-            if not like or not bookmark or not repost or not comment:
-                logging.error("Failed to perform interactions")
-                raid_success = False
-            else:
-                logging.info("Interactions completed successfully")
-        return raid_success
-
-    def restart(self):
-        self.driver.delete_all_cookies()
-        self.driver.close()
-        self.driver = webdriver.Chrome()
-        self.driver.set_window_size(1600, 900)
-
     def teardown(self):
+        # Close the browser
         self.driver.quit()
 
 
@@ -241,10 +202,12 @@ class tgActions():
     def __init__(self, x_actions):
         try:
             self.x_actions = x_actions
-            self.application = Application.builder().token('7589018211:AAEsRAubiSjFFaEVSrMwO5lhYJ2ZU1a5YGo').build()
+            self.application = Application.builder().token('7646025864:AAHYxgepOWJ7eH0K1dyBdrLl0GIDen1bh0o').build()
 
             # Register command and message handlers
             self.application.add_handler(CommandHandler('start', self.start))
+            self.application.add_handler(CommandHandler('reset', self.reset))
+            self.application.add_handler(CommandHandler('token', self.token))
             self.application.add_handler(CommandHandler('tweet', self.tweet))
             self.application.add_handler(CommandHandler('help', self.commands))
             logging.info("Telegram bot initialized")
@@ -252,23 +215,44 @@ class tgActions():
             print(e)
             logging.error("Failed to initialize Telegram bot")
 
-    async def commands(self, update, context: ContextTypes.DEFAULT_TYPE):
-        await update.message.reply_text('Available commands:\n/start - Start the bot\n/tweet - Interact with a tweet\n/help - Show available commands')
+    async def commands(self, update):
+        await update.message.reply_text('Available commands:\n/start - Start the bot\n/reset - Reset the bot\n/tweet - Interact with a tweet\n/help - Show available commands')
 
     async def start(self, update, context: ContextTypes.DEFAULT_TYPE):
-        await update.message.reply_text('Welcome! This bot will help you interact with tweets on Twitter. ')
+        await update.message.reply_text('Welcome! This bot will help you interact with tweets on Twitter. Please enter the token name you want to interact with using /token.')
         context.user_data['start'] = True
+
+    async def reset(self, update, context: ContextTypes.DEFAULT_TYPE):
+        await update.message.reply_text('Bot has been reset. Please enter the token name you want to interact with:')
+        context.user_data['start'] = False
+        context.user_data['token_name'] = None
+
+    async def token(self, update, context: ContextTypes.DEFAULT_TYPE):
+        if 'start' not in context.user_data or not context.user_data['start']:
+            await update.message.reply_text('Please use /start to begin.')
+            return
+        
+        token_name = update.message.text.split(' ')[1]
+        if token_name.lower() == 'zhoa':
+            context.user_data['token_name'] = '$ZHOA'
+            await update.message.reply_text('Token name set to $ZHOA')
+        elif token_name.lower() == 'generic':
+            context.user_data['token_name'] = 'generic'
+            await update.message.reply_text('Token name set to generic')
+        else:
+            await update.message.reply_text('Invalid token name. Please enter a valid token name. Token inserted: ' + token_name)
 
     async def tweet(self, update, context: ContextTypes.DEFAULT_TYPE):
         # Check if the bot has been started
         if 'start' not in context.user_data or not context.user_data['start']:
             await update.message.reply_text('Please start the bot first by typing /start.')
             return
-        
-        # Check if the user provided a Twitter link
-        if len(update.message.text.split(' ')) < 2:
-            await update.message.reply_text('Please provide a Twitter link with the /tweet command.')
+
+        # Check if the token name is set
+        if 'token_name' not in context.user_data or not context.user_data['token_name']:
+            await update.message.reply_text('Please enter the token name first using /token.')
             return
+        
         # Ask the user to provide the Twitter link in the same message
         twitter_link = self.extract_twitter_link(update.message.text.split(' ')[1])
         if not twitter_link:
@@ -278,12 +262,17 @@ class tgActions():
         # Acknowledge the Twitter link
         await update.message.reply_text(f'Twitter link found: {twitter_link}')
 
-        # Perform raid
-        raid_success = self.x_actions.raid(tweet_url=twitter_link)
-        if raid_success:
-            await update.message.reply_text('Raid completed successfully!')
+        # Perform interactions on Twitter
+        self.x_actions.get_tweet(twitter_link)
+        like = self.x_actions.like()
+        repost = self.x_actions.repost()
+        comment = self.x_actions.comment(get_random_message(context.user_data['token_name']))
+        bookmark = self.x_actions.bookmark()
+
+        if not like or not bookmark or not repost or not comment:
+            await update.message.reply_text('Failed to perform interactions. Please try again later.')
         else:
-            await update.message.reply_text('Raid failed. Please check the logs for more information.')
+            await update.message.reply_text('Interactions completed successfully!')
 
     def start_polling(self):
         self.application.run_polling()
@@ -294,11 +283,17 @@ class tgActions():
         if match:
             return match.group(0)
         return None
-    
-def main():
-    x_actions = xActions()
-    tg_actions = tgActions(x_actions)
-    tg_actions.start_polling()
 
-if __name__ == "__main__":
+def main():
+    # Initialize Twitter automation actions
+    x = xActions()
+    x.login()  # Logs in to Twitter
+
+    # Initialize Telegram bot with xActions
+    tg_bot = tgActions(x)
+    
+    # Start the Telegram bot
+    tg_bot.start_polling()
+
+if __name__ == '__main__':
     main()
