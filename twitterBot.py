@@ -86,13 +86,16 @@ class xActions():
                 EC.element_to_be_clickable((By.XPATH, "//span[contains(text(), 'Log in')]"))
             )
             button.click()
-            logging.info("Logged in successfully")
+            random_delay()
+            if self.driver.current_url == "https://x.com/home":
+                logging.info("Logged in successfully")
+                return True
+            else:
+                time.sleep(100)
 
         except Exception as e:
             print(e)
             logging.error("Failed to login")
-            # Wait for the user to solve the CAPTCHA
-            time.sleep(100)
             self.teardown()
 
     def get_tweet(self, tweet_url):
