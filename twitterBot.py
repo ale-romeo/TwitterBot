@@ -38,6 +38,16 @@ accounts = [
         "username": "ZHOAMaster",
         "password": "$$ZHOA$$1B"
     },
+    {
+        "email": "zhoacultist@yahoo.com",
+        "username": "CultistZhoa",
+        "password": "$$ZHOA$$1B"
+    },
+    {
+        "email": "siyavo7648@abatido.com",
+        "username": "ZhoaKing",
+        "password": "$$ZHOA$$1B"
+    },
 ]
 
 logging.basicConfig(level=logging.INFO, filename='bot.log', filemode='a',
@@ -81,6 +91,8 @@ class xActions():
         except Exception as e:
             print(e)
             logging.error("Failed to login")
+            # Wait for the user to solve the CAPTCHA
+            time.sleep(100)
             self.teardown()
 
     def get_tweet(self, tweet_url):
@@ -229,9 +241,6 @@ class xActions():
 
     def restart(self):
         self.driver.delete_all_cookies()
-        self.driver.close()
-        self.driver = webdriver.Chrome()
-        self.driver.set_window_size(1600, 900)
 
     def teardown(self):
         self.driver.quit()
