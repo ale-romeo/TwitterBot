@@ -50,7 +50,7 @@ def get_random_message():
     "$ZHOA is the ultimate tribute to CZ, the king of crypto! #CZcult #ZHOAarmy ",
     "$ZHOA is leading the charge to a new era of crypto, all thanks to CZ! #CZvision #ZHOAmoon ",
     "CZ has spoken, and $ZHOA is about to dominate the market! #CZknowsbest #ZHOAworld ",
-    "With CZ's vision, $ZHOA is ready to take over the crypto world! #CZmovement #ZHOAmoon",
+    "With CZ's vision, $ZHOA is ready to take over the crypto world! #CZmovement #ZHOAmoon ",
     "This is just the beginning! $ZHOA is heading for the stars with CZ at the helm! #CZlegend #ZHOAtotheMoon ",
     "$ZHOA is the next big thing in crypto, and CZ is leading the charge! #CZarmy #ZHOAworld ",
     "The CZ revolution is here, and $ZHOA is the coin that will take us to the moon! #CZcult #ZHOAwave ",
