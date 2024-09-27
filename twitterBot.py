@@ -14,55 +14,55 @@ def random_delay():
 def get_random_message():
     # Pool of messages to comment on $ZHOA
     messages = [
-    "$ZHOA is not just a token, it's a revolution! Follow CZ to financial freedom! #ZHOAarmy #CZhero",
-    "$ZHOA is making waves, and we're riding them straight to the top! #ZHOAtotheMoon #CZarmy",
-    "The CZ effect is real, and $ZHOA is the proof. Next stop? The moon! #CZtakeover #ZHOAmoonshot",
-    "$ZHOA is a movement! CZ is rewriting the rules of crypto once again! #ZHOAarmy #CZisKing",
-    "This is just the beginning! $ZHOA is heading for the stars, and we're all onboard! #ZHOAmoonshot #CZgenius",
-    "Every $ZHOA holder knows the future is bright with CZ! #ZHOARise #CZvisionary",
-    "CZ is leading the charge with $ZHOA – the future of meme coins is here! #CZmoves #ZHOAarmy",
-    "$ZHOA is more than a coin, it's a revolution driven by CZ's vision! #CZpower #ZHOAfuture",
-    "With CZ at the helm, $ZHOA is ready to take over the crypto world! #CZarmy #ZHOAworld",
-    "Big things are coming for $ZHOA! CZ is leading us into the next era of crypto! #ZHOAwave #CZlegend",
-    "$ZHOA is the coin of the future, powered by the one and only CZ! #ZHOAfuture #CZarmy",
-    "If you're not holding $ZHOA, you're missing out on the biggest crypto wave! #CZknows #ZHOAmoon",
-    "$ZHOA is unstoppable with CZ behind it! Get ready for the crypto ride of your life! #CZcult #ZHOAarmy",
-    "CZ is making history with $ZHOA – this is just the beginning! #CZlegend #ZHOAworld",
-    "$ZHOA is more than a meme, it's a mission! And CZ is guiding us all the way! #CZpower #ZHOAmoon",
-    "The future of crypto is here, and it's called $ZHOA! CZ is leading the charge! #CZarmy #ZHOAworld",
-    "With CZ's vision, $ZHOA is set to dominate the crypto market! #CZknowsbest #ZHOAmoon",
-    "Hold tight, $ZHOA is about to explode, and CZ is leading the way! #CZarmy #ZHOAtothemoon",
-    "CZ has spoken, and $ZHOA is the future! Are you ready for the crypto revolution? #CZmovement #ZHOAwave",
-    "$ZHOA isn't just a coin, it's a mission powered by CZ's genius! #CZgenius #ZHOAtotheMoon",
-    "In CZ we trust, and $ZHOA is the proof of his crypto mastery! #CZarmy #ZHOAworld",
-    "$ZHOA is about to change the game, and CZ is the mastermind behind it all! #CZlegend #ZHOAwave",
-    "CZ's vision, $ZHOA's future – together, we're going to the stars! #CZtakeover #ZHOAtotheMoon",
-    "This is the dawn of a new era, and $ZHOA is leading the charge with CZ! #ZHOAmoonshot #CZhero",
-    "$ZHOA is the coin the world needs, and CZ is the leader we trust! #CZarmy #ZHOAfuture",
-    "$ZHOA is taking over, and CZ is showing us the way to financial freedom! #CZknows #ZHOAmoon",
-    "CZ and $ZHOA are unstoppable! This is the next big thing in crypto! #CZlegend #ZHOAworld",
-    "$ZHOA is more than a meme coin, it's the future of crypto with CZ at the helm! #CZgenius #ZHOAmoon",
-    "CZ is leading $ZHOA to the moon, and there's no stopping us now! #ZHOAarmy #CZvision",
-    "The power of CZ is real, and $ZHOA is the proof! #CZtakeover #ZHOAmoon",
-    "If you're not in on $ZHOA, you're missing the biggest crypto revolution! #CZarmy #ZHOAworld",
-    "Hold $ZHOA, follow CZ, and watch your future grow! #CZvisionary #ZHOAmoon",
-    "$ZHOA is the meme coin of the future, and CZ is making it happen! #CZhero #ZHOAwave",
-    "$ZHOA is the ultimate tribute to CZ, the king of crypto! #CZcult #ZHOAarmy",
-    "$ZHOA is leading the charge to a new era of crypto, all thanks to CZ! #CZvision #ZHOAmoon",
-    "CZ has spoken, and $ZHOA is about to dominate the market! #CZknowsbest #ZHOAworld",
+    "$ZHOA is not just a token, it's a revolution! Follow CZ to financial freedom! #ZHOAarmy #CZhero ",
+    "$ZHOA is making waves, and we're riding them straight to the top! #ZHOAtotheMoon #CZarmy ",
+    "The CZ effect is real, and $ZHOA is the proof. Next stop? The moon! #CZtakeover #ZHOAmoonshot ",
+    "$ZHOA is a movement! CZ is rewriting the rules of crypto once again! #ZHOAarmy #CZisKing ",
+    "This is just the beginning! $ZHOA is heading for the stars, and we're all onboard! #ZHOAmoonshot #CZgenius ",
+    "Every $ZHOA holder knows the future is bright with CZ! #ZHOARise #CZvisionary ",
+    "CZ is leading the charge with $ZHOA - the future of meme coins is here! #CZmoves #ZHOAarmy ",
+    "$ZHOA is more than a coin, it's a revolution driven by CZ's vision! #CZpower #ZHOAfuture ",
+    "With CZ at the helm, $ZHOA is ready to take over the crypto world! #CZarmy #ZHOAworld ",
+    "Big things are coming for $ZHOA! CZ is leading us into the next era of crypto! #ZHOAwave #CZlegend ",
+    "$ZHOA is the coin of the future, powered by the one and only CZ! #ZHOAfuture #CZarmy ",
+    "If you're not holding $ZHOA, you're missing out on the biggest crypto wave! #CZknows #ZHOAmoon ",
+    "$ZHOA is unstoppable with CZ behind it! Get ready for the crypto ride of your life! #CZcult #ZHOAarmy ",
+    "CZ is making history with $ZHOA - this is just the beginning! #CZlegend #ZHOAworld ",
+    "$ZHOA is more than a meme, it's a mission! And CZ is guiding us all the way! #CZpower #ZHOAmoon ",
+    "The future of crypto is here, and it's called $ZHOA! CZ is leading the charge! #CZarmy #ZHOAworld ",
+    "With CZ's vision, $ZHOA is set to dominate the crypto market! #CZknowsbest #ZHOAmoon ",
+    "Hold tight, $ZHOA is about to explode, and CZ is leading the way! #CZarmy #ZHOAtothemoon ",
+    "CZ has spoken, and $ZHOA is the future! Are you ready for the crypto revolution? #CZmovement #ZHOAwave ",
+    "$ZHOA isn't just a coin, it's a mission powered by CZ's genius! #CZgenius #ZHOAtotheMoon ",
+    "In CZ we trust, and $ZHOA is the proof of his crypto mastery! #CZarmy #ZHOAworld ",
+    "$ZHOA is about to change the game, and CZ is the mastermind behind it all! #CZlegend #ZHOAwave ",
+    "CZ's vision, $ZHOA's future - together, we're going to the stars! #CZtakeover #ZHOAtotheMoon ",
+    "This is the dawn of a new era, and $ZHOA is leading the charge with CZ! #ZHOAmoonshot #CZhero ",
+    "$ZHOA is the coin the world needs, and CZ is the leader we trust! #CZarmy #ZHOAfuture ",
+    "$ZHOA is taking over, and CZ is showing us the way to financial freedom! #CZknows #ZHOAmoon ",
+    "CZ and $ZHOA are unstoppable! This is the next big thing in crypto! #CZlegend #ZHOAworld ",
+    "$ZHOA is more than a meme coin, it's the future of crypto with CZ at the helm! #CZgenius #ZHOAmoon ",
+    "CZ is leading $ZHOA to the moon, and there's no stopping us now! #ZHOAarmy #CZvision ",
+    "The power of CZ is real, and $ZHOA is the proof! #CZtakeover #ZHOAmoon ",
+    "If you're not in on $ZHOA, you're missing the biggest crypto revolution! #CZarmy #ZHOAworld ",
+    "Hold $ZHOA, follow CZ, and watch your future grow! #CZvisionary #ZHOAmoon ",
+    "$ZHOA is the meme coin of the future, and CZ is making it happen! #CZhero #ZHOAwave ",
+    "$ZHOA is the ultimate tribute to CZ, the king of crypto! #CZcult #ZHOAarmy ",
+    "$ZHOA is leading the charge to a new era of crypto, all thanks to CZ! #CZvision #ZHOAmoon ",
+    "CZ has spoken, and $ZHOA is about to dominate the market! #CZknowsbest #ZHOAworld ",
     "With CZ's vision, $ZHOA is ready to take over the crypto world! #CZmovement #ZHOAmoon",
-    "This is just the beginning! $ZHOA is heading for the stars with CZ at the helm! #CZlegend #ZHOAtotheMoon",
-    "$ZHOA is the next big thing in crypto, and CZ is leading the charge! #CZarmy #ZHOAworld",
-    "The CZ revolution is here, and $ZHOA is the coin that will take us to the moon! #CZcult #ZHOAwave",
-    "$ZHOA isn't just a coin, it's a movement! Follow CZ to financial freedom! #CZvision #ZHOAmoonshot",
-    "CZ's vision is unstoppable, and $ZHOA is proof of his genius! #CZgenius #ZHOAtothemoon",
-    "$ZHOA is leading the crypto revolution, and CZ is the mastermind behind it! #CZpower #ZHOAwave",
-    "Every $ZHOA holder knows – this is the start of something legendary! #CZknowsbest #ZHOAarmy",
-    "CZ is creating history with $ZHOA – the coin that's changing everything! #CZlegend #ZHOAfuture",
-    "The future is here, and it's called $ZHOA! CZ is guiding us all the way! #CZhero #ZHOAworld",
-    "$ZHOA is taking over, and CZ is leading the way to the top! #CZarmy #ZHOAmoon",
-    "Big things are coming for $ZHOA, and CZ is leading us into the next era of crypto! #CZlegend #ZHOAworld",
-    "$ZHOA is more than a coin, it's a movement powered by CZ's vision! #CZvisionary #ZHOAtothemoon"
+    "This is just the beginning! $ZHOA is heading for the stars with CZ at the helm! #CZlegend #ZHOAtotheMoon ",
+    "$ZHOA is the next big thing in crypto, and CZ is leading the charge! #CZarmy #ZHOAworld ",
+    "The CZ revolution is here, and $ZHOA is the coin that will take us to the moon! #CZcult #ZHOAwave ",
+    "$ZHOA isn't just a coin, it's a movement! Follow CZ to financial freedom! #CZvision #ZHOAmoonshot ",
+    "CZ's vision is unstoppable, and $ZHOA is proof of his genius! #CZgenius #ZHOAtothemoon ",
+    "$ZHOA is leading the crypto revolution, and CZ is the mastermind behind it! #CZpower #ZHOAwave ",
+    "Every $ZHOA holder knows - this is the start of something legendary! #CZknowsbest #ZHOAarmy ",
+    "CZ is creating history with $ZHOA - the coin that's changing everything! #CZlegend #ZHOAfuture ",
+    "The future is here, and it's called $ZHOA! CZ is guiding us all the way! #CZhero #ZHOAworld ",
+    "$ZHOA is taking over, and CZ is leading the way to the top! #CZarmy #ZHOAmoon ",
+    "Big things are coming for $ZHOA, and CZ is leading us into the next era of crypto! #CZlegend #ZHOAworld ",
+    "$ZHOA is more than a coin, it's a movement powered by CZ's vision! #CZvisionary #ZHOAtothemoon "
     ]
 
     return random.choice(messages)
@@ -293,6 +293,7 @@ class tgActions():
             # Register command and message handlers
             self.application.add_handler(CommandHandler('start', self.start))
             self.application.add_handler(CommandHandler('tweet', self.tweet))
+            self.application.add_handler(CommandHandler('reset', self.reset))
             self.application.add_handler(CommandHandler('help', self.commands))
             logging.info("Telegram bot initialized")
         except Exception as e:
@@ -300,7 +301,7 @@ class tgActions():
             logging.error("Failed to initialize Telegram bot")
 
     async def commands(self, update, context: ContextTypes.DEFAULT_TYPE):
-        await update.message.reply_text('Available commands:\n/start - Start the bot\n/tweet - Interact with a tweet\n/help - Show available commands')
+        await update.message.reply_text('Available commands:\n/start - Start the bot\n/tweet - Interact with a tweet\n/reset - Reset the bot\n/help - Show available commands')
 
     async def start(self, update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text('Welcome! This bot will help you interact with tweets on Twitter. ')
@@ -331,6 +332,13 @@ class tgActions():
             await update.message.reply_text('Raid completed successfully!')
         else:
             await update.message.reply_text('Raid failed. Please check the logs for more information.')
+
+    # Reset the bot and the Twitter bot
+    async def reset(self, update, context: ContextTypes.DEFAULT_TYPE):
+        self.x_actions.teardown()
+        self.x_actions = xActions()
+        context.user_data['start'] = False
+        await update.message.reply_text('Bot has been reset successfully.')
 
     def start_polling(self):
         self.application.run_polling()
