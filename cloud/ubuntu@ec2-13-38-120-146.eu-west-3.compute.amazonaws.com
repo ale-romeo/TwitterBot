@@ -7,7 +7,6 @@ import re
 from telegram.ext import Application, CommandHandler, ContextTypes
 import logging
 import random
-import threading
 
 def random_delay():
     time.sleep(random.uniform(2, 5))
@@ -95,46 +94,44 @@ class xActions():
         self.driver = webdriver.Chrome()
         self.driver.set_window_size(1600, 900)
     
-    def login(self, email, username, password, retries=3):
-        try_count = 0
-        while try_count < retries:
-            try:
-                self.driver.get("https://x.com/i/flow/login")
-                random_delay()
+    def login(self, email, username, password):
+        try:
+            self.driver.get("https://x.com/i/flow/login")
+            random_delay()
 
-                # Enter email
-                self.driver.find_element(By.NAME, "text").send_keys(email)
-                button = WebDriverWait(self.driver, 10).until(
-                    EC.element_to_be_clickable((By.XPATH, "//span[contains(text(), 'Next')]"))
-                )
-                button.click()
-                random_delay()
+            # Enter email
+            self.driver.find_element(By.NAME, "text").send_keys(email)
+            button = WebDriverWait(self.driver, 10).until(
+                EC.element_to_be_clickable((By.XPATH, "//span[contains(text(), 'Next')]"))
+            )
+            button.click()
+            random_delay()
 
-                # Enter username
-                self.driver.find_element(By.NAME, "text").send_keys(username)
-                button = WebDriverWait(self.driver, 10).until(
-                    EC.element_to_be_clickable((By.XPATH, "//span[contains(text(), 'Next')]"))
-                )
-                button.click()
-                random_delay()
+            # Enter username
+            self.driver.find_element(By.NAME, "text").send_keys(username)
+            button = WebDriverWait(self.driver, 10).until(
+                EC.element_to_be_clickable((By.XPATH, "//span[contains(text(), 'Next')]"))
+            )
+            button.click()
+            random_delay()
 
-                # Enter password
-                self.driver.find_element(By.NAME, "password").send_keys(password)
-                button = WebDriverWait(self.driver, 10).until(
-                    EC.element_to_be_clickable((By.XPATH, "//span[contains(text(), 'Log in')]"))
-                )
-                button.click()
-                random_delay()
+            # Enter password
+            self.driver.find_element(By.NAME, "password").send_keys(password)
+            button = WebDriverWait(self.driver, 10).until(
+                EC.element_to_be_clickable((By.XPATH, "//span[contains(text(), 'Log in')]"))
+            )
+            button.click()
+            random_delay()
+            if self.driver.current_url == "https://x.com/home":
                 logging.info("Logged in successfully")
                 return True
+            else:
+                time.sleep(100)
 
-            except Exception as e:
-                logging.error(f"Login attempt {try_count + 1} failed: {e}")
-                try_count += 1
-                if try_count == retries:
-                    logging.error("Exceeded maximum retries for login")
-                    return False
-                random_delay()
+        except Exception as e:
+            print(e)
+            logging.error("Failed to login")
+            self.teardown()
 
     def get_tweet(self, tweet_url):
         try:
@@ -145,23 +142,19 @@ class xActions():
                 self.tweet = WebDriverWait(self.driver, 10).until(
                     EC.presence_of_element_located((By.XPATH, "//article[@data-testid='tweet'][@tabindex='-1']"))
                 )
-                return True
             except:
                 try:
                     # If not found, fall back to finding the tweet without tabindex
                     self.tweet = WebDriverWait(self.driver, 10).until(
                         EC.presence_of_element_located((By.XPATH, "//article[@data-testid='tweet']"))
                     )
-                    return True
                 except:
                     logging.error("Failed to find the tweet")
-                    return False
+                    return None
 
         except Exception as e:
             print(f"Failed to retrieve the tweet: {e}")
-            if e.contains("HTTPConnectionPool(host='localhost', port=56471): Max retries exceeded"):
-                self.teardown()
-            return False
+            return None
 
     def like(self):
         try:
@@ -267,11 +260,7 @@ class xActions():
     def raid(self, tweet_url):
         raid_success = True
         for account in accounts:
-            login = self.login(account["email"], account["username"], account["password"])
-            if not login:
-                logging.error("Failed to login")
-                raid_success = False
-                break
+            self.login(account["email"], account["username"], account["password"])
             random_delay()
             self.get_tweet(tweet_url=tweet_url)
             like = self.like()
