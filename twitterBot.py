@@ -2,11 +2,16 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
+from telegram.ext import Application, CommandHandler, ContextTypes
+from webdriver_manager.chrome import ChromeDriverManager
+
 import time
 import re
-from telegram.ext import Application, CommandHandler, ContextTypes
 import logging
 import random
+import os
 import threading
 
 def random_delay():
@@ -84,16 +89,30 @@ accounts = [
         "username": "ZhoaKing",
         "password": "$$ZHOA$$1B"
     },
+    {
+        "email": "zhoafollower@yahoo.com",
+        "username": "ZhoaFollower",
+        "password": "$$ZHOA$$1B"
+    },
 ]
 
 logging.basicConfig(level=logging.INFO, filename='bot.log', filemode='a',
                     format='%(asctime)s - %(levelname)s - %(message)s')
 
+# Disable logging from libraries like selenium and urllib3
+logging.getLogger("selenium").setLevel(logging.WARNING)
+logging.getLogger("urllib3").setLevel(logging.WARNING)
+
 class xActions():
     def __init__(self):
         self.tweet = None
-        self.driver = webdriver.Chrome()
-        self.driver.set_window_size(1600, 900)
+        options = Options()
+        options.add_argument('--headless')
+        options.add_argument('--no-sandbox')
+        options.add_argument('--disable-dev-shm-usage')
+        
+        self.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+        
     
     def login(self, email, username, password, retries=3):
         try_count = 0
@@ -266,6 +285,8 @@ class xActions():
 
     def raid(self, tweet_url):
         raid_success = True
+        # Erase logs
+        open('bot.log', 'w').close()
         for account in accounts:
             login = self.login(account["email"], account["username"], account["password"])
             if not login:
@@ -273,7 +294,11 @@ class xActions():
                 raid_success = False
                 break
             random_delay()
-            self.get_tweet(tweet_url=tweet_url)
+            tweet = self.get_tweet(tweet_url=tweet_url)
+            if not tweet:
+                logging.error("Failed to retrieve the tweet")
+                raid_success = False
+                break
             like = self.like()
             repost = self.repost()
             comment = self.comment(get_random_message())
@@ -305,6 +330,7 @@ class tgActions():
             self.application.add_handler(CommandHandler('start', self.start))
             self.application.add_handler(CommandHandler('tweet', self.tweet))
             self.application.add_handler(CommandHandler('reset', self.reset))
+            self.application.add_handler(CommandHandler('logs', self.logs))
             self.application.add_handler(CommandHandler('help', self.commands))
             logging.info("Telegram bot initialized")
         except Exception as e:
@@ -312,7 +338,7 @@ class tgActions():
             logging.error("Failed to initialize Telegram bot")
 
     async def commands(self, update, context: ContextTypes.DEFAULT_TYPE):
-        await update.message.reply_text('Available commands:\n/start - Start the bot\n/tweet - Interact with a tweet\n/reset - Reset the bot\n/help - Show available commands')
+        await update.message.reply_text('Available commands:\n/start - Start the bot\n/tweet - Interact with a tweet\n/reset - Reset the bot\n/logs - Show last logs\n/help - Show available commands')
 
     async def start(self, update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text('Welcome! This bot will help you interact with tweets on Twitter. ')
@@ -350,6 +376,18 @@ class tgActions():
         self.x_actions = xActions()
         context.user_data['start'] = False
         await update.message.reply_text('Bot has been reset successfully.')
+
+    async def logs(self, update, context: ContextTypes.DEFAULT_TYPE):
+        # Read the last 20 lines of bot.log
+        if os.path.exists('bot.log'):
+            with open('bot.log', 'r') as log_file:
+                lines = log_file.readlines()[-20:]
+                log_content = ''.join(lines)
+        else:
+            log_content = "Log file not found."
+
+        # Send the logs to the user
+        await update.message.reply_text(f"Last 20 logs:\n{log_content}")
 
     def start_polling(self):
         self.application.run_polling()
