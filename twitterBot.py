@@ -283,34 +283,60 @@ class xActions():
             logging.error(f"Failed to bookmark the tweet: {e}")
             return False
 
+    def interact(self, account, tweet_url):
+        email = account['email']
+        username = account['username']
+        password = account['password']
+
+        # Login
+        if not self.login(email, username, password):
+            logging.error(f"Failed to login to {username}'s account")
+            return
+        
+        # Get the tweet
+        if not self.get_tweet(tweet_url):
+            logging.error(f"Failed to retrieve the tweet")
+            return
+        
+        # Like the tweet
+        if not self.like():
+            logging.error(f"Failed to like the tweet")
+            return
+        
+        # Repost the tweet
+        if not self.repost():
+            logging.error(f"Failed to repost the tweet")
+            return
+
+        # Comment on the tweet
+        message = get_random_message()
+        if not self.comment(message):
+            logging.error(f"Failed to comment on the tweet")
+            return
+        
+        # Bookmark the tweet
+        if not self.bookmark():
+            logging.error(f"Failed to bookmark the tweet")
+            return
+        
+        logging.info(f"Interactions completed successfully on {username}'s account")
+
     def raid(self, tweet_url):
         raid_success = True
         # Erase logs
         open('bot.log', 'w').close()
+        # Perform interactions on each account in parallel and see if any of them fail
+        threads = []
         for account in accounts:
-            login = self.login(account["email"], account["username"], account["password"])
-            if not login:
-                logging.error("Failed to login")
-                raid_success = False
-                break
-            random_delay()
-            tweet = self.get_tweet(tweet_url=tweet_url)
-            if not tweet:
-                logging.error("Failed to retrieve the tweet")
-                raid_success = False
-                break
-            like = self.like()
-            repost = self.repost()
-            comment = self.comment(get_random_message())
-            bookmark = self.bookmark()
-            random_delay()
-            self.restart()
+            thread = threading.Thread(target=self.interact, args=(account, tweet_url))
+            threads.append(thread)
+            thread.start()
 
-            if not like or not bookmark or not repost or not comment:
-                logging.error("Failed to perform interactions")
+        for thread in threads:
+            thread.join()
+            if not thread.is_alive():
                 raid_success = False
-            else:
-                logging.info("Interactions completed successfully")
+
         return raid_success
 
     def restart(self):
