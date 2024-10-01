@@ -13,6 +13,7 @@ import logging
 import random
 import os
 import threading
+import pickle
 
 def random_delay():
     time.sleep(random.uniform(2, 5))
@@ -106,6 +107,8 @@ logging.getLogger("urllib3").setLevel(logging.WARNING)
 class xActions():
     def __init__(self):
         self.tweet = None
+        # Trace logins already done
+        self.logged_in = []
         options = Options()
         options.add_argument('--headless')
         options.add_argument('--no-sandbox')
@@ -113,11 +116,43 @@ class xActions():
         
         self.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
         
+    def save_cookies(self, username):
+        """Save cookies for a specific account."""
+        cookies = self.driver.get_cookies()
+        with open(f"{username}_cookies.pkl", "wb") as file:
+            pickle.dump(cookies, file)
+        logging.info(f"Saved cookies for {username}")
+
+    def load_cookies(self, username):
+        """Load cookies for a specific account."""
+        if os.path.exists(f"{username}_cookies.pkl"):
+            with open(f"{username}_cookies.pkl", "rb") as file:
+                cookies = pickle.load(file)
+            for cookie in cookies:
+                self.driver.add_cookie(cookie)
+            logging.info(f"Loaded cookies for {username}")
+            return True
+        return False
     
     def login(self, email, username, password, retries=3):
         try_count = 0
         while try_count < retries:
             try:
+                 # Check if cookies are already saved for this account
+                self.driver.get("https://x.com")  # Open a page to set cookies
+                if self.load_cookies(username):
+                    # After loading cookies, refresh the page to see if session is active
+                    self.driver.get("https://x.com")
+                    random_delay()
+
+                    # Check if login is required (detect login button or login page elements)
+                    if "login" not in self.driver.current_url.lower():
+                        logging.info(f"Logged in via cookies for {username}")
+                        return True
+                    else:
+                        logging.info(f"Cookies expired, need to login again for {username}")
+                
+                # Perform manual login if cookies aren't loaded or are expired
                 self.driver.get("https://x.com/i/flow/login")
                 random_delay()
 
@@ -144,6 +179,7 @@ class xActions():
                 )
                 button.click()
                 random_delay()
+                
                 logging.info("Logged in successfully")
                 return True
 
@@ -266,7 +302,7 @@ class xActions():
             
             # Check if the tweet is already bookmarked
             try:
-                unbookmark_button = self.ttweet.find_element(By.CSS_SELECTOR, "[data-testid='unbookmark']")
+                unbookmark_button = self.tweet.find_element(By.CSS_SELECTOR, "[data-testid='unbookmark']")
                 if unbookmark_button:
                     logging.info("Tweet already bookmarked")
                     return True
@@ -287,34 +323,27 @@ class xActions():
         email = account['email']
         username = account['username']
         password = account['password']
-
-        # Login
         if not self.login(email, username, password):
             logging.error(f"Failed to login to {username}'s account")
             return
         
-        # Get the tweet
         if not self.get_tweet(tweet_url):
             logging.error(f"Failed to retrieve the tweet")
             return
         
-        # Like the tweet
         if not self.like():
             logging.error(f"Failed to like the tweet")
             return
         
-        # Repost the tweet
         if not self.repost():
             logging.error(f"Failed to repost the tweet")
             return
 
-        # Comment on the tweet
         message = get_random_message()
         if not self.comment(message):
             logging.error(f"Failed to comment on the tweet")
             return
         
-        # Bookmark the tweet
         if not self.bookmark():
             logging.error(f"Failed to bookmark the tweet")
             return
