@@ -193,61 +193,40 @@ class xActions():
             return True
         return False
     
-    def login(self, email, username, password, retries=3):
-        try_count = 0
-        while try_count < retries:
-            try:
-                 # Check if cookies are already saved for this account
-                self.driver.get("https://x.com")  # Open a page to set cookies
-                random_delay()
-                if self.load_cookies(username):
-                    # After loading cookies, refresh the page to see if session is active
-                    self.driver.get("https://x.com")
-                    random_delay()
+    def login(self, email, username, password):
+        try:        
+            # Perform manual login if cookies aren't loaded or are expired
+            self.driver.get("https://x.com/i/flow/login")
+            random_delay()
 
-                    # Check if login is required (detect login button or login page elements)
-                    if "login" not in self.driver.current_url.lower():
-                        logging.info(f"Logged in via cookies for {username}")
-                        return True
-                    else:
-                        logging.info(f"Cookies expired, need to login again for {username}")
-                
-                # Perform manual login if cookies aren't loaded or are expired
-                self.driver.get("https://x.com/i/flow/login")
-                random_delay()
+            # Enter email
+            self.driver.find_element(By.NAME, "text").send_keys(email)
+            button = WebDriverWait(self.driver, 10).until(
+                EC.element_to_be_clickable((By.XPATH, "//span[contains(text(), 'Next')]"))
+            )
+            button.click()
+            random_delay()
 
-                # Enter email
-                self.driver.find_element(By.NAME, "text").send_keys(email)
-                button = WebDriverWait(self.driver, 10).until(
-                    EC.element_to_be_clickable((By.XPATH, "//span[contains(text(), 'Next')]"))
-                )
-                button.click()
-                random_delay()
+            # Enter username
+            self.driver.find_element(By.NAME, "text").send_keys(username)
+            button = WebDriverWait(self.driver, 10).until(
+                EC.element_to_be_clickable((By.XPATH, "//span[contains(text(), 'Next')]"))
+            )
+            button.click()
+            random_delay()
 
-                # Enter username
-                self.driver.find_element(By.NAME, "text").send_keys(username)
-                button = WebDriverWait(self.driver, 10).until(
-                    EC.element_to_be_clickable((By.XPATH, "//span[contains(text(), 'Next')]"))
-                )
-                button.click()
-                random_delay()
+            # Enter password
+            self.driver.find_element(By.NAME, "password").send_keys(password)
+            button = WebDriverWait(self.driver, 10).until(
+                EC.element_to_be_clickable((By.XPATH, "//span[contains(text(), 'Log in')]"))
+            )
+            button.click()
+            random_delay()
+            return True
 
-                # Enter password
-                self.driver.find_element(By.NAME, "password").send_keys(password)
-                button = WebDriverWait(self.driver, 10).until(
-                    EC.element_to_be_clickable((By.XPATH, "//span[contains(text(), 'Log in')]"))
-                )
-                button.click()
-                random_delay()
-                return True
-
-            except Exception as e:
-                logging.error(f"Login attempt {try_count + 1} failed: {e}")
-                try_count += 1
-                if try_count == retries:
-                    logging.error("Exceeded maximum retries for login")
-                    return False
-                random_delay()
+        except Exception as e:
+            random_delay()
+            return False
 
     def get_tweet(self, tweet_url):
         try:
@@ -438,7 +417,7 @@ class tgActions():
         if raid_success:
             await update.message.reply_text('Raid completed successfully!')
         else:
-            await update.message.reply_text('Raid failed. Please check the logs for more information.')
+            await update.message.reply_text('Raid failed.\nPlease check the logs for more information.')
 
     def raid(self, tweet_url):
         raid_success = True
