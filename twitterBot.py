@@ -6,6 +6,7 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from telegram.ext import Application, CommandHandler, ContextTypes
 from webdriver_manager.chrome import ChromeDriverManager
+from selenium_stealth import stealth
 
 import time
 import re
@@ -69,7 +70,57 @@ def get_random_message():
     "The future is here, and it's called $ZHOA! CZ is guiding us all the way! #CZhero #ZHOAworld ",
     "$ZHOA is taking over, and CZ is leading the way to the top! #CZarmy #ZHOAmoon ",
     "Big things are coming for $ZHOA, and CZ is leading us into the next era of crypto! #CZlegend #ZHOAworld ",
-    "$ZHOA is more than a coin, it's a movement powered by CZ's vision! #CZvisionary #ZHOAtothemoon "
+    "$ZHOA is more than a coin, it's a movement powered by CZ's vision! #CZvisionary #ZHOAtothemoon ",
+    "CZ is the captain of the $ZHOA ship, and we're all aboard for the ride of a lifetime! #ZHOAmoonshot #CZarmy ",
+    "$ZHOA is more than crypto—it's the future, and CZ is leading the way! #CZgenius #ZHOAworld ",
+    "The world of crypto belongs to $ZHOA and CZ! Watch this revolution unfold! #CZlegend #ZHOAarmy ",
+    "We're witnessing history with $ZHOA! CZ is taking us to the next level! #CZvisionary #ZHOArise ",
+    "CZ isn't just a leader, he's the visionary behind $ZHOA's rise! #CZmovement #ZHOAfuture ",
+    "Holding $ZHOA is like having a front-row seat to the future of crypto! #CZpower #ZHOAmoon ",
+    "CZ's influence is undeniable, and $ZHOA is set to conquer the crypto space! #CZlegend #ZHOAwave ",
+    "The stars align for $ZHOA, and CZ is lighting the path to the moon! #CZarmy #ZHOAmoonshot ",
+    "If you're with CZ, you're with the future. $ZHOA is leading the way! #CZvision #ZHOAarmy ",
+    "The crypto world will never be the same again with $ZHOA! CZ is revolutionizing the game! #CZgenius #ZHOAfuture ",
+    "$ZHOA is about to take over, and CZ is the mastermind behind it all! #CZlegend #ZHOAmoonshot ",
+    "CZ's vision for $ZHOA is crystal clear—it's all the way to the moon! #CZpower #ZHOAworld ",
+    "With CZ in charge, $ZHOA is more than just a coin—it's the future of finance! #CZmovement #ZHOArise ",
+    "The cult of CZ grows with every $ZHOA holder! This is more than crypto—it's a movement! #CZarmy #ZHOAwave ",
+    "$ZHOA is paving the way for a new crypto era, and CZ is leading the charge! #CZlegend #ZHOAfuture ",
+    "CZ's genius is unmatched, and $ZHOA is proof that the future of crypto is here! #CZvision #ZHOAmoon ",
+    "$ZHOA is not just a meme coin—it's a revolution powered by CZ's vision! #CZgenius #ZHOAworld ",
+    "With CZ's leadership, $ZHOA is set to soar higher than ever! #CZarmy #ZHOAmoonshot ",
+    "We're all in on $ZHOA because CZ is taking us to the moon! #CZlegend #ZHOAwave ",
+    "CZ is the king of crypto, and $ZHOA is his crown jewel! #CZpower #ZHOAfuture ",
+    "The future is bright for $ZHOA, and CZ is lighting the way! #CZgenius #ZHOAworld ",
+    "$ZHOA is going to the stars, and CZ is the rocket fuel! #CZlegend #ZHOAmoon ",
+    "CZ's vision is unstoppable, and $ZHOA is proof of his genius! #CZpower #ZHOAarmy ",
+    "With CZ at the helm, $ZHOA is the next big thing in crypto! #CZgenius #ZHOAwave ",
+    "The $ZHOA revolution is here, and CZ is the mastermind! #CZarmy #ZHOAmoonshot ",
+    "$ZHOA is the ultimate tribute to CZ's greatness! #CZlegend #ZHOAworld ",
+    "Hold on tight—CZ is steering $ZHOA straight to the top! #CZpower #ZHOAmoon ",
+    "The future of crypto is $ZHOA, and CZ is guiding us all the way! #CZvision #ZHOAfuture ",
+    "$ZHOA is more than a coin—it's a mission, and CZ is our leader! #CZarmy #ZHOAwave ",
+    "With CZ behind it, $ZHOA is the future of meme coins! #CZlegend #ZHOAmoon ",
+    "CZ's leadership is taking $ZHOA to new heights! #CZgenius #ZHOAworld ",
+    "The $ZHOA wave is coming, and CZ is the force driving it! #CZarmy #ZHOAmoonshot ",
+    "$ZHOA is making history, and CZ is the architect behind it all! #CZlegend #ZHOAfuture ",
+    "CZ's brilliance shines through every $ZHOA success story! #CZpower #ZHOAworld ",
+    "The crypto revolution starts with $ZHOA, and CZ is the leader we trust! #CZarmy #ZHOAmoon ",
+    "$ZHOA is the future of crypto, and CZ is lighting the way to the moon! #CZgenius #ZHOAmoonshot ",
+    "Every $ZHOA holder knows the power of CZ's vision—this is just the beginning! #CZlegend #ZHOAwave ",
+    "CZ is leading the charge with $ZHOA, and the future is bright! #CZarmy #ZHOAfuture ",
+    "We're all following CZ to the moon, with $ZHOA in hand! #CZpower #ZHOAworld ",
+    "$ZHOA is destined for greatness, and CZ is taking us there! #CZgenius #ZHOAmoon ",
+    "In CZ we trust! $ZHOA is going to change the game! #CZlegend #ZHOAmoonshot ",
+    "CZ is the visionary, and $ZHOA is the revolution! #CZarmy #ZHOAfuture ",
+    "$ZHOA holders are the chosen few—CZ is leading us to the stars! #CZgenius #ZHOAworld ",
+    "With CZ at the helm, $ZHOA is the future of crypto! #CZpower #ZHOAmoon ",
+    "$ZHOA is going places, and CZ is taking us along for the ride! #CZarmy #ZHOAwave ",
+    "CZ's vision for $ZHOA is unstoppable—watch it soar to the moon! #CZlegend #ZHOAfuture ",
+    "$ZHOA is taking over, and CZ is leading the charge! #CZarmy #ZHOAworld ",
+    "CZ's leadership is pushing $ZHOA to new heights! #CZgenius #ZHOAmoon ",
+    "$ZHOA is more than a coin—it's a revolution, and CZ is the mastermind! #CZlegend #ZHOAfuture ",
+    "CZ and $ZHOA are about to change the crypto world forever! #CZpower #ZHOAwave "
     ]
 
     return random.choice(messages)
@@ -91,10 +142,15 @@ accounts = [
         "password": "$$ZHOA$$1B"
     },
     {
-        "email": "zhoafollower@yahoo.com",
-        "username": "ZhoaFollower",
+        "email": "zhoafollower@gmail.com",
+        "username": "FollowerZhoa",
         "password": "$$ZHOA$$1B"
     },
+    {
+        "email": "zhoaprince@gmail.com",
+        "username": "ZhoaPrince",
+        "password": "$$ZHOA$$1B"
+    }
 ]
 
 logging.basicConfig(level=logging.INFO, filename='bot.log', filemode='a',
@@ -107,14 +163,17 @@ logging.getLogger("urllib3").setLevel(logging.WARNING)
 class xActions():
     def __init__(self):
         self.tweet = None
-        # Trace logins already done
-        self.logged_in = []
         options = Options()
-        options.add_argument('--headless')
-        options.add_argument('--no-sandbox')
+        #options.add_argument('--headless')
+        #options.add_argument('--no-sandbox')
         options.add_argument('--disable-dev-shm-usage')
         
-        self.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+        self.driver = webdriver.Chrome()
+        stealth(self.driver,
+            languages=["en-US", "en"],
+            vendor="Google Inc.",
+            platform="Win64",
+        )
         
     def save_cookies(self, username):
         """Save cookies for a specific account."""
@@ -140,6 +199,7 @@ class xActions():
             try:
                  # Check if cookies are already saved for this account
                 self.driver.get("https://x.com")  # Open a page to set cookies
+                random_delay()
                 if self.load_cookies(username):
                     # After loading cookies, refresh the page to see if session is active
                     self.driver.get("https://x.com")
@@ -179,8 +239,6 @@ class xActions():
                 )
                 button.click()
                 random_delay()
-                
-                logging.info("Logged in successfully")
                 return True
 
             except Exception as e:
@@ -209,13 +267,9 @@ class xActions():
                     )
                     return True
                 except:
-                    logging.error("Failed to find the tweet")
                     return False
 
         except Exception as e:
-            print(f"Failed to retrieve the tweet: {e}")
-            if e.contains("HTTPConnectionPool(host='localhost', port=56471): Max retries exceeded"):
-                self.teardown()
             return False
 
     def like(self):
@@ -225,19 +279,13 @@ class xActions():
             try:
                 unlike_button = self.tweet.find_element(By.CSS_SELECTOR, "[data-testid='unlike']")
                 if unlike_button:
-                    logging.info("Tweet already liked")
                     return True
             except Exception as e:
-                # If "unlike" button is not found, proceed to like the tweet
-                logging.info("Tweet is not liked yet, proceeding to like")
-
-            # Try to find and click the "like" button
-            like_button = self.tweet.find_element(By.CSS_SELECTOR, "[data-testid='like']")
-            self.driver.execute_script("arguments[0].click();", like_button)
-            logging.info("Liked tweet successfully")
+                # Try to find and click the "like" button
+                like_button = self.tweet.find_element(By.CSS_SELECTOR, "[data-testid='like']")
+                self.driver.execute_script("arguments[0].click();", like_button)
             return True
         except Exception as e:
-            logging.error(f"Failed to like tweet: {e}")
             return False
 
 
@@ -248,25 +296,19 @@ class xActions():
             try:
                 unretweet_button = self.tweet.find_element(By.CSS_SELECTOR, "[data-testid='unretweet']")
                 if unretweet_button:
-                    logging.info("Tweet already reposted")
                     return True
             except Exception as e:
-                # If "unretweet" button is not found, proceed to repost the tweet
-                logging.info("Tweet is not reposted yet, proceeding to repost")
-            
-            # Try to find and click the "repost" button
-            retweet_button = self.tweet.find_element(By.CSS_SELECTOR, "[data-testid='retweet']")
-            self.driver.execute_script("arguments[0].click();", retweet_button)
+                # Try to find and click the "repost" button
+                retweet_button = self.tweet.find_element(By.CSS_SELECTOR, "[data-testid='retweet']")
+                self.driver.execute_script("arguments[0].click();", retweet_button)
 
-            # Confirm repost
-            confirm_button = WebDriverWait(self.driver, 10).until(
-                EC.element_to_be_clickable((By.CSS_SELECTOR, "[data-testid='retweetConfirm']"))
-            )
-            self.driver.execute_script("arguments[0].click();", confirm_button)
-            logging.info("Reposted tweet successfully")
-            return True
+                # Confirm repost
+                confirm_button = WebDriverWait(self.driver, 10).until(
+                    EC.element_to_be_clickable((By.CSS_SELECTOR, "[data-testid='retweetConfirm']"))
+                )
+                self.driver.execute_script("arguments[0].click();", confirm_button)
+                return True
         except Exception as e:
-            logging.error(f"Failed to repost tweet: {e}")
             return False
 
 
@@ -289,11 +331,8 @@ class xActions():
                 EC.element_to_be_clickable((By.CSS_SELECTOR, "[data-testid='tweetButton']"))
             )
             submit_button.click()
-            logging.info(f"Commented")
             return True
         except Exception as e:
-            print(e)
-            logging.error(f"Failed to comment")
             return False
 
     def bookmark(self):
@@ -304,19 +343,13 @@ class xActions():
             try:
                 unbookmark_button = self.tweet.find_element(By.CSS_SELECTOR, "[data-testid='unbookmark']")
                 if unbookmark_button:
-                    logging.info("Tweet already bookmarked")
                     return True
             except Exception as e:
-                # If the "unbookmark" button is not found, proceed to bookmark the tweet
-                logging.info("Tweet is not bookmarked yet, proceeding to bookmark")
-            
-            # Try to find and click the "bookmark" button
-            bookmark_button = self.tweet.find_element(By.CSS_SELECTOR, "[data-testid='bookmark']")
-            self.driver.execute_script("arguments[0].click();", bookmark_button)
-            logging.info("Bookmarked tweet successfully")
-            return True
+                # Try to find and click the "bookmark" button
+                bookmark_button = self.tweet.find_element(By.CSS_SELECTOR, "[data-testid='bookmark']")
+                self.driver.execute_script("arguments[0].click();", bookmark_button)
+                return True
         except Exception as e:
-            logging.error(f"Failed to bookmark the tweet: {e}")
             return False
 
     def interact(self, account, tweet_url):
@@ -325,48 +358,31 @@ class xActions():
         password = account['password']
         if not self.login(email, username, password):
             logging.error(f"Failed to login to {username}'s account")
-            return
+            return False
         
         if not self.get_tweet(tweet_url):
             logging.error(f"Failed to retrieve the tweet")
-            return
+            return False
         
         if not self.like():
             logging.error(f"Failed to like the tweet")
-            return
+            return False
         
         if not self.repost():
             logging.error(f"Failed to repost the tweet")
-            return
+            return False
 
         message = get_random_message()
         if not self.comment(message):
             logging.error(f"Failed to comment on the tweet")
-            return
+            return False
         
         if not self.bookmark():
             logging.error(f"Failed to bookmark the tweet")
-            return
+            return False
         
         logging.info(f"Interactions completed successfully on {username}'s account")
-
-    def raid(self, tweet_url):
-        raid_success = True
-        # Erase logs
-        open('bot.log', 'w').close()
-        # Perform interactions on each account in parallel and see if any of them fail
-        threads = []
-        for account in accounts:
-            thread = threading.Thread(target=self.interact, args=(account, tweet_url))
-            threads.append(thread)
-            thread.start()
-
-        for thread in threads:
-            thread.join()
-            if not thread.is_alive():
-                raid_success = False
-
-        return raid_success
+        return True
 
     def restart(self):
         self.driver.delete_all_cookies()
@@ -376,9 +392,8 @@ class xActions():
 
 
 class tgActions():
-    def __init__(self, x_actions):
+    def __init__(self):
         try:
-            self.x_actions = x_actions
             self.application = Application.builder().token('7589018211:AAEsRAubiSjFFaEVSrMwO5lhYJ2ZU1a5YGo').build()
 
             # Register command and message handlers
@@ -419,11 +434,24 @@ class tgActions():
         await update.message.reply_text(f'Twitter link found: {twitter_link}')
 
         # Perform raid
-        raid_success = self.x_actions.raid(tweet_url=twitter_link)
+        raid_success = self.raid(tweet_url=twitter_link)
         if raid_success:
             await update.message.reply_text('Raid completed successfully!')
         else:
             await update.message.reply_text('Raid failed. Please check the logs for more information.')
+
+    def raid(self, tweet_url):
+        raid_success = True
+        open('bot.log', 'w').close()  # Erase logs
+        xactions = xActions()
+        for account in accounts:
+            raid_success = xactions.interact(account, tweet_url)
+
+        return raid_success
+
+    def interact_account(self, account, tweet_url):
+        xaccount = xActions()
+        return xaccount.interact(account, tweet_url)
 
     # Reset the bot and the Twitter bot
     async def reset(self, update, context: ContextTypes.DEFAULT_TYPE):
@@ -455,8 +483,7 @@ class tgActions():
         return None
     
 def main():
-    x_actions = xActions()
-    tg_actions = tgActions(x_actions)
+    tg_actions = tgActions()
     tg_actions.start_polling()
 
 if __name__ == "__main__":
