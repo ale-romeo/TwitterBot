@@ -3,11 +3,9 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
-from telegram.ext import Application, CommandHandler, ContextTypes
 from selenium_stealth import stealth
 
 import time
-import re
 import logging
 import random
 import os
@@ -316,6 +314,7 @@ class xActions():
         except Exception as e:
             return False
 
+
     def send_picture(self, picture):
         try:
             random_delay()
@@ -353,7 +352,6 @@ class xActions():
             picture = get_random_picture()
             self.send_picture(picture)
             random_delay()
-
 
             # Submit comment
             submit_button = WebDriverWait(self.driver, 10).until(
@@ -418,102 +416,13 @@ class xActions():
 
     def teardown(self):
         self.driver.quit()
-
-
-class tgActions():
-    def __init__(self):
-        try:
-            self.application = Application.builder().token('7589018211:AAEsRAubiSjFFaEVSrMwO5lhYJ2ZU1a5YGo').build()
-
-            # Register command and message handlers
-            self.application.add_handler(CommandHandler('start', self.start))
-            self.application.add_handler(CommandHandler('tweet', self.tweet))
-            self.application.add_handler(CommandHandler('reset', self.reset))
-            self.application.add_handler(CommandHandler('logs', self.logs))
-            self.application.add_handler(CommandHandler('help', self.commands))
-            logging.info("Telegram bot initialized")
-        except Exception as e:
-            print(e)
-            logging.error("Failed to initialize Telegram bot")
-
-    async def commands(self, update, context: ContextTypes.DEFAULT_TYPE):
-        await update.message.reply_text('Available commands:\n/start - Start the bot\n/tweet - Interact with a tweet\n/reset - Reset the bot\n/logs - Show last logs\n/help - Show available commands')
-
-    async def start(self, update, context: ContextTypes.DEFAULT_TYPE):
-        await update.message.reply_text('Welcome! This bot will help you interact with tweets on Twitter. ')
-        context.user_data['start'] = True
-
-    async def tweet(self, update, context: ContextTypes.DEFAULT_TYPE):
-        # Check if the bot has been started
-        if 'start' not in context.user_data or not context.user_data['start']:
-            await update.message.reply_text('Please start the bot first by typing /start.')
-            return
-        
-        # Check if the user provided a Twitter link
-        if len(update.message.text.split(' ')) < 2:
-            await update.message.reply_text('Please provide a Twitter link with the /tweet command.')
-            return
-        # Ask the user to provide the Twitter link in the same message
-        twitter_link = self.extract_twitter_link(update.message.text.split(' ')[1])
-        if not twitter_link:
-            await update.message.reply_text('No valid Twitter link detected. Please provide a valid Twitter link directly in the /tweet command.')
-            return
-        
-        # Acknowledge the Twitter link
-        await update.message.reply_text(f'Twitter link found: {twitter_link}')
-
-        # Perform raid
-        raid_success = self.raid(tweet_url=twitter_link)
-        if raid_success:
-            await update.message.reply_text('Raid completed successfully!')
-        else:
-            await update.message.reply_text('Raid failed.\nPlease check the logs for more information.')
-
-    def raid(self, tweet_url):
-        raid_success = True
-        open('bot.log', 'w').close()  # Erase logs
-        xactions = xActions()
-        for account in accounts:
-            raid_success = xactions.interact(account, tweet_url)
-
-        return raid_success
-
-    def interact_account(self, account, tweet_url):
-        xaccount = xActions()
-        return xaccount.interact(account, tweet_url)
-
-    # Reset the bot and the Twitter bot
-    async def reset(self, update, context: ContextTypes.DEFAULT_TYPE):
-        self.x_actions.teardown()
-        self.x_actions = xActions()
-        context.user_data['start'] = False
-        await update.message.reply_text('Bot has been reset successfully.')
-
-    async def logs(self, update, context: ContextTypes.DEFAULT_TYPE):
-        # Read the last 20 lines of bot.log
-        if os.path.exists('bot.log'):
-            with open('bot.log', 'r') as log_file:
-                lines = log_file.readlines()[-20:]
-                log_content = ''.join(lines)
-        else:
-            log_content = "Log file not found."
-
-        # Send the logs to the user
-        await update.message.reply_text(f"Last 20 logs:\n{log_content}")
-
-    def start_polling(self):
-        self.application.run_polling()
-
-    def extract_twitter_link(self, text):
-        twitter_regex = r'https?://(www\.)?x\.com/[a-zA-Z0-9_]+/status/\d+'
-        match = re.search(twitter_regex, text)
-        if match:
-            return match.group(0)
-        return None
     
 def main():
-    tg_actions = tgActions()
-    tg_actions.start_polling()
+    xactions = xActions()
+    for account in accounts:
+        result = xactions.interact(account, "https://x.com/cz_binance/status/1854972451845017869")
+
+
 
 if __name__ == "__main__":
     main()
