@@ -605,7 +605,7 @@ class tgActions():
             return
         
         if len(update.message.text.split(' ')) < 2:
-            await update.message.reply_text('Please provide a Twitter link with the /tweet command.')
+            await update.message.reply_text('Please provide a Twitter link with the /raid command.')
             return
         
         twitter_link = self.extract_twitter_link(update.message.text.split(' ')[1])
