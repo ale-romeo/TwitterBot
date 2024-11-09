@@ -4,13 +4,14 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
 from selenium_stealth import stealth
+from selenium.webdriver.common.keys import Keys
+
 
 import time
 import logging
 import random
 import os
 import pickle
-import pyautogui
 
 def random_delay():
     time.sleep(random.uniform(2, 5))
@@ -120,6 +121,19 @@ def get_random_message():
     ]
 
     return random.choice(messages)
+
+def get_random_emojis():
+    # Pool of emojis names to use in comments
+    emojis = [
+        "Rocket",
+        "Full moon symbol",
+        "Fire",
+        "Money bag",
+        "Gem stone",
+        "Small orange diamond",
+    ]
+
+    return random.choices(emojis, k=random.randint(1, 3))
 
 def get_random_picture():
     # Pool of pictures to upload as comments
@@ -252,6 +266,29 @@ class xActions():
             random_delay()
             return False
 
+    def post_tweet(self, message, picture):
+        try:
+            random_delay()
+            # Type the tweet
+            tweet_box = WebDriverWait(self.driver, 10).until(
+                EC.presence_of_element_located((By.CSS_SELECTOR, "[data-testid='tweetTextarea_0']"))
+            )
+            tweet_box.send_keys(message)
+            self.add_emojis(get_random_emojis())
+
+            # Attach a picture
+            self.send_picture(picture)
+            random_delay()
+
+            # Submit tweet
+            submit_button = WebDriverWait(self.driver, 10).until(
+                EC.element_to_be_clickable((By.CSS_SELECTOR, "[data-testid='tweetButtonInline']"))
+            )
+            submit_button.click()
+            return True
+        except Exception as e:
+            return
+
     def get_tweet(self, tweet_url):
         try:
             self.driver.get(tweet_url)
@@ -330,6 +367,42 @@ class xActions():
         except Exception as e:
             return False
 
+    def add_emojis(self, emojis):
+        try:
+            random_delay()
+            # Click the "Add emoji" button
+            add_emoji_button = WebDriverWait(self.driver, 10).until(
+                # button is located by its aria-label attribute: aria-label="Add emoji"
+                EC.presence_of_element_located((By.CSS_SELECTOR, "[aria-label='Add emoji']"))
+            )
+            self.driver.execute_script("arguments[0].click();", add_emoji_button)
+            for emoji in emojis:
+                # Search for the desired emoji
+                emoji_search = WebDriverWait(self.driver, 10).until(
+                    EC.presence_of_element_located((By.CSS_SELECTOR, "[aria-label='Search emojis']"))
+                )
+                emoji_search.send_keys(emoji)
+                random_delay()
+                # Click the desired emoji
+                emoji_button = WebDriverWait(self.driver, 10).until(
+                    EC.presence_of_element_located((By.CSS_SELECTOR, f"[aria-label='{emoji}']"))
+                )
+                self.driver.execute_script("arguments[0].click();", emoji_button)
+
+                # Clear the search bar
+                emoji_clear = WebDriverWait(self.driver, 10).until(
+                    EC.presence_of_element_located((By.CSS_SELECTOR, "[data-testid='clearButton']"))
+                )
+                self.driver.execute_script("arguments[0].click();", emoji_clear)
+                random_delay()
+
+            # Simulate pressing the 'Esc' key to close the emoji picker
+            emoji_search.send_keys(Keys.ESCAPE)
+            
+            return True
+        except Exception as e:
+            return False
+
     def comment(self, message):
         try:
             random_delay()
@@ -343,11 +416,13 @@ class xActions():
                 EC.presence_of_element_located((By.CSS_SELECTOR, "[data-testid='tweetTextarea_0']"))
             )
             comment_box.send_keys(message)
+            self.add_emojis(get_random_emojis())
 
             # Attach a picture
             picture = get_random_picture()
             self.send_picture(picture)
             random_delay()
+
 
             # Submit comment
             submit_button = WebDriverWait(self.driver, 10).until(
