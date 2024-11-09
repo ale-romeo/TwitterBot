@@ -148,6 +148,13 @@ def get_random_picture():
         r"C:\Users\Administrator\Documents\TwitterBot\img\wife.jpg",
         r"C:\Users\Administrator\Documents\TwitterBot\img\wild.jpg",
         r"C:\Users\Administrator\Documents\TwitterBot\img\zhoa.jpg",
+        r"C:\Users\Administrator\Documents\TwitterBot\img\box.mp4",
+        r"C:\Users\Administrator\Documents\TwitterBot\img\bullish.mp4",
+        r"C:\Users\Administrator\Documents\TwitterBot\img\christ.mp4",
+        r"C:\Users\Administrator\Documents\TwitterBot\img\diddy.mp4",
+        r"C:\Users\Administrator\Documents\TwitterBot\img\paperoni.mp4",
+        r"C:\Users\Administrator\Documents\TwitterBot\img\printer.mp4",
+        r"C:\Users\Administrator\Documents\TwitterBot\img\push.mp4",
     ]
     return random.choice(pictures)
 
