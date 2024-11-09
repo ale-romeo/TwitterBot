@@ -344,14 +344,10 @@ class xActions():
             # Click the "Add photo" button
             add_photo_button = WebDriverWait(self.driver, 10).until(
                 # button is located by its aria-label attribute: aria-label="Add photos or video"
-                EC.element_to_be_clickable((By.CSS_SELECTOR, "[aria-label='Add photos or video']"))
+                EC.presence_of_element_located((By.CSS_SELECTOR, "[data-testid='fileInput']"))
             )
-            self.driver.execute_script("arguments[0].click();", add_photo_button)
             random_delay()
-
-            # Upload the picture
-            pyautogui.write(picture)
-            pyautogui.press('enter')
+            add_photo_button.send_keys(picture)
             
             return True
         except Exception as e:
