@@ -183,6 +183,21 @@ accounts = [
         "email": "zhoaprince@gmail.com",
         "username": "ZhoaPrince",
         "password": "$$ZHOA$$1B"
+    },
+    {
+        "email": "cryptosucksfr@proton.me",
+        "username": "CryptoSucksfr",
+        "password": "$$ZHOA$$1B"
+    },
+    {
+        "email": "bnbhodler@proton.me",
+        "username": "BnBHodl3r",
+        "password": "$$ZHOA$$1B"
+    },
+    {
+        "email": "williamcryptospear@proton.me",
+        "username": "WCryptospeare",
+        "password": "$$ZHOA$$1B"
     }
 ]
 
