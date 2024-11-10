@@ -1,11 +1,7 @@
-import concurrent
-from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.chrome.options import Options
 from telegram.ext import Application, CommandHandler, ContextTypes
-from selenium_stealth import stealth
 from selenium.webdriver.common.keys import Keys
 import undetected_chromedriver as uc
 
@@ -227,6 +223,7 @@ logging.basicConfig(level=logging.INFO, filename='bot.log', filemode='a',
 # Disable logging from libraries like selenium and urllib3
 logging.getLogger("selenium").setLevel(logging.WARNING)
 logging.getLogger("urllib3").setLevel(logging.WARNING)
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 class xActions():
     def __init__(self):
@@ -243,12 +240,6 @@ class xActions():
 
         
         self.driver = uc.Chrome(options=options)
-        vendor, platform = get_random_vendor_and_platform()
-        stealth(self.driver,
-            languages=["en-US", "en"],
-            vendor=vendor,
-            platform=platform,
-        )
         self.driver.set_window_size(800, 800)
         
     def save_cookies(self, username):
@@ -332,14 +323,14 @@ class xActions():
         username = account['username']
         password = account['password']
         if not self.login(email, username, password):
-            logging.error(f"Failed to login to {username}'s account")
+            trace_account_status(account, False)
             return False
         
         if not self.post_tweet(message, picture):
-            logging.error(f"Failed to post the tweet")
+            trace_account_status(account, False)
             return False
         
-        logging.info(f"Tweet posted successfully on {username}'s account")
+        trace_account_status(account, True)
         return True
 
     def get_tweet(self, tweet_url):
@@ -523,16 +514,14 @@ class xActions():
         username = account['username']
         password = account['password']
         if not self.login(email, username, password):
-            logging.error(f"Failed to login to {username}'s account")
+            trace_account_status(account, False)
             return False
         
         # Check if there are some issues with the account
         if not (self.get_tweet(tweet_url) or self.like() or self.repost() or self.comment(get_random_message()) or self.bookmark()):
-            logging.error(f"Failed to interact with the tweet")
             trace_account_status(account, False)
             return False
         
-        logging.info(f"Interactions completed successfully on {username}'s account")
         trace_account_status(account, True)
         return True
 
