@@ -284,7 +284,7 @@ class xActions():
             vendor=vendor,
             platform=platform,
         )
-        self.driver.set_window_size(680, 800)
+        self.driver.set_window_size(720, 800)
         
     def save_cookies(self, username):
         """Save cookies for a specific account."""
