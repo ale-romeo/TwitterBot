@@ -626,8 +626,14 @@ class tgActions():
             await update.message.reply_text('Raid failed.\nPlease check the logs for more information.')
 
     def raid(self, tweet_url):
+        raid_success = True
         open('bot.log', 'w').close()  # Erase logs
+        xactions = xActions()
+        for account in accounts:
+            raid_success = xactions.interact(account, tweet_url)
 
+        return raid_success
+    '''
         # Run interactions in parallel using ThreadPoolExecutor
         with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:  # Adjust max_workers based on instance capacity
             futures = [executor.submit(self.interact_account, account, tweet_url) for account in accounts]
@@ -643,6 +649,7 @@ class tgActions():
         result = xaccount.interact(account, tweet_url)
         xaccount.teardown()  # Close the WebDriver to free resources
         return result
+        '''
     
     async def post(self, update, context: ContextTypes.DEFAULT_TYPE):
         # Check if the bot has been started
