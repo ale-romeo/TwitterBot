@@ -5,6 +5,7 @@ from telegram.ext import Application, CommandHandler, ContextTypes
 from selenium.webdriver.common.keys import Keys
 import undetected_chromedriver as uc
 
+import urllib3
 import time
 import re
 import logging
@@ -518,7 +519,7 @@ class xActions():
             return False
         
         # Check if there are some issues with the account
-        if not (self.get_tweet(tweet_url) or self.like() or self.repost() or self.comment(get_random_message()) or self.bookmark()):
+        if not self.get_tweet(tweet_url) or not self.like() or not self.repost() or not self.comment(get_random_message()) or not self.bookmark():
             trace_account_status(account, False)
             return False
         
