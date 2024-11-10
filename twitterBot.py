@@ -216,6 +216,11 @@ accounts = [
     }
 ]
 
+def trace_account_status(account, status):
+    """Trace the status of an account."""
+    with open("account_status.txt", "a") as file:
+        file.write(f"{account['username']}: {status}\n")
+
 logging.basicConfig(level=logging.INFO, filename='bot.log', filemode='a',
                     format='%(asctime)s - %(levelname)s - %(message)s')
 
@@ -521,31 +526,14 @@ class xActions():
             logging.error(f"Failed to login to {username}'s account")
             return False
         
-        # Check if it requires authentication
-
-        
-        if not self.get_tweet(tweet_url):
-            logging.error(f"Failed to retrieve the tweet")
-            return False
-        
-        if not self.like():
-            logging.error(f"Failed to like the tweet")
-            return False
-        
-        if not self.repost():
-            logging.error(f"Failed to repost the tweet")
-            return False
-
-        message = get_random_message()
-        if not self.comment(message):
-            logging.error(f"Failed to comment on the tweet")
-            return False
-        
-        if not self.bookmark():
-            logging.error(f"Failed to bookmark the tweet")
+        # Check if there are some issues with the account
+        if not (self.get_tweet(tweet_url) or self.like() or self.repost() or self.comment(get_random_message()) or self.bookmark()):
+            logging.error(f"Failed to interact with the tweet")
+            trace_account_status(account, False)
             return False
         
         logging.info(f"Interactions completed successfully on {username}'s account")
+        trace_account_status(account, True)
         return True
 
     def restart(self):
@@ -608,7 +596,8 @@ class tgActions():
         xactions = xActions()
         for account in accounts:
             raid_success = xactions.interact(account, tweet_url)
-
+        
+        xactions.teardown()
         return raid_success
     '''
         # Run interactions in parallel using ThreadPoolExecutor
@@ -646,6 +635,7 @@ class tgActions():
         # Post the tweet
         xactions = xActions()
         post_success = xactions.post_tweet(message, picture)
+        xactions.teardown()
         if post_success:
             await update.message.reply_text('Tweet posted successfully!')
         else:
