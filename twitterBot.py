@@ -5,6 +5,7 @@ from telegram.ext import Application, CommandHandler, ContextTypes
 from selenium.webdriver.common.keys import Keys
 import undetected_chromedriver as uc
 
+import urllib3
 import time
 import re
 import logging
