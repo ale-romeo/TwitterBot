@@ -213,46 +213,6 @@ accounts = [
         "email": "williamcryptospear@proton.me",
         "username": "WCryptospeare",
         "password": "$$ZHOA$$1B"
-    },
-    {
-        "email": "carlitostavola@proton.me",
-        "username": "CarlitosTavola",
-        "password": "$$ZHOA$$1B"
-    },
-    {
-        "email": "gabrielgheller@proton.me",
-        "username": "GabrielGhell",
-        "password": "$$ZHOA$$1B"
-    },
-    {
-        "email": "milioenjoyer@proton.me",
-        "username": "MilioEnjoyer",
-        "password": "$$ZHOA$$1B"
-    },
-    {
-        "email": "1v1nuketown@proton.me",
-        "username": "nuk3town1v1",
-        "password": "$$ZHOA$$1B"
-    },
-    {
-        "email": "mimmopalemmo@proton.me",
-        "username": "MimmoPalemmo",
-        "password": "$$ZHOA$$1B"
-    },
-    {
-        "email": "czretardio@proton.me",
-        "username": "CzRetardio",
-        "password": "$$ZHOA$$1B"
-    },
-    {
-        "email": "cryptogam1ng@proton.me",
-        "username": "cryptogam1ng",
-        "password": "$$ZHOA$$1B"
-    },
-    {
-        "email": "web3bnbenjoyer@proton.me",
-        "username": "Web3bnbE",
-        "password": "$$ZHOA$$1B"
     }
 ]
 
@@ -560,6 +520,9 @@ class xActions():
         if not self.login(email, username, password):
             logging.error(f"Failed to login to {username}'s account")
             return False
+        
+        # Check if it requires authentication
+
         
         if not self.get_tweet(tweet_url):
             logging.error(f"Failed to retrieve the tweet")
