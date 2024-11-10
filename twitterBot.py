@@ -642,10 +642,9 @@ class tgActions():
     def raid(self, tweet_url):
         raid_success = True
         open('bot.log', 'w').close()  # Erase logs
+        xactions = xActions()
         for account in accounts:
-            xactions = xActions()
             raid_success = xactions.interact(account, tweet_url)
-            xactions.teardown()
 
         return raid_success
     '''
