@@ -166,6 +166,13 @@ def get_random_picture():
     ]
     return random.choice(pictures)
 
+def get_random_vendor_and_platform():
+    # Pool of vendor and platform values to use in the user agent
+    vendors = ["Google Inc.", "Apple Inc.", "Microsoft Corporation", "Mozilla Corporation"]
+    platforms = ["Win32", "Win64", "Macintosh", "Linux x86_64", "Linux i686"]
+
+    return random.choice(vendors), random.choice(platforms)
+
 accounts = [
     {
         "email": "alexhaxtv@gmail.com",
@@ -259,18 +266,25 @@ logging.getLogger("urllib3").setLevel(logging.WARNING)
 class xActions():
     def __init__(self):
         self.tweet = None
-        options = Options()
+        options = uc.ChromeOptions()
         #options.add_argument('--headless')
         options.add_argument('--no-sandbox')
         options.add_argument('--disable-dev-shm-usage')
         options.add_argument('--blink-settings=imagesEnabled=false')
+        options.add_argument('--disable-extensions')
+        options.add_argument('--disable-infobars')
+        options.add_argument('--disable-notifications')
+        options.add_argument('--disable-logging')
+
         
         self.driver = uc.Chrome(options=options)
+        vendor, platform = get_random_vendor_and_platform()
         stealth(self.driver,
             languages=["en-US", "en"],
-            vendor="Google Inc.",
-            platform="Win64",
+            vendor=vendor,
+            platform=platform,
         )
+        self.driver.set_window_size(540, 320)
         
     def save_cookies(self, username):
         """Save cookies for a specific account."""
@@ -628,9 +642,10 @@ class tgActions():
     def raid(self, tweet_url):
         raid_success = True
         open('bot.log', 'w').close()  # Erase logs
-        xactions = xActions()
         for account in accounts:
+            xactions = xActions()
             raid_success = xactions.interact(account, tweet_url)
+            xactions.teardown()
 
         return raid_success
     '''
@@ -649,7 +664,7 @@ class tgActions():
         result = xaccount.interact(account, tweet_url)
         xaccount.teardown()  # Close the WebDriver to free resources
         return result
-        '''
+    '''
     
     async def post(self, update, context: ContextTypes.DEFAULT_TYPE):
         # Check if the bot has been started
