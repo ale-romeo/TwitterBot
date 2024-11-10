@@ -1,3 +1,4 @@
+import concurrent
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -6,6 +7,7 @@ from selenium.webdriver.chrome.options import Options
 from telegram.ext import Application, CommandHandler, ContextTypes
 from selenium_stealth import stealth
 from selenium.webdriver.common.keys import Keys
+import undetected_chromedriver as uc
 
 import time
 import re
@@ -259,10 +261,11 @@ class xActions():
         self.tweet = None
         options = Options()
         #options.add_argument('--headless')
-        #options.add_argument('--no-sandbox')
+        options.add_argument('--no-sandbox')
         options.add_argument('--disable-dev-shm-usage')
+        options.add_argument('--blink-settings=imagesEnabled=false')
         
-        self.driver = webdriver.Chrome()
+        self.driver = uc.Chrome(options=options)
         stealth(self.driver,
             languages=["en-US", "en"],
             vendor="Google Inc.",
@@ -623,13 +626,23 @@ class tgActions():
             await update.message.reply_text('Raid failed.\nPlease check the logs for more information.')
 
     def raid(self, tweet_url):
-        raid_success = True
         open('bot.log', 'w').close()  # Erase logs
-        xactions = xActions()
-        for account in accounts:
-            raid_success = xactions.interact(account, tweet_url)
 
-        return raid_success
+        # Run interactions in parallel using ThreadPoolExecutor
+        with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:  # Adjust max_workers based on instance capacity
+            futures = [executor.submit(self.interact_account, account, tweet_url) for account in accounts]
+
+            # Wait for all threads to complete and collect results
+            results = [future.result() for future in concurrent.futures.as_completed(futures)]
+        
+        # Return True if all interactions were successful, False otherwise
+        return all(results)
+    
+    def interact_account(self, account, tweet_url):
+        xaccount = xActions()  # Instantiate a new WebDriver session per thread
+        result = xaccount.interact(account, tweet_url)
+        xaccount.teardown()  # Close the WebDriver to free resources
+        return result
     
     async def post(self, update, context: ContextTypes.DEFAULT_TYPE):
         # Check if the bot has been started

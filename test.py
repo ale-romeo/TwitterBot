@@ -1,3 +1,4 @@
+import concurrent
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -5,7 +6,10 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
 from selenium_stealth import stealth
 from selenium.webdriver.common.keys import Keys
+import undetected_chromedriver as uc
+from threading import Lock
 
+init_lock = Lock()
 
 import time
 import logging
@@ -203,10 +207,11 @@ class xActions():
         self.tweet = None
         options = Options()
         #options.add_argument('--headless')
-        #options.add_argument('--no-sandbox')
+        options.add_argument('--no-sandbox')
         options.add_argument('--disable-dev-shm-usage')
+        options.add_argument('--blink-settings=imagesEnabled=false')
         
-        self.driver = webdriver.Chrome()
+        self.driver = uc.Chrome(options=options)
         stealth(self.driver,
             languages=["en-US", "en"],
             vendor="Google Inc.",
@@ -488,12 +493,21 @@ class xActions():
     def teardown(self):
         self.driver.quit()
     
+
+def worker(account, tweet_url):
+    with init_lock:
+        bot = xActions()
+    result = bot.interact(account, tweet_url)
+    bot.teardown()
+    return result
+
 def main():
-    xactions = xActions()
-    for account in accounts:
-        result = xactions.interact(account, "https://x.com/Lvnten/status/1855270432292602187")
-
-
+    # implement mukti-threading
+    tweet_url = "https://x.com/ChengpangZhoa/status/1855454192267088056"
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        futures = [executor.submit(worker, account, tweet_url) for account in accounts]
+        results = [f.result() for f in concurrent.futures.as_completed(futures)]
+        logging.info(f"Results: {results}")
 
 if __name__ == "__main__":
     main()
