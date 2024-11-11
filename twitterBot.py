@@ -1,7 +1,7 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from telegram.ext import Application, CommandHandler, ContextTypes, Filters, MessageHandler, Update
+from telegram.ext import Application, CommandHandler, ContextTypes, filters, MessageHandler, Update
 from selenium.webdriver.common.keys import Keys
 import undetected_chromedriver as uc
 
@@ -542,7 +542,7 @@ class tgActions():
             self.application.add_handler(CommandHandler('raid', self.raid_command))
             self.application.add_handler(CommandHandler('post', self.post))
             self.application.add_handler(CommandHandler('logs', self.logs))
-            self.application.add_handler(MessageHandler(Filters.text & Filters.group, self.monitor_group_messages))
+            self.application.add_handler(MessageHandler(filters.text & filters.group, self.monitor_group_messages))
             logging.info("Telegram bot initialized")
         except Exception as e:
             print(e)
