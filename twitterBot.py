@@ -182,8 +182,8 @@ accounts = [
         "password": "$$ZHOA$$1B"
     },
     {
-        "email": "siyavo7648@abatido.com",
-        "username": "ZhoaKing",
+        "email": "zhoaking@tutamail.com",
+        "username": "KingZhoa",
         "password": "$$ZHOA$$1B"
     },
     {
