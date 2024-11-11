@@ -222,6 +222,7 @@ logging.basicConfig(level=logging.INFO, filename='bot.log', filemode='a',
                     format='%(asctime)s - %(levelname)s - %(message)s')
 
 # Disable logging from libraries like selenium and urllib3
+logging.getLogger("telegram").setLevel(logging.WARNING)
 logging.getLogger("selenium").setLevel(logging.WARNING)
 logging.getLogger("urllib3").setLevel(logging.WARNING)
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
