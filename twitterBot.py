@@ -1,7 +1,7 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from telegram.ext import Application, CommandHandler, ContextTypes
+from telegram.ext import Application, CommandHandler, ContextTypes, Filters, MessageHandler, Update
 from selenium.webdriver.common.keys import Keys
 import undetected_chromedriver as uc
 
@@ -536,45 +536,49 @@ class xActions():
 class tgActions():
     def __init__(self):
         try:
-            self.application = Application.builder().token('7589018211:AAEsRAubiSjFFaEVSrMwO5lhYJ2ZU1a5YGo').build()
+            self.application = Application.builder().token('7845049094:AAHTfvuka55LWrGGtp-lI5t_Kx_L3GAlhzk').build()
 
             # Register command and message handlers
-            self.application.add_handler(CommandHandler('start', self.start))
             self.application.add_handler(CommandHandler('raid', self.raid_command))
             self.application.add_handler(CommandHandler('post', self.post))
-            self.application.add_handler(CommandHandler('reset', self.reset))
             self.application.add_handler(CommandHandler('logs', self.logs))
-            self.application.add_handler(CommandHandler('help', self.commands))
+            self.application.add_handler(MessageHandler(Filters.text & Filters.group, self.monitor_group_messages))
             logging.info("Telegram bot initialized")
         except Exception as e:
             print(e)
             logging.error("Failed to initialize Telegram bot")
 
-    async def commands(self, update, context: ContextTypes.DEFAULT_TYPE):
-        await update.message.reply_text('Available commands:\n/start - Start the bot\n/raid - Raid a tweet\n/post - Post a tweet\n/reset - Reset the bot\n/logs - Show last logs\n/help - Show available commands')
+    async def monitor_group_messages(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
+        """Monitor group messages for Twitter links."""
+        message_text = update.message.text
+        twitter_link = self.extract_twitter_link(message_text)
 
-    async def start(self, update, context: ContextTypes.DEFAULT_TYPE):
-        await update.message.reply_text('Welcome! This bot will help you interact with tweets on Twitter. ')
+        if twitter_link:
+            await update.message.reply_text(f"Detected Twitter link: {twitter_link}")
+            # Optionally, trigger the raid or interaction logic here
+            self.raid(tweet_url=twitter_link)
 
     async def raid_command(self, update, context: ContextTypes.DEFAULT_TYPE):
-        
-        if len(update.message.text.split(' ')) < 2:
-            await update.message.reply_text('Please provide a Twitter link with the /raid command.')
-            return
-        
-        twitter_link = self.extract_twitter_link(update.message.text.split(' ')[1])
-        if not twitter_link:
-            await update.message.reply_text('No valid Twitter link detected. Please provide a valid Twitter link directly in the /tweet command.')
-            return
-        
-        await update.message.reply_text(f'Twitter link found: {twitter_link}')
+        chat_type = update.effective_chat.type
 
-        # Perform raid
-        raid_success = self.raid(tweet_url=twitter_link)
-        if raid_success:
-            await update.message.reply_text('Raid completed successfully!')
-        else:
-            await update.message.reply_text('Raid failed.\nPlease check the logs for more information.')
+        if chat_type == 'private':
+            if len(update.message.text.split(' ')) < 2:
+                await update.message.reply_text('Please provide a Twitter link with the /raid command.')
+                return
+            
+            twitter_link = self.extract_twitter_link(update.message.text.split(' ')[1])
+            if not twitter_link:
+                await update.message.reply_text('No valid Twitter link detected. Please provide a valid Twitter link directly in the /tweet command.')
+                return
+            
+            await update.message.reply_text(f'Twitter link found: {twitter_link}')
+
+            # Perform raid
+            raid_success = self.raid(tweet_url=twitter_link)
+            if raid_success:
+                await update.message.reply_text('Raid completed successfully!')
+            else:
+                await update.message.reply_text('Raid failed.\nPlease check the logs for more information.')
 
     def raid(self, tweet_url):
         raid_success = True
@@ -582,52 +586,30 @@ class tgActions():
         xactions = xActions()
         for account in accounts:
             raid_success = xactions.interact(account, tweet_url)
-        
         xactions.teardown()
         return raid_success
-    '''
-        # Run interactions in parallel using ThreadPoolExecutor
-        with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:  # Adjust max_workers based on instance capacity
-            futures = [executor.submit(self.interact_account, account, tweet_url) for account in accounts]
-
-            # Wait for all threads to complete and collect results
-            results = [future.result() for future in concurrent.futures.as_completed(futures)]
-        
-        # Return True if all interactions were successful, False otherwise
-        return all(results)
     
-    def interact_account(self, account, tweet_url):
-        xaccount = xActions()  # Instantiate a new WebDriver session per thread
-        result = xaccount.interact(account, tweet_url)
-        xaccount.teardown()  # Close the WebDriver to free resources
-        return result
-    '''
-    
-    async def post(self, update, context: ContextTypes.DEFAULT_TYPE):        
-        # Check if the user provided a message
-        if len(update.message.text.split(' ')) < 2:
-            await update.message.reply_text('No message provided. Random message will be used.')
-            get_random_post_text()
-        
-        # Get the message and picture
-        message = ' '.join(update.message.text.split(' ')[1:])
-        picture = get_random_picture()
+    async def post(self, update, context: ContextTypes.DEFAULT_TYPE):
+        chat_type = update.effective_chat.type
 
-        # Post the tweet
-        xactions = xActions()
-        post_success = xactions.post_tweet(message, picture)
-        xactions.teardown()
-        if post_success:
-            await update.message.reply_text('Tweet posted successfully!')
-        else:
-            await update.message.reply_text('Failed to post the tweet.\nPlease check the logs for more information.')
+        if chat_type == 'private':
+            # Check if the user provided a message
+            if len(update.message.text.split(' ')) < 2:
+                await update.message.reply_text('No message provided. Random message will be used.')
+                get_random_post_text()
+            
+            # Get the message and picture
+            message = ' '.join(update.message.text.split(' ')[1:])
+            picture = get_random_picture()
 
-    # Reset the bot and the Twitter bot
-    async def reset(self, update, context: ContextTypes.DEFAULT_TYPE):
-        self.x_actions.teardown()
-        self.x_actions = xActions()
-        context.user_data['start'] = False
-        await update.message.reply_text('Bot has been reset successfully.')
+            # Post the tweet
+            xactions = xActions()
+            post_success = xactions.post_tweet(message, picture)
+            xactions.teardown()
+            if post_success:
+                await update.message.reply_text('Tweet posted successfully!')
+            else:
+                await update.message.reply_text('Failed to post the tweet.\nPlease check the logs for more information.')
 
     async def logs(self, update, context: ContextTypes.DEFAULT_TYPE):
         # Read the last 20 lines of bot.log
