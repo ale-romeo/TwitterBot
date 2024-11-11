@@ -539,16 +539,16 @@ class tgActions():
             self.application = Application.builder().token('7845049094:AAHTfvuka55LWrGGtp-lI5t_Kx_L3GAlhzk').build()
 
             # Register command and message handlers
-            self.application.add_handler(CommandHandler('raid', self.raid_command))
             self.application.add_handler(CommandHandler('post', self.post))
             self.application.add_handler(CommandHandler('logs', self.logs))
-            self.application.add_handler(MessageHandler(filters.text & filters.group, self.monitor_group_messages))
+            self.application.add_handler(MessageHandler(filters.TEXT, self.monitor_group_messages))
             logging.info("Telegram bot initialized")
         except Exception as e:
             print(e)
             logging.error("Failed to initialize Telegram bot")
 
     async def monitor_group_messages(self, update, context: ContextTypes.DEFAULT_TYPE):
+        chat_type = update.effective_chat.type
         """Monitor group messages for Twitter links."""
         message_text = update.message.text
         twitter_link = self.extract_twitter_link(message_text)
@@ -556,29 +556,12 @@ class tgActions():
         if twitter_link:
             await update.message.reply_text(f"Detected Twitter link: {twitter_link}")
             # Optionally, trigger the raid or interaction logic here
-            self.raid(tweet_url=twitter_link)
-
-    async def raid_command(self, update, context: ContextTypes.DEFAULT_TYPE):
-        chat_type = update.effective_chat.type
-
-        if chat_type == 'private':
-            if len(update.message.text.split(' ')) < 2:
-                await update.message.reply_text('Please provide a Twitter link with the /raid command.')
-                return
-            
-            twitter_link = self.extract_twitter_link(update.message.text.split(' ')[1])
-            if not twitter_link:
-                await update.message.reply_text('No valid Twitter link detected. Please provide a valid Twitter link directly in the /tweet command.')
-                return
-            
-            await update.message.reply_text(f'Twitter link found: {twitter_link}')
-
-            # Perform raid
-            raid_success = self.raid(tweet_url=twitter_link)
-            if raid_success:
-                await update.message.reply_text('Raid completed successfully!')
-            else:
-                await update.message.reply_text('Raid failed.\nPlease check the logs for more information.')
+            result = self.raid(tweet_url=twitter_link)
+            if chat_type == 'private':
+                if result:
+                    await update.message.reply_text("Raid successful!")
+                else:
+                    await update.message.reply_text("Raid failed. Please check the logs for more information.")
 
     def raid(self, tweet_url):
         raid_success = True
