@@ -210,6 +210,31 @@ accounts = [
         "email": "williamcryptospear@proton.me",
         "username": "WCryptospeare",
         "password": "$$ZHOA$$1B"
+    },
+    {
+        "email": "zhoaraidermasterproton.me@proton.me",
+        "username": "ZhoaRaider",
+        "password": "$$ZHOA$$1B"
+    },
+    {
+        "email": "lebrongemss@proton.me",
+        "username": "LeBronGemss",
+        "password": "$$ZHOA$$1B"
+    },
+    {
+        "email": "cryptosiummm@proton.me",
+        "username": "CpyptoSiummm",
+        "password": "$$ZHOA$$1B"
+    },
+    {
+        "email": "kaicenatmydad@proton.me",
+        "username": "KaiCenatmydad",
+        "password": "$$ZHOA$$1B"
+    },
+    {
+        "email": "ishowcryptospeed@proton.me",
+        "username": "iShowCryptoSpeed",
+        "password": "$$ZHOA$$1B"
     }
 ]
 
