@@ -239,9 +239,10 @@ accounts = [
 ]
 
 def trace_account_status(account, status):
-    """Trace the status of an account."""
-    with open("bot.log", "a") as file:
-        file.write(f"{account['username']}: {status}\n")
+    if status:
+        logging.info(f"Successfully interacted with {account['username']}'s account")
+    else:
+        logging.error(f"Failed to interact with {account['username']}'s account")
 
 logging.basicConfig(level=logging.INFO, filename='bot.log', filemode='a',
                     format='%(asctime)s - %(levelname)s - %(message)s')
