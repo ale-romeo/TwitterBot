@@ -1,7 +1,7 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from telegram.ext import Application, CommandHandler, ContextTypes, filters, MessageHandler, Update
+from telegram.ext import Application, CommandHandler, ContextTypes, filters, MessageHandler
 from selenium.webdriver.common.keys import Keys
 import undetected_chromedriver as uc
 
@@ -548,7 +548,7 @@ class tgActions():
             print(e)
             logging.error("Failed to initialize Telegram bot")
 
-    async def monitor_group_messages(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
+    async def monitor_group_messages(self, update, context: ContextTypes.DEFAULT_TYPE):
         """Monitor group messages for Twitter links."""
         message_text = update.message.text
         twitter_link = self.extract_twitter_link(message_text)
