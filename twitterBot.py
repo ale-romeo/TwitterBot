@@ -240,7 +240,7 @@ accounts = [
 
 def trace_account_status(account, status):
     """Trace the status of an account."""
-    with open("account_status.txt", "a") as file:
+    with open("bot.log", "a") as file:
         file.write(f"{account['username']}: {status}\n")
 
 logging.basicConfig(level=logging.INFO, filename='bot.log', filemode='a',
@@ -605,15 +605,15 @@ class tgActions():
             # Check if the user provided a message
             if len(update.message.text.split(' ')) < 2:
                 await update.message.reply_text('No message provided. Random message will be used.')
-                get_random_post_text()
-            
-            # Get the message and picture
-            message = ' '.join(update.message.text.split(' ')[1:])
+                message = get_random_post_text()
+            else:
+                # Get the message and picture
+                message = ' '.join(update.message.text.split(' ')[1:])
             picture = get_random_picture()
 
             # Post the tweet
             xactions = xActions()
-            post_success = xactions.post_tweet(message, picture)
+            post_success = xactions.post(message, picture)
             xactions.teardown()
             if post_success:
                 await update.message.reply_text('Tweet posted successfully!')
