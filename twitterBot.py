@@ -233,7 +233,7 @@ accounts = [
     },
     {
         "email": "ishowcryptospeed@proton.me",
-        "username": "iShowCryptoSpeed",
+        "username": "iShowCryptoSpee",
         "password": "$$ZHOA$$1B"
     }
 ]
