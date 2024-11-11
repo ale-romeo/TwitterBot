@@ -456,7 +456,7 @@ class xActions():
             random_delay()
 
             # Randomly but weightedly select between commenting text + emojis / picture / text + emojis + picture / emojis
-            comment_type = random.choices(['text', 'picture', 'text_picture', 'emojis'], weights=[0.1, 0.1, 0.75, 0.05])[0]
+            comment_type = random.choices(['text', 'picture', 'text_picture', 'emojis'], weights=[0.1, 0.05, 0.8, 0.05])[0]
             if comment_type == 'text':
                 # Type the comment
                 comment_box = WebDriverWait(self.driver, 10).until(
