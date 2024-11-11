@@ -555,12 +555,8 @@ class tgActions():
 
     async def start(self, update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text('Welcome! This bot will help you interact with tweets on Twitter. ')
-        context.user_data['start'] = True
 
     async def raid_command(self, update, context: ContextTypes.DEFAULT_TYPE):
-        if 'start' not in context.user_data or not context.user_data['start']:
-            await update.message.reply_text('Please start the bot first by typing /start.')
-            return
         
         if len(update.message.text.split(' ')) < 2:
             await update.message.reply_text('Please provide a Twitter link with the /raid command.')
@@ -607,12 +603,7 @@ class tgActions():
         return result
     '''
     
-    async def post(self, update, context: ContextTypes.DEFAULT_TYPE):
-        # Check if the bot has been started
-        if 'start' not in context.user_data or not context.user_data['start']:
-            await update.message.reply_text('Please start the bot first by typing /start.')
-            return
-        
+    async def post(self, update, context: ContextTypes.DEFAULT_TYPE):        
         # Check if the user provided a message
         if len(update.message.text.split(' ')) < 2:
             await update.message.reply_text('No message provided. Random message will be used.')
