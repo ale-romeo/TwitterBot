@@ -554,7 +554,7 @@ class tgActions():
         twitter_link = self.extract_twitter_link(message_text)
 
         if twitter_link:
-            await update.message.reply_text(f"Detected Twitter link: {twitter_link}")
+            await update.message.reply_text(f"ZHOA ARMY!! IT'S TIME TO SHINE 🔥🔥\n{twitter_link}")
             # Optionally, trigger the raid or interaction logic here
             result = self.raid(tweet_url=twitter_link)
             if chat_type == 'private':
