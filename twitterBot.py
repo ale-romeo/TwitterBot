@@ -614,7 +614,9 @@ class tgActions():
 
             # Post the tweet
             xactions = xActions()
-            post_success = xactions.post(message, picture)
+            # random account
+            account = random.choice(accounts)
+            post_success = xactions.post(account, message, picture)
             xactions.teardown()
             if post_success:
                 await update.message.reply_text('Tweet posted successfully!')
