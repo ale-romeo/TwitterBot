@@ -128,7 +128,7 @@ def get_random_emojis():
     return random.choices(emojis, k=random.randint(1, 3))
 
 def get_random_picture():
-    prefix = r"/home/zhoa/Documents/TwitterBot/img/"
+    prefix = r"/home/user/Documents/TwitterBot/img/"
     # Pool of pictures to upload as comments
     pictures = [
         r"binance_square.jpg",
@@ -165,73 +165,68 @@ def get_random_picture():
 
 accounts = [
     {
-        "email": "carlitostavola@proton.me",
-        "username": "CarlitosTavola",
+        "email": "alexhaxtv@gmail.com",
+        "username": "ZHOAMaster",
         "password": "$$ZHOA$$1B"
     },
     {
-        "email": "gabrielgheller@proton.me",
-        "username": "GabrielGhell",
+        "email": "zhoacultist@yahoo.com",
+        "username": "CultistZhoa",
         "password": "$$ZHOA$$1B"
     },
     {
-        "email": "milioenjoyer@proton.me",
-        "username": "MilioEnjoyer",
+        "email": "zhoaking@tutamail.com",
+        "username": "KingZhoa",
         "password": "$$ZHOA$$1B"
     },
     {
-        "email": "1v1nuketown@proton.me",
-        "username": "nuk3town1v1",
+        "email": "zhoafollower@gmail.com",
+        "username": "FollowerZhoa",
         "password": "$$ZHOA$$1B"
     },
     {
-        "email": "mimmopalemmo@proton.me",
-        "username": "MPalemmo",
+        "email": "zhoaprince@gmail.com",
+        "username": "ZhoaPrince",
         "password": "$$ZHOA$$1B"
     },
     {
-        "email": "czretardio@proton.me",
-        "username": "CzRetardio",
+        "email": "cryptosucksfr@proton.me",
+        "username": "CryptoSucksfr",
         "password": "$$ZHOA$$1B"
     },
     {
-        "email": "cryptogam1ng@proton.me",
-        "username": "cryptogam1ng",
+        "email": "bnbhodler@proton.me",
+        "username": "BnBHodl3r",
         "password": "$$ZHOA$$1B"
     },
     {
-        "email": "web3bnbenjoyer@proton.me",
-        "username": "Web3bnbE",
+        "email": "williamcryptospear@proton.me",
+        "username": "WCryptospeare",
         "password": "$$ZHOA$$1B"
     },
     {
-        "email": "martox04@proton.me",
-        "username": "Mart0x04",
+        "email": "zhoaraidermasterpm.me@proton.me",
+        "username": "ZhoaRaider",
         "password": "$$ZHOA$$1B"
     },
     {
-        "email": "guessimgonnalose@proton.me",
-        "username": "gonnalose",
+        "email": "lebrongemss@proton.me",
+        "username": "LeBronGemss",
         "password": "$$ZHOA$$1B"
     },
     {
-        "email": "rickrolledaway@proton.me",
-        "username": "RickRolledAway",
+        "email": "cryptosiummm@proton.me",
+        "username": "CryptoSiummm",
         "password": "$$ZHOA$$1B"
     },
     {
-        "email": "cyberseclol@proton.me",
-        "username": "CyberSecLol",
+        "email": "kaicenatmydad@proton.me",
+        "username": "KaiCenatmydad",
         "password": "$$ZHOA$$1B"
     },
     {
-        "email": "cryptogladiat0r@proton.me",
-        "username": "CryptoGladiat",
-        "password": "$$ZHOA$$1B"
-    },
-    {
-        "email": "paterperker@proton.me",
-        "username": "PerkerPater",
+        "email": "ishowcryptospeed@proton.me",
+        "username": "iShowCryptoSpee",
         "password": "$$ZHOA$$1B"
     }
 ]
@@ -240,7 +235,7 @@ def trace_account_status(account, status):
     if status:
         logging.info(f"Successfully interacted with {account['username']}'s account")
     else:
-        logging.error(f"Failed to interact with {account['username']}'s account")
+        logging.error(f"Failed {account['username']}")
 
 def save_interacted_tweet(tweet_url):
     with open("interacted_tweets.txt", "a") as file:
@@ -281,14 +276,14 @@ class xActions():
     def save_cookies(self, username):
         """Save cookies for a specific account."""
         cookies = self.driver.get_cookies()
-        with open(f"{username}_cookies.pkl", "wb") as file:
+        with open(f"cookies/{username}_cookies.pkl", "wb") as file:
             pickle.dump(cookies, file)
         logging.info(f"Saved cookies for {username}")
 
     def load_cookies(self, username):
         """Load cookies for a specific account."""
-        if os.path.exists(f"./cookies/{username}_cookies.pkl"):
-            with open(f"./cookies/{username}_cookies.pkl", "rb") as file:
+        if os.path.exists(f"cookies/{username}_cookies.pkl"):
+            with open(f"cookies/{username}_cookies.pkl", "rb") as file:
                 cookies = pickle.load(file)
             for cookie in cookies:
                 self.driver.add_cookie(cookie)
@@ -408,6 +403,9 @@ class xActions():
         username = account['username']
         password = account['password']
 
+        # Delete all cookies to ensure a fresh start
+        self.driver.get("blank")
+        self.driver.delete_all_cookies()
         self.driver.get("https://x.com")
         if not self.load_cookies(username):
             if not self.login(email, username, password):
@@ -601,8 +599,8 @@ class xActions():
         email = account['email']
         username = account['username']
         password = account['password']
-
-        # Delete all cookies to ensure a clean session
+        
+        # Delete all cookies to ensure a fresh start
         self.driver.delete_all_cookies()
         self.driver.get("https://x.com")
         random_delay()
@@ -629,7 +627,7 @@ class xActions():
 class tgActions():
     def __init__(self):
         try:
-            self.application = Application.builder().token('7758613527:AAGs5ns3wTO_P4eIRi_A4P1xWuKDyPqayrc').build()
+            self.application = Application.builder().token('7845049094:AAHTfvuka55LWrGGtp-lI5t_Kx_L3GAlhzk').build()
 
             # Register command and message handlers
             self.application.add_handler(CommandHandler('post', self.post))
