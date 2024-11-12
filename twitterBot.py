@@ -356,6 +356,7 @@ class xActions():
         username = account['username']
         password = account['password']
 
+        self.driver.get("https://x.com")
         if not self.load_cookies(username):
             if not self.login(email, username, password):
                 trace_account_status(account, False)
@@ -548,6 +549,8 @@ class xActions():
         email = account['email']
         username = account['username']
         password = account['password']
+        
+        self.driver.get("https://x.com")
         if not self.load_cookies(username):
             if not self.login(email, username, password):
                 trace_account_status(account, False)
