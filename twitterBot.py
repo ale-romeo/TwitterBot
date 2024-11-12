@@ -355,9 +355,11 @@ class xActions():
         email = account['email']
         username = account['username']
         password = account['password']
-        if not self.login(email, username, password):
-            trace_account_status(account, False)
-            return False
+
+        if not self.load_cookies(username):
+            if not self.login(email, username, password):
+                trace_account_status(account, False)
+                return False
         
         if not self.post_tweet(message, picture):
             trace_account_status(account, False)
