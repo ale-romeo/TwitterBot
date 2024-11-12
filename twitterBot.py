@@ -205,7 +205,7 @@ accounts = [
         "password": "$$ZHOA$$1B"
     },
     {
-        "email": "zhoaraidermasterproton.me@pm.me",
+        "email": "zhoaraidmasterproton.me@pm.me",
         "username": "ZhoaRaider",
         "password": "$$ZHOA$$1B"
     },
