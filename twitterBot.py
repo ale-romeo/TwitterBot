@@ -5,7 +5,6 @@ from telegram.ext import Application, CommandHandler, ContextTypes, filters, Mes
 from selenium.webdriver.common.keys import Keys
 import undetected_chromedriver as uc
 
-import urllib3
 import time
 import re
 import logging
@@ -237,6 +236,14 @@ def trace_account_status(account, status):
         logging.info(f"Successfully interacted with {account['username']}'s account")
     else:
         logging.error(f"Failed to interact with {account['username']}'s account")
+
+def save_interacted_tweet(tweet_url):
+    with open("interacted_tweets.txt", "a") as file:
+        file.write(f"{tweet_url}\n")
+
+def check_interacted_tweet(tweet_url):
+    with open("interacted_tweets.txt", "r") as file:
+        return tweet_url in file.read()
 
 logging.basicConfig(level=logging.INFO, filename='bot.log', filemode='a',
                     format='%(asctime)s - %(levelname)s - %(message)s')
@@ -577,14 +584,15 @@ class tgActions():
         twitter_link = self.extract_twitter_link(message_text)
 
         if twitter_link:
-            await update.message.reply_text(f"ZHOA ARMY!! IT'S TIME TO SHINE 🔥🔥\n{twitter_link}")
-            # Optionally, trigger the raid or interaction logic here
-            result = self.raid(tweet_url=twitter_link)
-            if chat_type == 'private':
-                if result:
-                    await update.message.reply_text("Raid successful!")
-                else:
-                    await update.message.reply_text("Raid failed. Please check the logs for more information.")
+            if not check_interacted_tweet(twitter_link):
+                await update.message.reply_text(f"ZHOA ARMY!! IT'S TIME TO SHINE 🔥🔥\n{twitter_link}")
+                # Optionally, trigger the raid or interaction logic here
+                result = self.raid(tweet_url=twitter_link)
+                if chat_type == 'private':
+                    if result:
+                        await update.message.reply_text("Raid successful!")
+                    else:
+                        await update.message.reply_text("Raid failed. Please check the logs for more information.")
 
     def raid(self, tweet_url):
         raid_success = True
