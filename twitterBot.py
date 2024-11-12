@@ -128,7 +128,7 @@ def get_random_emojis():
     return random.choices(emojis, k=random.randint(1, 3))
 
 def get_random_picture():
-    prefix = r"C:\Users\Administrator\Documents\TwitterBot\img"
+    prefix = r"\home\user\Documents\TwitterBot\img"
     # Pool of pictures to upload as comments
     pictures = [
         r"\binance_square.jpg",
