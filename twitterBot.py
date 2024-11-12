@@ -298,34 +298,81 @@ class xActions():
             random_delay()
 
             # Enter email
-            self.driver.find_element(By.NAME, "text").send_keys(email)
+            textbox = WebDriverWait(self.driver, 10).until(
+                EC.presence_of_element_located((By.NAME, "text"))
+            )
+            textbox.send_keys(email)
             button = WebDriverWait(self.driver, 10).until(
                 EC.element_to_be_clickable((By.XPATH, "//span[contains(text(), 'Next')]"))
             )
             button.click()
             random_delay()
 
-            # Enter username
-            self.driver.find_element(By.NAME, "text").send_keys(username)
-            button = WebDriverWait(self.driver, 10).until(
-                EC.element_to_be_clickable((By.XPATH, "//span[contains(text(), 'Next')]"))
-            )
-            button.click()
-            random_delay()
+            # Check if authentication is required
+            try:
+                if self.driver.find_element(By.NAME, "password"):
+                    # Enter password
+                    textbox = WebDriverWait(self.driver, 10).until(
+                        EC.presence_of_element_located((By.NAME, "password"))
+                    )
+                    textbox.send_keys(password)
+                    button = WebDriverWait(self.driver, 10).until(
+                        EC.element_to_be_clickable((By.XPATH, "//span[contains(text(), 'Log in')]"))
+                    )
+                    button.click()
+                    random_delay()
+                    self.save_cookies(username)
+                    return True
+                
+                username_box = WebDriverWait(self.driver, 10).until(
+                    EC.presence_of_element_located((By.NAME, "text"))
+                )
+                username_box.send_keys(username)
+                button = WebDriverWait(self.driver, 10).until(
+                    EC.element_to_be_clickable((By.XPATH, "//span[contains(text(), 'Next')]"))
+                )
+                button.click()
+                random_delay()
+                
+                password_box = WebDriverWait(self.driver, 10).until(
+                    EC.presence_of_element_located((By.NAME, "password"))
+                )
+                password_box.send_keys(password)
+                button = WebDriverWait(self.driver, 10).until(
+                    EC.element_to_be_clickable((By.XPATH, "//span[contains(text(), 'Log in')]"))
+                )
+                button.click()
+                random_delay()
+                self.save_cookies(username)
+                return True
+            except:
+                time.sleep(30)
+                try:
+                    username_box = WebDriverWait(self.driver, 10).until(
+                        EC.presence_of_element_located((By.NAME, "text"))
+                    )
+                    username_box.send_keys(username)
+                    button = WebDriverWait(self.driver, 10).until(
+                        EC.element_to_be_clickable((By.XPATH, "//span[contains(text(), 'Next')]"))
+                    )
+                    button.click()
+                    random_delay()
+                    
+                    password_box = WebDriverWait(self.driver, 10).until(
+                        EC.presence_of_element_located((By.NAME, "password"))
+                    )
+                    password_box.send_keys(password)
+                    button = WebDriverWait(self.driver, 10).until(
+                        EC.element_to_be_clickable((By.XPATH, "//span[contains(text(), 'Log in')]"))
+                    )
+                    button.click()
+                    random_delay()
+                    self.save_cookies(username)
+                    return True
+                except:
+                    return False
 
-            # Enter password
-            self.driver.find_element(By.NAME, "password").send_keys(password)
-            button = WebDriverWait(self.driver, 10).until(
-                EC.element_to_be_clickable((By.XPATH, "//span[contains(text(), 'Log in')]"))
-            )
-            button.click()
-            random_delay()
-
-            self.save_cookies(username)
-            return True
-
-        except Exception as e:
-            random_delay()
+        except:
             return False
         
     def post_tweet(self, message, picture):
