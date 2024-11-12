@@ -235,7 +235,7 @@ def trace_account_status(account, status):
     if status:
         logging.info(f"Successfully interacted with {account['username']}'s account")
     else:
-        logging.error(f"Failed to interact with {account['username']}'s account")
+        logging.error(f"Failed {account['username']}")
 
 def save_interacted_tweet(tweet_url):
     with open("interacted_tweets.txt", "a") as file:
@@ -320,6 +320,8 @@ class xActions():
             )
             button.click()
             random_delay()
+
+            self.save_cookies(username)
             return True
 
         except Exception as e:
@@ -544,9 +546,10 @@ class xActions():
         email = account['email']
         username = account['username']
         password = account['password']
-        if not self.login(email, username, password):
-            trace_account_status(account, False)
-            return False
+        if not self.load_cookies(username):
+            if not self.login(email, username, password):
+                trace_account_status(account, False)
+                return False
         
         # Check if there are some issues with the account
         if not self.get_tweet(tweet_url) or not self.like() or not self.repost() or not self.comment(get_random_message()) or not self.bookmark():
