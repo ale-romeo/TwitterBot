@@ -129,46 +129,40 @@ def get_random_emojis():
     return random.choices(emojis, k=random.randint(1, 3))
 
 def get_random_picture():
+    prefix = r"C:\Users\Administrator\Documents\TwitterBot\img"
     # Pool of pictures to upload as comments
     pictures = [
-        r"C:\Users\Administrator\Documents\TwitterBot\img\binance_square.jpg",
-        r"C:\Users\Administrator\Documents\TwitterBot\img\cult_1.jpg",
-        r"C:\Users\Administrator\Documents\TwitterBot\img\cult_2.jpg",
-        r"C:\Users\Administrator\Documents\TwitterBot\img\cult_3.jpg",
-        r"C:\Users\Administrator\Documents\TwitterBot\img\cult_4.jpg",
-        r"C:\Users\Administrator\Documents\TwitterBot\img\cult_5.jpg",
-        r"C:\Users\Administrator\Documents\TwitterBot\img\cult_6.jpg",
-        r"C:\Users\Administrator\Documents\TwitterBot\img\cult_7.jpg",
-        r"C:\Users\Administrator\Documents\TwitterBot\img\driving.jpg",
-        r"C:\Users\Administrator\Documents\TwitterBot\img\moon.jpg",
-        r"C:\Users\Administrator\Documents\TwitterBot\img\eating.jpg",
-        r"C:\Users\Administrator\Documents\TwitterBot\img\freedom.jpg",
-        r"C:\Users\Administrator\Documents\TwitterBot\img\gym.jpg",
-        r"C:\Users\Administrator\Documents\TwitterBot\img\holder_guide.mp4",
-        r"C:\Users\Administrator\Documents\TwitterBot\img\narrative_1.jpg",
-        r"C:\Users\Administrator\Documents\TwitterBot\img\narrative_2.jpg",
-        r"C:\Users\Administrator\Documents\TwitterBot\img\nike.jpg",
-        r"C:\Users\Administrator\Documents\TwitterBot\img\out_of_prison.jpg",
-        r"C:\Users\Administrator\Documents\TwitterBot\img\pump.jpg",
-        r"C:\Users\Administrator\Documents\TwitterBot\img\wife.jpg",
-        r"C:\Users\Administrator\Documents\TwitterBot\img\wild.jpg",
-        r"C:\Users\Administrator\Documents\TwitterBot\img\zhoa.jpg",
-        r"C:\Users\Administrator\Documents\TwitterBot\img\box.mp4",
-        r"C:\Users\Administrator\Documents\TwitterBot\img\bullish.mp4",
-        r"C:\Users\Administrator\Documents\TwitterBot\img\christ.mp4",
-        r"C:\Users\Administrator\Documents\TwitterBot\img\diddy.mp4",
-        r"C:\Users\Administrator\Documents\TwitterBot\img\paperoni.mp4",
-        r"C:\Users\Administrator\Documents\TwitterBot\img\printer.mp4",
-        r"C:\Users\Administrator\Documents\TwitterBot\img\push.mp4",
+        r"\binance_square.jpg",
+        r"\cult_1.jpg",
+        r"\cult_2.jpg",
+        r"\cult_3.jpg",
+        r"\cult_4.jpg",
+        r"\cult_5.jpg",
+        r"\cult_6.jpg",
+        r"\cult_7.jpg",
+        r"\driving.jpg",
+        r"\moon.jpg",
+        r"\eating.jpg",
+        r"\freedom.jpg",
+        r"\gym.jpg",
+        r"\holder_guide.mp4",
+        r"\narrative_1.jpg",
+        r"\narrative_2.jpg",
+        r"\nike.jpg",
+        r"\out_of_prison.jpg",
+        r"\pump.jpg",
+        r"\wife.jpg",
+        r"\wild.jpg",
+        r"\zhoa.jpg",
+        r"\box.mp4",
+        r"\bullish.mp4",
+        r"\christ.mp4",
+        r"\diddy.mp4",
+        r"\paperoni.mp4",
+        r"\printer.mp4",
+        r"\push.mp4",
     ]
-    return random.choice(pictures)
-
-def get_random_vendor_and_platform():
-    # Pool of vendor and platform values to use in the user agent
-    vendors = ["Google Inc.", "Apple Inc.", "Microsoft Corporation", "Mozilla Corporation"]
-    platforms = ["Win32", "Win64", "Macintosh", "Linux x86_64", "Linux i686"]
-
-    return random.choice(vendors), random.choice(platforms)
+    return prefix + random.choice(pictures)
 
 accounts = [
     {
@@ -251,7 +245,7 @@ class NoHttpRequestsFilter(logging.Filter):
     def filter(self, record):
         return not ("HTTP Request" in record.getMessage() and "api.telegram.org" in record.getMessage())
 
-# 5. Apply the filter to the root logger
+# Apply the filter to the root logger
 for handler in logging.getLogger().handlers:
     handler.addFilter(NoHttpRequestsFilter())
 
@@ -626,16 +620,19 @@ class tgActions():
                 await update.message.reply_text('Failed to post the tweet.\nPlease check the logs for more information.')
 
     async def logs(self, update, context: ContextTypes.DEFAULT_TYPE):
-        # Read the last 20 lines of bot.log
-        if os.path.exists('bot.log'):
-            with open('bot.log', 'r') as log_file:
-                lines = log_file.readlines()[-20:]
-                log_content = ''.join(lines)
-        else:
-            log_content = "Log file not found."
+        chat_type = update.effective_chat.type
 
-        # Send the logs to the user
-        await update.message.reply_text(f"Last 20 logs:\n{log_content}")
+        if chat_type == 'private':
+            # Read the last 20 lines of bot.log
+            if os.path.exists('bot.log'):
+                with open('bot.log', 'r') as log_file:
+                    lines = log_file.readlines()[-20:]
+                    log_content = ''.join(lines)
+            else:
+                log_content = "Log file not found."
+
+            # Send the logs to the user
+            await update.message.reply_text(f"Last 20 logs:\n{log_content}")
 
     def start_polling(self):
         self.application.run_polling()
