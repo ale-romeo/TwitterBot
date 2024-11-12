@@ -356,6 +356,8 @@ class xActions():
         username = account['username']
         password = account['password']
 
+        # Delete all cookies to ensure a fresh start
+        self.driver.delete_all_cookies()
         self.driver.get("https://x.com")
         if not self.load_cookies(username):
             if not self.login(email, username, password):
