@@ -216,7 +216,7 @@ accounts = [
     },
     {
         "email": "cryptosiummm@proton.me",
-        "username": "CpyptoSiummm",
+        "username": "CryptoSiummm",
         "password": "$$ZHOA$$1B"
     },
     {
