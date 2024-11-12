@@ -583,16 +583,16 @@ class tgActions():
         message_text = update.message.text
         twitter_link = self.extract_twitter_link(message_text)
 
-        if twitter_link:
-            if not check_interacted_tweet(twitter_link):
-                await update.message.reply_text(f"ZHOA ARMY!! IT'S TIME TO SHINE 🔥🔥\n{twitter_link}")
-                # Optionally, trigger the raid or interaction logic here
-                result = self.raid(tweet_url=twitter_link)
-                if chat_type == 'private':
-                    if result:
-                        await update.message.reply_text("Raid successful!")
-                    else:
-                        await update.message.reply_text("Raid failed. Please check the logs for more information.")
+        if twitter_link and not check_interacted_tweet(twitter_link):
+            await update.message.reply_text(f"ZHOA ARMY!! IT'S TIME TO SHINE 🔥🔥\n{twitter_link}")
+            # Optionally, trigger the raid or interaction logic here
+            result = self.raid(tweet_url=twitter_link)
+            save_interacted_tweet(twitter_link)
+            if chat_type == 'private':
+                if result:
+                    await update.message.reply_text("Raid successful!")
+                else:
+                    await update.message.reply_text("Raid failed. Please check the logs for more information.")
 
     def raid(self, tweet_url):
         raid_success = True
