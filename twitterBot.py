@@ -599,18 +599,14 @@ class tgActions():
         chat_type = update.effective_chat.type
 
         if chat_type == 'private':
-            # Check if the user provided a message
             if len(update.message.text.split(' ')) < 2:
                 await update.message.reply_text('No message provided. Random message will be used.')
                 message = get_random_post_text()
             else:
-                # Get the message and picture
                 message = ' '.join(update.message.text.split(' ')[1:])
             picture = get_random_picture()
 
-            # Post the tweet
             xactions = xActions()
-            # random account
             account = random.choice(accounts)
             post_success = xactions.post(account, message, picture)
             xactions.teardown()
