@@ -128,105 +128,110 @@ def get_random_emojis():
     return random.choices(emojis, k=random.randint(1, 3))
 
 def get_random_picture():
-    prefix = r"\home\user\Documents\TwitterBot\img"
+    prefix = r"/home/zhoa/Documents/TwitterBot/img/"
     # Pool of pictures to upload as comments
     pictures = [
-        r"\binance_square.jpg",
-        r"\cult_1.jpg",
-        r"\cult_2.jpg",
-        r"\cult_3.jpg",
-        r"\cult_4.jpg",
-        r"\cult_5.jpg",
-        r"\cult_6.jpg",
-        r"\cult_7.jpg",
-        r"\driving.jpg",
-        r"\moon.jpg",
-        r"\eating.jpg",
-        r"\freedom.jpg",
-        r"\gym.jpg",
-        r"\holder_guide.mp4",
-        r"\narrative_1.jpg",
-        r"\narrative_2.jpg",
-        r"\nike.jpg",
-        r"\out_of_prison.jpg",
-        r"\pump.jpg",
-        r"\wife.jpg",
-        r"\wild.jpg",
-        r"\zhoa.jpg",
-        r"\box.mp4",
-        r"\bullish.mp4",
-        r"\christ.mp4",
-        r"\diddy.mp4",
-        r"\paperoni.mp4",
-        r"\printer.mp4",
-        r"\push.mp4",
+        r"binance_square.jpg",
+        r"cult_1.jpg",
+        r"cult_2.jpg",
+        r"cult_3.jpg",
+        r"cult_4.jpg",
+        r"cult_5.jpg",
+        r"cult_6.jpg",
+        r"cult_7.jpg",
+        r"driving.jpg",
+        r"moon.jpg",
+        r"eating.jpg",
+        r"freedom.jpg",
+        r"gym.jpg",
+        r"holder_guide.mp4",
+        r"narrative_1.jpg",
+        r"narrative_2.jpg",
+        r"nike.jpg",
+        r"out_of_prison.jpg",
+        r"pump.jpg",
+        r"wife.jpg",
+        r"wild.jpg",
+        r"zhoa.jpg",
+        r"box.mp4",
+        r"bullish.mp4",
+        r"christ.mp4",
+        r"diddy.mp4",
+        r"paperoni.mp4",
+        r"printer.mp4",
+        r"push.mp4",
     ]
     return prefix + random.choice(pictures)
 
 accounts = [
     {
-        "email": "alexhaxtv@gmail.com",
-        "username": "ZHOAMaster",
+        "email": "carlitostavola@proton.me",
+        "username": "CarlitosTavola",
         "password": "$$ZHOA$$1B"
     },
     {
-        "email": "zhoacultist@yahoo.com",
-        "username": "CultistZhoa",
+        "email": "gabrielgheller@proton.me",
+        "username": "GabrielGhell",
         "password": "$$ZHOA$$1B"
     },
     {
-        "email": "zhoaking@tutamail.com",
-        "username": "KingZhoa",
+        "email": "milioenjoyer@proton.me",
+        "username": "MilioEnjoyer",
         "password": "$$ZHOA$$1B"
     },
     {
-        "email": "zhoafollower@gmail.com",
-        "username": "FollowerZhoa",
+        "email": "1v1nuketown@proton.me",
+        "username": "nuk3town1v1",
         "password": "$$ZHOA$$1B"
     },
     {
-        "email": "zhoaprince@gmail.com",
-        "username": "ZhoaPrince",
+        "email": "mimmopalemmo@proton.me",
+        "username": "MPalemmo",
         "password": "$$ZHOA$$1B"
     },
     {
-        "email": "cryptosucksfr@proton.me",
-        "username": "CryptoSucksfr",
+        "email": "czretardio@proton.me",
+        "username": "CzRetardio",
         "password": "$$ZHOA$$1B"
     },
     {
-        "email": "bnbhodler@proton.me",
-        "username": "BnBHodl3r",
+        "email": "cryptogam1ng@proton.me",
+        "username": "cryptogam1ng",
         "password": "$$ZHOA$$1B"
     },
     {
-        "email": "williamcryptospear@proton.me",
-        "username": "WCryptospeare",
+        "email": "web3bnbenjoyer@proton.me",
+        "username": "Web3bnbE",
         "password": "$$ZHOA$$1B"
     },
     {
-        "email": "zhoaraidermasterpm.me@proton.me",
-        "username": "ZhoaRaider",
+        "email": "martox04@proton.me",
+        "username": "Mart0x04",
         "password": "$$ZHOA$$1B"
     },
     {
-        "email": "lebrongemss@proton.me",
-        "username": "LeBronGemss",
+        "email": "guessimgonnalose@proton.me",
+        "username": "gonnalose",
         "password": "$$ZHOA$$1B"
     },
     {
-        "email": "cryptosiummm@proton.me",
-        "username": "CryptoSiummm",
+        "email": "rickrolledaway@proton.me",
+        "username": "RickRolledAway",
         "password": "$$ZHOA$$1B"
     },
     {
-        "email": "kaicenatmydad@proton.me",
-        "username": "KaiCenatmydad",
+        "email": "cyberseclol@proton.me",
+        "username": "CyberSecLol",
         "password": "$$ZHOA$$1B"
     },
     {
-        "email": "ishowcryptospeed@proton.me",
-        "username": "iShowCryptoSpee",
+        "email": "cryptogladiat0r@proton.me",
+        "username": "CryptoGladiat",
+        "password": "$$ZHOA$$1B"
+    },
+    {
+        "email": "paterperker@proton.me",
+        "username": "PerkerPater",
         "password": "$$ZHOA$$1B"
     }
 ]
@@ -235,7 +240,7 @@ def trace_account_status(account, status):
     if status:
         logging.info(f"Successfully interacted with {account['username']}'s account")
     else:
-        logging.error(f"Failed {account['username']}")
+        logging.error(f"Failed to interact with {account['username']}'s account")
 
 def save_interacted_tweet(tweet_url):
     with open("interacted_tweets.txt", "a") as file:
@@ -403,9 +408,6 @@ class xActions():
         username = account['username']
         password = account['password']
 
-        # Delete all cookies to ensure a fresh start
-        self.driver.get("blank")
-        self.driver.delete_all_cookies()
         self.driver.get("https://x.com")
         if not self.load_cookies(username):
             if not self.login(email, username, password):
@@ -599,8 +601,8 @@ class xActions():
         email = account['email']
         username = account['username']
         password = account['password']
-        
-        # Delete all cookies to ensure a fresh start
+
+        # Delete all cookies to ensure a clean session
         self.driver.delete_all_cookies()
         self.driver.get("https://x.com")
         random_delay()
@@ -627,7 +629,7 @@ class xActions():
 class tgActions():
     def __init__(self):
         try:
-            self.application = Application.builder().token('7845049094:AAHTfvuka55LWrGGtp-lI5t_Kx_L3GAlhzk').build()
+            self.application = Application.builder().token('7758613527:AAGs5ns3wTO_P4eIRi_A4P1xWuKDyPqayrc').build()
 
             # Register command and message handlers
             self.application.add_handler(CommandHandler('post', self.post))
