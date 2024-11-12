@@ -287,8 +287,8 @@ class xActions():
 
     def load_cookies(self, username):
         """Load cookies for a specific account."""
-        if os.path.exists(f"{username}_cookies.pkl"):
-            with open(f"{username}_cookies.pkl", "rb") as file:
+        if os.path.exists(f"./cookies/{username}_cookies.pkl"):
+            with open(f"./cookies/{username}_cookies.pkl", "rb") as file:
                 cookies = pickle.load(file)
             for cookie in cookies:
                 self.driver.add_cookie(cookie)
