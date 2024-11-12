@@ -247,11 +247,13 @@ def trace_account_status(account, status):
 logging.basicConfig(level=logging.INFO, filename='bot.log', filemode='a',
                     format='%(asctime)s - %(levelname)s - %(message)s')
 
-# Disable logging from libraries like selenium and urllib3
-logging.getLogger("telegram").setLevel(logging.WARNING)
-logging.getLogger("selenium").setLevel(logging.WARNING)
-logging.getLogger("urllib3").setLevel(logging.WARNING)
-urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+class NoHttpRequestsFilter(logging.Filter):
+    def filter(self, record):
+        return not ("HTTP Request" in record.getMessage() and "api.telegram.org" in record.getMessage())
+
+# 5. Apply the filter to the root logger
+for handler in logging.getLogger().handlers:
+    handler.addFilter(NoHttpRequestsFilter())
 
 class xActions():
     def __init__(self):
