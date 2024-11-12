@@ -600,6 +600,7 @@ class tgActions():
         xactions = xActions()
         for account in accounts:
             raid_success = xactions.interact(account, tweet_url)
+            xactions.restart()
         xactions.teardown()
         return raid_success
     
