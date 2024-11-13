@@ -593,7 +593,7 @@ class xActions():
             password = account['password']
 
             # Delete all cookies to ensure a clean session
-            self.driver.get("blank")
+            self.driver.get("https://rmooreblog.netlify.app/")
             self.driver.delete_all_cookies()
             self.driver.get("https://x.com")
             random_delay()
