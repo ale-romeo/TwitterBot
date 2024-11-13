@@ -46,10 +46,9 @@ def get_random_emojis():
     return random.choices(emojis, k=random.randint(1, 3))
 
 def get_random_picture():
-    prefix = r"/home/user/Documents/TwitterBot/img/"
+    dir_ = r"/home/user/Documents/TwitterBot/img/"
     # Pool of pictures to upload as comments
-    pictures = load_json("conf/pictures.json")
-    return prefix + random.choice(pictures)
+    return random.choice(os.listdir(dir_))
 
 accounts = load_json("conf/accounts.json")
 
