@@ -432,7 +432,11 @@ class xActions():
 class tgActions():
     def __init__(self):
         try:
-            self.application = Application.builder().token('7845049094:AAHTfvuka55LWrGGtp-lI5t_Kx_L3GAlhzk').build()
+            # Get the token from the environment variable
+            token = os.getenv('TEL_BOT_TOKEN')
+            if not token:
+                raise ValueError("No token provided")
+            self.application = Application.builder().token(token).build()
 
             # Register command and message handlers
             self.application.add_handler(CommandHandler('post', self.post))
