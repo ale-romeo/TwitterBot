@@ -359,6 +359,8 @@ class xActions():
                     return False
 
         except:
+            # Reload the page if the login fails
+            self.driver.get("https://x.com")
             return False
         
     def post_tweet(self, message, picture):
@@ -426,7 +428,9 @@ class xActions():
                 except:
                     return False
 
-        except Exception as e:
+        except:
+            # Reload the page if the tweet isn't found
+            self.driver.get("https://x.com")
             return False
 
     def like(self):
@@ -583,26 +587,31 @@ class xActions():
             return False
 
     def interact(self, account, tweet_url):
-        email = account['email']
-        username = account['username']
-        password = account['password']
-        
-        # Delete all cookies to ensure a fresh start
-        self.driver.delete_all_cookies()
-        self.driver.get("https://x.com")
-        random_delay()
-        if not self.load_cookies(username):
-            if not self.login(email, username, password):
+        try:
+            email = account['email']
+            username = account['username']
+            password = account['password']
+
+            # Delete all cookies to ensure a clean session
+            self.driver.delete_all_cookies()
+            self.driver.get("https://x.com")
+            random_delay()
+            if not self.load_cookies(username):
+                if not self.login(email, username, password):
+                    trace_account_status(account, False)
+                    return False
+            
+            # Check if there are some issues with the account
+            if not self.get_tweet(tweet_url) or not self.like() or not self.repost() or not self.comment(get_random_message()) or not self.bookmark():
                 trace_account_status(account, False)
                 return False
-        
-        # Check if there are some issues with the account
-        if not self.get_tweet(tweet_url) or not self.like() or not self.repost() or not self.comment(get_random_message()) or not self.bookmark():
-            trace_account_status(account, False)
+            
+            trace_account_status(account, True)
+            return True
+        except:
+            # Reload the page if the interaction fails
+            self.driver.get("https://x.com")
             return False
-        
-        trace_account_status(account, True)
-        return True
 
     def restart(self):
         self.driver.delete_all_cookies()
