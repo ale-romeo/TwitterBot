@@ -400,6 +400,7 @@ class xActions():
             self.driver.delete_all_cookies()
 
             random_delay()
+            self.driver.get("https://x.com")
             self.driver.refresh()
             if self.load_cookies(username):
                 if not self.verify_login(username, 'https://x.com/aleromeo0/status/1854263974294118642'):  # Check if cookies are valid
@@ -439,6 +440,7 @@ class xActions():
             self.driver.delete_all_cookies()
 
             random_delay()
+            self.driver.get("https://x.com")
             self.driver.refresh()
             if self.load_cookies(username):
                 if not self.verify_login(username, tweet_url=tweet_url):  # Check if cookies are valid
