@@ -379,13 +379,24 @@ class xActions():
         # Delete all cookies to ensure a fresh start
         self.driver.get("https://rmooreblog.netlify.app/")
         self.driver.delete_all_cookies()
+
+        random_delay()
         self.driver.get("https://x.com")
-        if not self.load_cookies(username):
-            if not self.verify_login(account):
-                if not self.login(email, username, password):
+        if self.load_cookies(username):
+            if not self.verify_login():  # Check if cookies are valid
+                print(f"Cookies expired for {username}. Logging in manually.")
+                self.driver.delete_all_cookies()  # Clear cookies if invalid
+                if not self.login(email, username, password):  # Attempt login
                     trace_account_status(account, False)
                     return False
-        
+                self.save_cookies(username)  # Update cookies after login
+        else:
+            # Perform login if no cookies are found
+            if not self.login(email, username, password):
+                trace_account_status(account, False)
+                return False
+            self.save_cookies(username)
+
         random_delay()
         if not self.post_tweet(message, picture):
             logging.error(f"Failed to post tweet for {username}")
@@ -403,13 +414,24 @@ class xActions():
             # Delete all cookies to ensure a clean session
             self.driver.get("https://rmooreblog.netlify.app/")
             self.driver.delete_all_cookies()
-            self.driver.get("https://x.com")
+            
             random_delay()
-            if not self.load_cookies(username):
+            self.driver.get("https://x.com")
+            if self.load_cookies(username):
+                if not self.verify_login():  # Check if cookies are valid
+                    print(f"Cookies expired for {username}. Logging in manually.")
+                    self.driver.delete_all_cookies()  # Clear cookies if invalid
+                    if not self.login(email, username, password):  # Attempt login
+                        trace_account_status(account, False)
+                        return False
+                    self.save_cookies(username)  # Update cookies after login
+            else:
+                # Perform login if no cookies are found
                 if not self.login(email, username, password):
                     trace_account_status(account, False)
                     return False
-            
+                self.save_cookies(username)
+
             # Check if there are some issues with the account
             if not self.get_tweet(tweet_url) or not self.like() or not self.repost() or not self.comment(get_random_message()) or not self.bookmark():
                 trace_account_status(account, False)
