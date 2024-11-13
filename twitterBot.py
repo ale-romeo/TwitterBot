@@ -398,7 +398,7 @@ class xActions():
         random_delay()
         self.driver.get("https://x.com")
         if self.load_cookies(username):
-            if not self.verify_login(username):  # Check if cookies are valid
+            if not self.verify_login(username, 'https://x.com/aleromeo0/status/1854263974294118642'):  # Check if cookies are valid
                 print(f"Cookies expired for {username}. Logging in manually.")
                 self.driver.delete_all_cookies()  # Clear cookies if invalid
                 if not self.login(email, username, password):  # Attempt login
@@ -433,7 +433,7 @@ class xActions():
             random_delay()
             self.driver.get("https://x.com")
             if self.load_cookies(username):
-                if not self.verify_login(username):  # Check if cookies are valid
+                if not self.verify_login(username, tweet_url=tweet_url):  # Check if cookies are valid
                     print(f"Cookies expired for {username}. Logging in manually.")
                     self.driver.delete_all_cookies()  # Clear cookies if invalid
                     if not self.login(email, username, password):  # Attempt login
