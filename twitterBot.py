@@ -129,9 +129,22 @@ class xActions():
             random_delay()
 
             try:
-                username_box = WebDriverWait(self.driver, 10).until(
-                    EC.presence_of_element_located((By.NAME, "text"))
-                )
+                try:
+                    username_box = WebDriverWait(self.driver, 10).until(
+                        EC.presence_of_element_located((By.NAME, "text"))
+                    )
+                except:
+                    password_box = WebDriverWait(self.driver, 10).until(
+                        EC.presence_of_element_located((By.NAME, "password"))
+                    )
+                    password_box.send_keys(password)
+                    button = WebDriverWait(self.driver, 10).until(
+                        EC.element_to_be_clickable((By.XPATH, "//span[contains(text(), 'Log in')]"))
+                    )
+                    button.click()
+                    random_delay()
+                    self.save_cookies(username)
+                    return True
             except:
                 # Manually authenticate if the account is not recognized
                 time.sleep(30)
