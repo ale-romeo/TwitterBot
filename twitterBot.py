@@ -94,6 +94,7 @@ class xActions():
         
         self.driver = uc.Chrome(options=options)
         self.driver.set_window_size(800, 800)
+        self.driver.set_page_load_timeout(10)
         
     def save_cookies(self, username):
         """Save cookies for a specific account."""
@@ -187,12 +188,12 @@ class xActions():
             # Check if the login was successful
             try:
                 WebDriverWait(self.driver, 10).until(
-                    EC.presence_of_element_located((By.CSS_SELECTOR, "[data-testid='UserAvatar-Container-"+ username +"']"))
+                    EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="login"]'))
                 )
-                return True
-            except:
                 logging.error(f"Failed to load cookies for {username}")
                 return False
+            except:
+                return True
         except:
             return False
 
@@ -237,9 +238,11 @@ class xActions():
                 except:
                     return False
 
-        except:
+        except TimeoutError:
             # Reload the page if the tweet isn't found
-            self.driver.get("https://x.com")
+            self.get_tweet(tweet_url)
+
+        except:
             return False
 
     def like(self):
@@ -387,38 +390,43 @@ class xActions():
             return False
         
     def post(self, account, message, picture):
-        email = account['email']
-        username = account['username']
-        password = account['password']
+        try:
+            email = account['email']
+            username = account['username']
+            password = account['password']
 
-        # Delete all cookies to ensure a fresh start
-        self.driver.get("https://rmooreblog.netlify.app/")
-        self.driver.delete_all_cookies()
+            # Delete all cookies to ensure a fresh start
+            random_delay()
+            self.driver.delete_all_cookies()
 
-        random_delay()
-        self.driver.get("https://x.com")
-        if self.load_cookies(username):
-            if not self.verify_login(username, 'https://x.com/aleromeo0/status/1854263974294118642'):  # Check if cookies are valid
-                print(f"Cookies expired for {username}. Logging in manually.")
-                self.driver.delete_all_cookies()  # Clear cookies if invalid
-                if not self.login(email, username, password):  # Attempt login
+            random_delay()
+            self.driver.refresh()
+            if self.load_cookies(username):
+                if not self.verify_login(username, 'https://x.com/aleromeo0/status/1854263974294118642'):  # Check if cookies are valid
+                    print(f"Cookies expired for {username}. Logging in manually.")
+                    self.driver.delete_all_cookies()  # Clear cookies if invalid
+                    if not self.login(email, username, password):  # Attempt login
+                        trace_account_status(account, False)
+                        return False
+                    self.save_cookies(username)  # Update cookies after login
+            else:
+                # Perform login if no cookies are found
+                if not self.login(email, username, password):
                     trace_account_status(account, False)
                     return False
-                self.save_cookies(username)  # Update cookies after login
-        else:
-            # Perform login if no cookies are found
-            if not self.login(email, username, password):
-                trace_account_status(account, False)
-                return False
-            self.save_cookies(username)
+                self.save_cookies(username)
 
-        random_delay()
-        if not self.post_tweet(message, picture):
-            logging.error(f"Failed to post tweet for {username}")
+            random_delay()
+            if not self.post_tweet(message, picture):
+                logging.error(f"Failed to post tweet for {username}")
+                return False
+            
+            logging.info(f"Successfully posted tweet for {username}")
+            return True
+        except:
+            # Reload the page if the post fails
+            self.driver.refresh()
             return False
-        
-        logging.info(f"Successfully posted tweet for {username}")
-        return True
 
     def interact(self, account, tweet_url):
         try:
@@ -427,11 +435,11 @@ class xActions():
             password = account['password']
 
             # Delete all cookies to ensure a clean session
-            self.driver.get("https://rmooreblog.netlify.app/")
+            random_delay()
             self.driver.delete_all_cookies()
 
             random_delay()
-            self.driver.get("https://x.com")
+            self.driver.refresh()
             if self.load_cookies(username):
                 if not self.verify_login(username, tweet_url=tweet_url):  # Check if cookies are valid
                     print(f"Cookies expired for {username}. Logging in manually.")
@@ -456,7 +464,7 @@ class xActions():
             return True
         except:
             # Reload the page if the interaction fails
-            self.driver.get("https://rmooreblog.netlify.app/")
+            self.driver.refresh()
             return False
 
     def restart(self):
