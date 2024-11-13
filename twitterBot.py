@@ -369,6 +369,7 @@ class xActions():
                 EC.element_to_be_clickable((By.CSS_SELECTOR, "[data-testid='tweetButton']"))
             )
             submit_button.click()
+            random_delay()
             return True
         except:
             return False
