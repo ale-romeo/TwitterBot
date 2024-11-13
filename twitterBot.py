@@ -593,6 +593,7 @@ class xActions():
             password = account['password']
 
             # Delete all cookies to ensure a clean session
+            self.driver.get("blank")
             self.driver.delete_all_cookies()
             self.driver.get("https://x.com")
             random_delay()
@@ -610,7 +611,7 @@ class xActions():
             return True
         except:
             # Reload the page if the interaction fails
-            self.driver.get("https://x.com")
+            self.driver.get("blank")
             return False
 
     def restart(self):
