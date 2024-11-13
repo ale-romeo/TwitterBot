@@ -412,6 +412,7 @@ class xActions():
                 trace_account_status(account, False)
                 return False
         
+        random_delay()
         if not self.post_tweet(message, picture):
             trace_account_status(account, False)
             return False
