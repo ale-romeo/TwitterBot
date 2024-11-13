@@ -166,17 +166,17 @@ class xActions():
             self.driver.get("https://x.com")
             return False
         
-    def verify_login(self, account):
+    def verify_login(self, username):
         try:
             random_delay()
             # Check if the login was successful
             try:
                 WebDriverWait(self.driver, 10).until(
-                    EC.presence_of_element_located((By.CSS_SELECTOR, "[data-testid='UserAvatar-Container-"+ account['username'] +"']"))
+                    EC.presence_of_element_located((By.CSS_SELECTOR, "[data-testid='UserAvatar-Container-"+ username +"']"))
                 )
                 return True
             except:
-                logging.error(f"Failed to load cookies for {account['username']}")
+                logging.error(f"Failed to load cookies for {username}")
                 return False
         except:
             return False
@@ -383,7 +383,7 @@ class xActions():
         random_delay()
         self.driver.get("https://x.com")
         if self.load_cookies(username):
-            if not self.verify_login():  # Check if cookies are valid
+            if not self.verify_login(username):  # Check if cookies are valid
                 print(f"Cookies expired for {username}. Logging in manually.")
                 self.driver.delete_all_cookies()  # Clear cookies if invalid
                 if not self.login(email, username, password):  # Attempt login
@@ -414,11 +414,11 @@ class xActions():
             # Delete all cookies to ensure a clean session
             self.driver.get("https://rmooreblog.netlify.app/")
             self.driver.delete_all_cookies()
-            
+
             random_delay()
             self.driver.get("https://x.com")
             if self.load_cookies(username):
-                if not self.verify_login():  # Check if cookies are valid
+                if not self.verify_login(username):  # Check if cookies are valid
                     print(f"Cookies expired for {username}. Logging in manually.")
                     self.driver.delete_all_cookies()  # Clear cookies if invalid
                     if not self.login(email, username, password):  # Attempt login
