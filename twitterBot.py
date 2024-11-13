@@ -179,8 +179,10 @@ class xActions():
             self.driver.get("https://x.com")
             return False
         
-    def verify_login(self, username):
+    def verify_login(self, username, tweet_url):
         try:
+            random_delay()
+            self.driver.get(tweet_url)
             random_delay()
             # Check if the login was successful
             try:
