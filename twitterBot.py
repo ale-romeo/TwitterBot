@@ -309,21 +309,7 @@ class xActions():
             random_delay()
 
             # Check if authentication is required
-            try:
-                if self.driver.find_element(By.NAME, "password"):
-                    # Enter password
-                    textbox = WebDriverWait(self.driver, 10).until(
-                        EC.presence_of_element_located((By.NAME, "password"))
-                    )
-                    textbox.send_keys(password)
-                    button = WebDriverWait(self.driver, 10).until(
-                        EC.element_to_be_clickable((By.XPATH, "//span[contains(text(), 'Log in')]"))
-                    )
-                    button.click()
-                    random_delay()
-                    self.save_cookies(username)
-                    return True
-                
+            try:                
                 username_box = WebDriverWait(self.driver, 10).until(
                     EC.presence_of_element_located((By.NAME, "text"))
                 )
