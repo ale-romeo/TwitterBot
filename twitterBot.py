@@ -41,6 +41,9 @@ def get_random_emojis():
         "Money bag",
         "Gem stone",
         "Small orange diamond",
+        "Crown",
+        "Sparkles",
+        "Clapping hands sign",
     ]
 
     return random.choices(emojis, k=random.randint(1, 3))
