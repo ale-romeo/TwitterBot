@@ -23,10 +23,9 @@ This bot uses **Selenium** to interact with Twitter and perform tasks such as li
    cd twitter-engagement-bot
 2. **Install Dependencies**
    This bot requires Python 3.9 or higher. Install dependencies with:
-
-  ```bash
-  pip install -r requirements.txt
-  ```
+   ```bash
+   pip install -r requirements.txt
+   ```
 3. **Set Environment Variables**
    Set your Telegram API token in an environment variable for secure access:
    ```bash
