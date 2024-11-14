@@ -366,7 +366,7 @@ class xActions():
 
             random_delay()
 
-            submit_button = WebDriverWait(self.driver, 10).until(
+            submit_button = WebDriverWait(self.driver, 20).until(
                 EC.element_to_be_clickable((By.CSS_SELECTOR, "[data-testid='tweetButton']"))
             )
             submit_button.click()
