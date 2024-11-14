@@ -46,7 +46,9 @@ def get_random_emojis():
     return random.choices(emojis, k=random.randint(1, 3))
 
 def get_random_picture():
-    return random.choice(os.listdir('img/'))
+    user = os.getenv('USER')
+    prefix = "/home/" + user + "/Documents/TwitterBot/img/"
+    return prefix + random.choice(os.listdir('img/'))
 
 accounts = load_json("conf/accounts.json")
 
