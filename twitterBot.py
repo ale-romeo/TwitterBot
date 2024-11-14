@@ -212,10 +212,11 @@ class xActions():
             self.send_picture(picture)
             random_delay()
 
-            submit_button = WebDriverWait(self.driver, 10).until(
+            submit_button = WebDriverWait(self.driver, 20).until(
                 EC.element_to_be_clickable((By.CSS_SELECTOR, "[data-testid='tweetButtonInline']"))
             )
             submit_button.click()
+            random_delay()
             return True
         except:
             return False
