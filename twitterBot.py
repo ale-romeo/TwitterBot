@@ -419,6 +419,7 @@ class xActions():
                     return False
                 self.save_cookies(username)
 
+            self.driver.get("https://x.com")
             random_delay()
             if not self.post_tweet(message, picture):
                 logging.error(f"Failed to post tweet for {username}")
