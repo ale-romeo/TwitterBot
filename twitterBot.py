@@ -507,21 +507,25 @@ class tgActions():
         return None
 
     async def monitor_group_messages(self, update, context: ContextTypes.DEFAULT_TYPE):
-        chat_type = update.effective_chat.type
-        """Monitor group messages for Twitter links."""
-        message_text = update.message.text
-        twitter_link = self.extract_twitter_link(message_text)
+        try:
+            chat_type = update.effective_chat.type
+            """Monitor group messages for Twitter links."""
+            message_text = update.message.text
+            twitter_link = self.extract_twitter_link(message_text)
 
-        if twitter_link and not check_interacted_tweet(twitter_link):
-            await update.message.reply_text(f"ZHOA ARMY!! IT'S TIME TO SHINE 🔥🔥\n{twitter_link}")
-            # Optionally, trigger the raid or interaction logic here
-            result = self.raid(tweet_url=twitter_link)
-            save_interacted_tweet(twitter_link)
-            if chat_type == 'private':
-                if result:
-                    await update.message.reply_text("Raid successful!")
-                else:
-                    await update.message.reply_text("Raid failed. Please check the logs for more information.")
+            if twitter_link and not check_interacted_tweet(twitter_link):
+                await update.message.reply_text(f"ZHOA ARMY!! IT'S TIME TO SHINE 🔥🔥\n{twitter_link}")
+                # Optionally, trigger the raid or interaction logic here
+                result = self.raid(tweet_url=twitter_link)
+                save_interacted_tweet(twitter_link)
+                if chat_type == 'private':
+                    if result:
+                        await update.message.reply_text("Raid successful!")
+                    else:
+                        await update.message.reply_text("Raid failed. Please check the logs for more information.")
+        except Exception as e:
+            # Manage group message errors in order to keep the bot running
+            logging.error(f"Error processing group message: {e}")
 
     def raid(self, tweet_url):
         raid_success = True
