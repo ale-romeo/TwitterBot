@@ -1,4 +1,4 @@
 test.py
 bot.log
 interacted_tweets.txt
-conf/
+conf/accounts.json
