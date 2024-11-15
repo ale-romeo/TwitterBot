@@ -215,7 +215,7 @@ class xActions():
             submit_button = WebDriverWait(self.driver, 20).until(
                 EC.element_to_be_clickable((By.CSS_SELECTOR, "[data-testid='tweetButtonInline']"))
             )
-            submit_button.click()
+            self.driver.execute_script("arguments[0].click();", submit_button)
             random_delay()
             return True
         except:
@@ -371,7 +371,7 @@ class xActions():
             submit_button = WebDriverWait(self.driver, 20).until(
                 EC.element_to_be_clickable((By.CSS_SELECTOR, "[data-testid='tweetButton']"))
             )
-            submit_button.click()
+            self.driver.execute_script("arguments[0].click();", submit_button)
             random_delay()
             return True
         except:
