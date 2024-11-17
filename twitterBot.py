@@ -103,7 +103,6 @@ class xActions():
         cookies = self.driver.get_cookies()
         with open(f"cookies/{username}_cookies.pkl", "wb") as file:
             pickle.dump(cookies, file)
-        logging.info(f"Saved cookies for {username}")
 
     def load_cookies(self, username):
         """Load cookies for a specific account."""
@@ -112,7 +111,6 @@ class xActions():
                 cookies = pickle.load(file)
             for cookie in cookies:
                 self.driver.add_cookie(cookie)
-            logging.info(f"Loaded cookies for {username}")
             return True
         return False
     
@@ -495,8 +493,7 @@ class tgActions():
             self.application.add_handler(CommandHandler('logs', self.logs))
             self.application.add_handler(MessageHandler(filters.TEXT, self.monitor_group_messages))
             logging.info("Telegram bot initialized")
-        except Exception as e:
-            print(e)
+        except:
             logging.error("Failed to initialize Telegram bot")
 
     def extract_twitter_link(self, text):
@@ -514,7 +511,8 @@ class tgActions():
             twitter_link = self.extract_twitter_link(message_text)
 
             if twitter_link and not check_interacted_tweet(twitter_link):
-                await update.message.reply_text(f"ZHOA ARMY!! IT'S TIME TO SHINE 🔥🔥\n{twitter_link}")
+                # Send a gif attached to the message
+                await update.message.reply_animation(animation='img/push.gif', caption=f"ZHOA ARMY!! IT'S TIME TO SHINE 🔥🔥\n{twitter_link}")
                 # Optionally, trigger the raid or interaction logic here
                 result = self.raid(tweet_url=twitter_link)
                 save_interacted_tweet(twitter_link)
