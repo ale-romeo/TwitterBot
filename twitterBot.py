@@ -114,7 +114,7 @@ class xActions():
             return True
         return False
     
-    def login(self, email, username, password):
+    def login(self, email, username, password, retries=3):
         try:        
             self.driver.get("https://x.com/i/flow/login")
             random_delay()
@@ -175,12 +175,17 @@ class xActions():
             self.save_cookies(username)
             return True
 
+        except TimeoutError:
+            # Retry the login if it fails
+            if retries > 0:
+                self.login(email, username, password, retries - 1)
+        
         except:
             # Reload the page if the login fails
             self.driver.get("https://x.com")
             return False
         
-    def verify_login(self, username, tweet_url):
+    def verify_login(self, username, tweet_url, retries=3):
         try:
             random_delay()
             self.driver.get(tweet_url)
@@ -194,6 +199,10 @@ class xActions():
                 return False
             except:
                 return True
+        except TimeoutError:
+            # Reload the page if the login verification fails
+            if retries > 0:
+                self.verify_login(username, tweet_url, retries - 1)
         except:
             return False
 
@@ -219,7 +228,7 @@ class xActions():
         except:
             return False
 
-    def get_tweet(self, tweet_url):
+    def get_tweet(self, tweet_url, retries=3):
         try:
             self.driver.get(tweet_url)
             random_delay()
@@ -240,8 +249,9 @@ class xActions():
                     return False
 
         except TimeoutError:
-            # Reload the page if the tweet isn't found
-            self.get_tweet(tweet_url)
+            # Retry the tweet retrieval if it fails
+            if retries > 0:
+                self.get_tweet(tweet_url, retries - 1)
 
         except:
             return False
@@ -391,7 +401,7 @@ class xActions():
         except:
             return False
         
-    def post(self, account, message, picture):
+    def post(self, account, message, picture, retries=3):
         try:
             email = account['email']
             username = account['username']
@@ -427,12 +437,17 @@ class xActions():
             
             logging.info(f"Successfully posted tweet for {username}")
             return True
+        
+        except TimeoutError:
+            # Retry the post if verify_login fails
+            if retries > 0:
+                self.post(account, message, picture, retries - 1)
         except:
             # Reload the page if the post fails
             self.driver.refresh()
             return False
 
-    def interact(self, account, tweet_url):
+    def interact(self, account, tweet_url, retries=3):
         try:
             email = account['email']
             username = account['username']
@@ -467,6 +482,11 @@ class xActions():
             
             trace_account_status(account, True)
             return True
+        
+        except TimeoutError:
+            # Retry the interaction if verify_login fails
+            if retries > 0:
+                self.interact(account, tweet_url, retries - 1)
         except:
             # Reload the page if the interaction fails
             self.driver.refresh()
