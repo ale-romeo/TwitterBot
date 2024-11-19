@@ -7,6 +7,7 @@ MESSAGE_PATH = f"/home/{user}/Documents/TwitterBot/code/config/messages.json"
 POST_PATH = f"/home/{user}/Documents/TwitterBot/code/config/posts.json"
 LOG_PATH = f"/home/{user}/Documents/TwitterBot/logs/automation.log"
 ACCOUNTS_PATH = f"/home/{user}/Documents/TwitterBot/code/config/accounts.json"
+QUARANTINE_PATH = f"/home/{user}/Documents/TwitterBot/code/config/quarantine.json"
 TWEETS_PATH = f"/home/{user}/Documents/TwitterBot/code/config/tweets.json"
 
 API_KEY = "aac405691061c7841c55612ed7477606"
