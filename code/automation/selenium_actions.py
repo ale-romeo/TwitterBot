@@ -86,15 +86,28 @@ class SeleniumActions():
 
         except:
             try:
-                if self.driver.find_element(By.CSS_SELECTOR, "input[type='submit']") or self.driver.find_element(By.CSS_SELECTOR, "button[contains(text(), 'email')]") or self.driver.find_element(By.XPATH, "//a[contains(text(), 'Try again')]"):
-                    log_error(f"AUTH REQUIRED - {username}")
-                    quarantine_op = move_account_to_quarantine(username)
-                    if not quarantine_op:
-                        log_error(f"NOT FOUND - {username}")
-                    short_random_delay()
-                    return False
+                WebDriverWait(self.driver, 10).until(
+                    EC.presence_of_element_located((By.CSS_SELECTOR, "input[type='submit']"))
+                )
             except:
-                return False
+                try:
+                    WebDriverWait(self.driver, 10).until(
+                        EC.presence_of_element_located((By.CSS_SELECTOR, "button[contains(text(), 'email')]"))
+                    )
+                except:
+                    try:
+                        WebDriverWait(self.driver, 10).until(
+                            EC.presence_of_element_located((By.XPATH, "//a[contains(text(), 'Try again')]"))
+                        )
+                    except:
+                        return False
+            
+            log_error(f"AUTH REQUIRED - {username}")
+            quarantine_op = move_account_to_quarantine(username)
+            if not quarantine_op:
+                log_error(f"NOT FOUND - {username}")
+            short_random_delay()
+            return False
         
     def verify_login(self, username, tweet_url):
         try:
