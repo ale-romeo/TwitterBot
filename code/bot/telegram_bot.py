@@ -3,7 +3,7 @@ from automation.selenium_actions import SeleniumActions
 from utils.file_handler import get_random_post_text, get_random_picture, get_raid_picture, get_accounts, save_interacted_tweet, check_interacted_tweet, erase_logs, get_logs, get_quarantined_accounts, move_account_to_active
 import random
 from utils.logging_handler import log_error
-from utils.helpers import extract_twitter_link
+from utils.helpers import extract_tweet_link
 
 class TelegramBot:
     def __init__(self, token):
@@ -20,7 +20,7 @@ class TelegramBot:
             if not update.message.text:
                 return
             message_text = update.message.text
-            twitter_link = extract_twitter_link(message_text)
+            twitter_link = extract_tweet_link(message_text)
 
             if twitter_link and not check_interacted_tweet(twitter_link):
                 await update.message.reply_animation(animation=get_raid_picture(), caption=f"ZHOA ARMY!! IT'S TIME TO SHINE 🔥🔥\n{twitter_link}")
