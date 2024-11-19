@@ -76,7 +76,7 @@ class TelegramBot:
             if not quarantined_accounts:
                 await update.message.reply_text('No accounts in quarantine.')
                 return
-            usernames = ', '.join(quarantined_accounts.keys())
+            usernames = ', '.join([account['username'] for account in quarantined_accounts])
             await update.message.reply_text(usernames)
 
     async def move_account_to_active(self, update, context):

@@ -6,7 +6,7 @@ logging.basicConfig(level=logging.INFO, filename=LOG_PATH, filemode='a',
 
 class NoHttpRequestsFilter(logging.Filter):
     def filter(self, record):
-        return not ("HTTP Request" in record.getMessage() and "api.telegram.org" in record.getMessage())
+        return not ("HTTP Request" in record.getMessage() and "api.telegram.org" in record.getMessage() and "patching" in record.getMessage())
 
 for handler in logging.getLogger().handlers:
     handler.addFilter(NoHttpRequestsFilter())
