@@ -78,6 +78,10 @@ class SeleniumActions():
             random_delay()
             save_cookies(username)
             return True
+
+        except TimeoutError:
+            if retries > 0:
+                self.login(email, username, password, retries - 1)
         
         except:
             try:
@@ -380,10 +384,6 @@ class SeleniumActions():
             log_info(f"Successfully posted tweet for {username}")
             return True
         
-        except TimeoutError:
-            # Retry the post if verify_login fails
-            if retries > 0:
-                self.post(account, message, picture, retries - 1)
         except Exception as e:
             log_error(f"Error posting tweet: {e}")
             return False
