@@ -78,10 +78,6 @@ class SeleniumActions():
             random_delay()
             save_cookies(username)
             return True
-
-        except TimeoutError:
-            if retries > 0:
-                self.login(email, username, password, retries - 1)
         
         except:
             try:
