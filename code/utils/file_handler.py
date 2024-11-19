@@ -69,20 +69,62 @@ def move_account_to_quarantine(username):
         json.dump(account, file)
     return True
 
+def move_account_to_quarantine(username):
+    active_accounts = load_json(ACCOUNTS_PATH)
+
+    account_to_move = None
+    for account in active_accounts:
+        if account['username'] == username:
+            account_to_move = account
+            break
+
+    if not account_to_move:
+        # Account not found in active accounts
+        return False
+    
+    active_accounts.remove(account_to_move)
+    with open(ACCOUNTS_PATH, "w") as file:
+        json.dump(active_accounts, file, indent=4)
+
+    # Load quarantined accounts and add the account
+    quarantine_accounts = load_json(QUARANTINE_PATH)
+    quarantine_accounts.append(account_to_move)
+
+    # Save the updated quarantined accounts
+    with open(QUARANTINE_PATH, "w") as file:
+        json.dump(quarantine_accounts, file, indent=4)
+        
+    return True
+
 def get_quarantined_accounts():
     accounts = load_json(QUARANTINE_PATH)
     return accounts
 
 def move_account_to_active(username):
-    accounts = load_json(QUARANTINE_PATH)
-    # Check if account exists (usernames of accounts are account['username'])
-    if not any(account['username'] == username for account in accounts):
+    quarantine_accounts = load_json(QUARANTINE_PATH)
+
+    account_to_move = None
+    for account in quarantine_accounts:
+        if account['username'] == username:
+            account_to_move = account
+            break
+
+    if not account_to_move:
+        # Account not found in quarantine
         return False
-    account = accounts.pop(username)
+    
+    quarantine_accounts.remove(account_to_move)
     with open(QUARANTINE_PATH, "w") as file:
-        json.dump(accounts, file)
-    with open(ACCOUNTS_PATH, "a") as file:
-        json.dump(account, file)
+        json.dump(quarantine_accounts, file, indent=4)
+
+    # Load active accounts and add the account
+    active_accounts = load_json(ACCOUNTS_PATH)
+    active_accounts.append(account_to_move)
+
+    # Save the updated active accounts
+    with open(ACCOUNTS_PATH, "w") as file:
+        json.dump(active_accounts, file, indent=4)
+
     return True
 
 def get_logs():
