@@ -76,6 +76,7 @@ class SeleniumActions():
             button.click()
             random_delay()
             save_cookies(username)
+            print(f"Successfully logged in as {username}")
             return True
 
         except:

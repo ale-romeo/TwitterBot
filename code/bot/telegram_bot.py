@@ -56,7 +56,7 @@ class TelegramBot:
         sel_actions = SeleniumActions()
         accounts = get_accounts()
         for account in accounts:
-            sel_actions.raid(account, tweet_url)
+            sel_actions.interact(account, tweet_url)
             sel_actions.restart()
         sel_actions.teardown()
 
