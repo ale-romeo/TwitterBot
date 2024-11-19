@@ -1,7 +1,7 @@
 import logging
-from config.settings import LOGGING_FILE_PATH
+from config.settings import LOG_PATH
 
-logging.basicConfig(level=logging.INFO, filename=LOGGING_FILE_PATH, filemode='a',
+logging.basicConfig(level=logging.INFO, filename=LOG_PATH, filemode='a',
                     format='%(message)s')
 
 class NoHttpRequestsFilter(logging.Filter):
