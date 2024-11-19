@@ -79,10 +79,6 @@ class SeleniumActions():
             save_cookies(username)
             return True
 
-        except TimeoutError:
-            if retries > 0:
-                self.login(email, username, password, retries - 1)
-        
         except:
             try:
                 if self.driver.find_element(By.CSS_SELECTOR, "button[value='Start']") or self.driver.find_element(By.CSS_SELECTOR, "button[value='Send email']"):
