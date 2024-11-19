@@ -349,7 +349,7 @@ class SeleniumActions():
 
             short_random_delay()
             self.driver.get("https://x.com")
-            if load_cookies(username) is not None:  # Load cookies if available
+            if load_cookies(username):  # Load cookies if available
                 if not self.verify_login(username, 'https://x.com/aleromeo0/status/1854263974294118642'):  # Check if cookies are valid
                     print(f"Cookies expired for {username}. Logging in manually.")
                     self.restart()  # Clear cookies if invalid

@@ -30,7 +30,7 @@ def load_cookies(username):
     if os.path.exists(COOKIES_PATH + f"{username}_cookies.pkl"):
         with open(COOKIES_PATH + f"{username}_cookies.pkl", "rb") as file:
             return pickle.load(file)
-    return None
+    return False
 
 def get_random_emojis():
     emojis = [

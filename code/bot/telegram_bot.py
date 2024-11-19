@@ -13,6 +13,8 @@ class TelegramBot:
     def setup_handlers(self):
         self.application.add_handler(CommandHandler("post", self.post))
         self.application.add_handler(CommandHandler("logs", self.logs))
+        self.application.add_handler(CommandHandler("quarantined", self.get_quarantined_accounts))
+        self.application.add_handler(CommandHandler("move", self.move_account_to_active))
         self.application.add_handler(MessageHandler(filters.TEXT, self.monitor_group_messages))
 
     async def monitor_group_messages(self, update, context):
@@ -47,8 +49,7 @@ class TelegramBot:
             if post_success:
                 await update.message.reply_text('Tweet posted successfully!')
             else:
-                await update.message.reply_text('Failed to post the tweet.')
-                await update.message.reply_text('Please check the logs for more details.')
+                await update.message.reply_text('Failed to post the tweet.\nPlease check the logs for more details.')
 
     async def raid(self, tweet_url):
         erase_logs()
