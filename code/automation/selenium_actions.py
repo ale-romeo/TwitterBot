@@ -26,7 +26,7 @@ class SeleniumActions():
         
         self.driver = uc.Chrome(options=options)
         self.driver.set_window_size(800, 800)
-        self.driver.set_page_load_timeout(10)
+        self.driver.set_page_load_timeout(20)
     
     def login(self, email, username, password, retries=3):
         try:        
@@ -355,10 +355,10 @@ class SeleniumActions():
             password = account['password']
 
             # Delete all cookies to ensure a fresh start
-            random_delay()
+            short_random_delay()
             self.restart()
 
-            random_delay()
+            short_random_delay()
             self.driver.get("https://x.com")
             if self.load_cookies(username):
                 if not self.verify_login(username, 'https://x.com/aleromeo0/status/1854263974294118642'):  # Check if cookies are valid
