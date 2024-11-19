@@ -52,13 +52,16 @@ class TelegramBot:
                 await update.message.reply_text('Failed to post the tweet.\nPlease check the logs for more details.')
 
     def raid(self, tweet_url):
+        raid_result = True
         erase_logs()
         sel_actions = SeleniumActions()
         accounts = get_accounts()
         for account in accounts:
-            sel_actions.interact(account, tweet_url)
+            interaction_result = sel_actions.interact(account, tweet_url)
             sel_actions.restart()
+            raid_result = raid_result and interaction_result
         sel_actions.teardown()
+        return raid_result
 
     async def logs(self, update, context):
         chat_type = update.effective_chat.type

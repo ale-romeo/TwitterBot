@@ -418,6 +418,9 @@ class SeleniumActions():
             # Retry the interaction if it fails
             if retries > 0:
                 self.interact(account, tweet_url, retries - 1)
+            else:
+                trace_account_status(account, False)
+                return False
 
         except:
             trace_account_status(account, False)
