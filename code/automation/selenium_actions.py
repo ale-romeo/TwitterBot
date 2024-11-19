@@ -28,7 +28,7 @@ class SeleniumActions():
         self.driver.set_window_size(800, 800)
         self.driver.set_page_load_timeout(30)
 
-    def login(self, email, username, password, retries=1):
+    def login(self, email, username, password):
         try:        
             self.driver.get("https://x.com/i/flow/login")
             random_delay()
@@ -78,11 +78,6 @@ class SeleniumActions():
             random_delay()
             save_cookies(username, self.driver.get_cookies())
             return True
-
-        except TimeoutError:
-            # Retry the login if it fails
-            if retries > 0:
-                self.login(email, username, password, retries - 1)
 
         except:
             print("AUTH REQUIRED")
