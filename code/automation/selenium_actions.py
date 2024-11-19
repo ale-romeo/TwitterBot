@@ -26,7 +26,6 @@ class SeleniumActions():
         
         self.driver = uc.Chrome(options=options)
         self.driver.set_window_size(800, 800)
-        self.driver.set_page_load_timeout(20)
     
     def login(self, email, username, password, retries=1):
         try:        
@@ -78,10 +77,6 @@ class SeleniumActions():
             random_delay()
             save_cookies(username)
             return True
-        
-        except TimeoutError:
-            if retries > 0:
-                return self.login(email, username, password, retries-1)
 
         except:
             try:
@@ -373,10 +368,6 @@ class SeleniumActions():
             
             log_info(f"Successfully posted tweet for {username}")
             return True
-        
-        except TimeoutError:
-            if retries > 0:
-                return self.post(account, message, picture, retries-1)
 
         except Exception as e:
             log_error(f"Error posting tweet: {e}")
@@ -415,10 +406,6 @@ class SeleniumActions():
             
             trace_account_status(account, True)
             return True
-        
-        except TimeoutError:
-            if retries > 0:
-                return self.interact(account, tweet_url, retries-1)
         
         except:
             trace_account_status(account, False)
