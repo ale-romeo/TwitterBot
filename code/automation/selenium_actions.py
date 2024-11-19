@@ -86,7 +86,7 @@ class SeleniumActions():
 
         except:
             try:
-                if self.driver.find_element(By.CSS_SELECTOR, "button[value='Start']") or self.driver.find_element(By.CSS_SELECTOR, "button[value='Send email']"):
+                if self.driver.find_element(By.XPATH, "//a[contains(text(), 'Start')]") or self.driver.find_element(By.XPATH, "//a[contains(text(), 'email')]") or self.driver.find_element(By.XPATH, "//a[contains(text(), 'Try again')]"):
                     log_error(f"AUTH REQUIRED - {username}")
                     move_account_to_quarantine(username)
                     short_random_delay()
