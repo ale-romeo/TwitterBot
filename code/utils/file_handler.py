@@ -12,7 +12,7 @@ def save_interacted_tweet(tweet_url):
     tweets = load_json(TWEETS_PATH)
     tweets.append(tweet_url)
     with open(TWEETS_PATH, "w") as file:
-        json.dump(tweets, file)
+        json.dump(tweets, file, indent=4)
     
 def check_interacted_tweet(tweet_url):
     tweets = load_json(TWEETS_PATH)
@@ -56,18 +56,6 @@ def get_random_post_text():
 def get_accounts():
     accounts = load_json(ACCOUNTS_PATH)
     return accounts
-
-def move_account_to_quarantine(username):
-    accounts = load_json(ACCOUNTS_PATH)
-    # Check if account exists
-    if not any(account['username'] == username for account in accounts):
-        return False
-    account = accounts.pop(username)
-    with open(ACCOUNTS_PATH, "w") as file:
-        json.dump(accounts, file)
-    with open(QUARANTINE_PATH, "a") as file:
-        json.dump(account, file)
-    return True
 
 def move_account_to_quarantine(username):
     active_accounts = load_json(ACCOUNTS_PATH)
