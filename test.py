@@ -5,11 +5,13 @@ from selenium.webdriver.support import expected_conditions as EC
 import undetected_chromedriver as uc
 import time
 import random
+import re
 
 # Replace these values with your own
 API_KEY = "aac405691061c7841c55612ed7477606"
 TEST_URL = "https://www.x.com/"
-PUBLIC_KEY = "4d9fc2f0-efb9-41a6-9986-586db3d92c3b"  # Arkose Labs demo public key
+PUBLIC_KEY = "2F4F0B28-BC94-4271-8AD7-A51662E3C91C"  # Arkose Labs demo public key
+site_key_pattern = 'public_key: "(.+?)",'  # Regex pattern to extract site key from the page source
 
 account = {
     "username": "HoldMyCoinsBro",
@@ -49,10 +51,12 @@ def solve_funcaptcha(api_key, website_url, website_key):
         return None
     
 def manual_funcaptcha_solver(driver):
+    # Solve FunCaptcha
+    solution_token = solve_funcaptcha(API_KEY, TEST_URL, PUBLIC_KEY)
     # Detect FunCaptcha iframe
     WebDriverWait(driver, 10).until(
         EC.frame_to_be_available_and_switch_to_it(
-            (By.ID, "arkose_iframe")
+            (By.ID, "arkoseFrame")
         )
     )
     # Detect Verification iframe
@@ -61,6 +65,13 @@ def manual_funcaptcha_solver(driver):
             (By.CSS_SELECTOR, "iframe[aria-label='Verification challenge']")
         )
     )
+    # Inject the solution token into the response field
+    response_field = WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.ID, "FunCaptcha-Token"))
+    )
+    print(solution_token)
+    time.sleep(30)
+    driver.execute_script(f"arguments[0].value='{solution_token}';", response_field)
     # Detect Visual iframe
     WebDriverWait(driver, 10).until(
         EC.frame_to_be_available_and_switch_to_it(
@@ -73,19 +84,16 @@ def manual_funcaptcha_solver(driver):
     )
     driver.execute_script("arguments[0].click();", play_button)
     random_delay()
-    # Solve FunCaptcha
-    solution_token = solve_funcaptcha(API_KEY, TEST_URL, PUBLIC_KEY)
+
     if solution_token:
-        # Inject the solution token into the response field
-        response_field = driver.find_element(By.CSS_SELECTOR, "textarea[name='fc-token']")
-        driver.execute_script(f"arguments[0].value='{solution_token}';", response_field)
         # Click the submit button (if required for the form)
         submit_button = WebDriverWait(driver, 10).until(
-            EC.element_to_be_clickable((By.CSS_SELECTOR, "button[type='submit']"))
+            EC.element_to_be_clickable((By.CSS_SELECTOR, "button"))
         )
         driver.execute_script("arguments[0].click();", submit_button)
         print("Captcha solution submitted.")
         random_delay()
+        time.sleep(30)
     else:
         print("Captcha solving failed. No solution token obtained.")
         return False
@@ -161,14 +169,18 @@ def login(driver, email, username, password, retries=3):
             return True
 
         except:
-            # Reload the page if the login fails
-            driver.get("https://x.com")
-            return False
+            # Check if arkose iframe is present
+            if driver.find_elements(By.ID, "arkoseFrame"):
+                print("FunCaptcha detected. Attempting to solve manually...")
+                manual_funcaptcha_solver(driver)
+                return True
+            else:
+                print("Login failed. Please check your credentials and try again.")
+                return False
 
 def main():
     # Initialize Selenium WebDriver with options
     chrome_options = uc.ChromeOptions()
-    chrome_options.add_argument("--mute-audio")  # Mute audio
     chrome_options.add_argument("--disable-extensions")
     chrome_options.add_argument("--disable-gpu")
     chrome_options.add_argument("--no-sandbox")
@@ -188,3 +200,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    

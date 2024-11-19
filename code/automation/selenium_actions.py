@@ -1,0 +1,439 @@
+import random
+import undetected_chromedriver as uc
+from captcha.solver import solve_funcaptcha
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from utils import short_random_delay, random_delay, get_random_emojis, get_random_picture, get_random_message, trace_account_status, load_cookies, save_cookies, log_info, log_error, move_account_to_quarantine
+
+
+class SeleniumActions():
+    def __init__(self):
+        self.tweet = None
+        options = uc.ChromeOptions()
+        #options.add_argument('--headless')
+        options.add_argument('--no-sandbox')
+        options.add_argument('--disable-dev-shm-usage')
+        options.add_argument('--blink-settings=imagesEnabled=false')
+        options.add_argument('--disable-extensions')
+        options.add_argument('--disable-infobars')
+        options.add_argument('--disable-notifications')
+        options.add_argument('--disable-logging')
+
+        
+        self.driver = uc.Chrome(options=options)
+        self.driver.set_window_size(800, 800)
+        self.driver.set_page_load_timeout(10)
+    
+    def login(self, email, username, password, retries=3):
+        try:        
+            self.driver.get("https://x.com/i/flow/login")
+            random_delay()
+
+            textbox = WebDriverWait(self.driver, 10).until(
+                EC.presence_of_element_located((By.NAME, "text"))
+            )
+            textbox.send_keys(email)
+            next_button = WebDriverWait(self.driver, 10).until(
+                EC.element_to_be_clickable((By.XPATH, "//span[contains(text(), 'Next')]"))
+            )
+            next_button.click()
+            short_random_delay()
+
+            try:
+                username_box = WebDriverWait(self.driver, 10).until(
+                    EC.presence_of_element_located((By.NAME, "text"))
+                )
+            except:
+                password_box = WebDriverWait(self.driver, 10).until(
+                    EC.presence_of_element_located((By.NAME, "password"))
+                )
+                password_box.send_keys(password)
+                login_button = WebDriverWait(self.driver, 10).until(
+                    EC.element_to_be_clickable((By.XPATH, "//span[contains(text(), 'Log in')]"))
+                )
+                login_button.click()
+                save_cookies(username)
+                short_random_delay()
+                return True
+                
+            username_box.send_keys(username)
+            next_button = WebDriverWait(self.driver, 10).until(
+                EC.element_to_be_clickable((By.XPATH, "//span[contains(text(), 'Next')]"))
+            )
+            next_button.click()
+            short_random_delay()
+            
+            password_box = WebDriverWait(self.driver, 10).until(
+                EC.presence_of_element_located((By.NAME, "password"))
+            )
+            password_box.send_keys(password)
+            login_button = WebDriverWait(self.driver, 10).until(
+                EC.element_to_be_clickable((By.XPATH, "//span[contains(text(), 'Log in')]"))
+            )
+            login_button.click()
+            random_delay()
+            save_cookies(username)
+            return True
+
+        except TimeoutError:
+            if retries > 0:
+                self.login(email, username, password, retries - 1)
+        
+        except:
+            try:
+                if self.driver.find_element(By.CSS_SELECTOR, "button[value='Start']") or self.driver.find_element(By.CSS_SELECTOR, "button[value='Send email']"):
+                    log_error(f"AUTH REQUIRED - {username}")
+                    move_account_to_quarantine(username)
+                    short_random_delay()
+                    return False
+            except:
+                if retries > 0:
+                    self.login(email, username, password, retries - 1)
+                else:
+                    return False
+        
+    def verify_login(self, username, tweet_url, retries=3):
+        try:
+            short_random_delay()
+            self.driver.get(tweet_url)
+            random_delay()
+            try:
+                WebDriverWait(self.driver, 10).until(
+                    EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="login"]'))
+                )
+                log_error(f"Failed to load cookies for {username}")
+                short_random_delay()
+                return False
+            except:
+                return True
+        except TimeoutError:
+            if retries > 0:
+                self.verify_login(username, tweet_url, retries - 1)
+        except:
+            return False
+
+    def funcaptcha_solver(self):
+        # Solve FunCaptcha
+        solution_token = solve_funcaptcha()
+        # Detect FunCaptcha iframe
+        WebDriverWait(self.driver, 10).until(
+            EC.frame_to_be_available_and_switch_to_it(
+                (By.ID, "arkoseFrame")
+            )
+        )
+        # Detect Verification iframe
+        WebDriverWait(self.driver, 10).until(
+            EC.frame_to_be_available_and_switch_to_it(
+                (By.CSS_SELECTOR, "iframe[aria-label='Verification challenge']")
+            )
+        )
+        # Inject the solution token into the response field
+        response_field = WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located((By.ID, "FunCaptcha-Token"))
+        )
+        self.driver.execute_script(f"arguments[0].value='{solution_token}';", response_field)
+        # Detect Visual iframe
+        WebDriverWait(self.driver, 10).until(
+            EC.frame_to_be_available_and_switch_to_it(
+                (By.CSS_SELECTOR, "iframe[aria-label='Visual challenge']")
+            )
+        )
+        # Detect Play button
+        play_button = WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable((By.CSS_SELECTOR, "button"))
+        )
+        self.driver.execute_script("arguments[0].click();", play_button)
+        random_delay()
+
+        if solution_token:
+            # Click the submit button (if required for the form)
+            submit_button = WebDriverWait(self.driver, 10).until(
+                EC.element_to_be_clickable((By.CSS_SELECTOR, "button"))
+            )
+            self.driver.execute_script("arguments[0].click();", submit_button)
+            print("Captcha solution submitted.")
+            random_delay()
+        else:
+            print("Captcha solving failed. No solution token obtained.")
+            return False
+        return True
+
+    def post_tweet(self, message, picture):
+        try:
+            short_random_delay()
+            tweet_box = WebDriverWait(self.driver, 10).until(
+                EC.presence_of_element_located((By.CSS_SELECTOR, "[data-testid='tweetTextarea_0']"))
+            )
+            tweet_box.send_keys(message)
+            short_random_delay()
+            self.add_emojis(get_random_emojis())
+
+            short_random_delay()
+            self.send_picture(picture)
+            short_random_delay()
+
+            submit_button = WebDriverWait(self.driver, 20).until(
+                EC.element_to_be_clickable((By.CSS_SELECTOR, "[data-testid='tweetButtonInline']"))
+            )
+            self.driver.execute_script("arguments[0].click();", submit_button)
+            random_delay()
+            return True
+        except:
+            return False
+
+    def get_tweet(self, tweet_url, retries=3):
+        try:
+            self.driver.get(tweet_url)
+            random_delay()
+            try:
+                self.tweet = WebDriverWait(self.driver, 10).until(
+                    EC.presence_of_element_located((By.XPATH, "//article[@data-testid='tweet'][@tabindex='-1']"))
+                )
+                short_random_delay()
+                return True
+            except:
+                try:
+                    self.tweet = WebDriverWait(self.driver, 10).until(
+                        EC.presence_of_element_located((By.XPATH, "//article[@data-testid='tweet']"))
+                    )
+                    short_random_delay()
+                    return True
+                except:
+                    return False
+
+        except TimeoutError:
+            if retries > 0:
+                self.get_tweet(tweet_url, retries - 1)
+
+        except:
+            return False
+
+    def like(self):
+        try:
+            try:
+                unlike_button = self.tweet.find_element(By.CSS_SELECTOR, "[data-testid='unlike']")
+                if unlike_button:
+                    short_random_delay()
+                    return True
+            except:
+                like_button = self.tweet.find_element(By.CSS_SELECTOR, "[data-testid='like']")
+                self.driver.execute_script("arguments[0].click();", like_button)
+                short_random_delay()
+            return True
+        except:
+            return False
+
+    def repost(self):
+        try:
+            try:
+                unretweet_button = self.tweet.find_element(By.CSS_SELECTOR, "[data-testid='unretweet']")
+                if unretweet_button:
+                    short_random_delay()
+                    return True
+            except:
+                retweet_button = self.tweet.find_element(By.CSS_SELECTOR, "[data-testid='retweet']")
+                self.driver.execute_script("arguments[0].click();", retweet_button)
+                short_random_delay()
+                confirm_button = WebDriverWait(self.driver, 10).until(
+                    EC.element_to_be_clickable((By.CSS_SELECTOR, "[data-testid='retweetConfirm']"))
+                )
+                self.driver.execute_script("arguments[0].click();", confirm_button)
+                short_random_delay()
+                return True
+        except:
+            return False
+
+    def send_picture(self, picture):
+        try:
+            add_photo_button = WebDriverWait(self.driver, 10).until(
+                EC.presence_of_element_located((By.CSS_SELECTOR, "[data-testid='fileInput']"))
+            )
+            add_photo_button.send_keys(picture)
+            random_delay()
+            return True
+        except:
+            return False
+
+    def add_emojis(self, emojis):
+        try:
+            add_emoji_button = WebDriverWait(self.driver, 10).until(
+                EC.presence_of_element_located((By.CSS_SELECTOR, "[aria-label='Add emoji']"))
+            )
+            self.driver.execute_script("arguments[0].click();", add_emoji_button)
+
+            for emoji in emojis:
+                emoji_search = WebDriverWait(self.driver, 10).until(
+                    EC.presence_of_element_located((By.CSS_SELECTOR, "[aria-label='Search emojis']"))
+                )
+                emoji_search.send_keys(emoji)
+                short_random_delay()
+                
+                emoji_button = WebDriverWait(self.driver, 10).until(
+                    EC.presence_of_element_located((By.CSS_SELECTOR, f"[aria-label='{emoji}']"))
+                )
+                self.driver.execute_script("arguments[0].click();", emoji_button)
+                short_random_delay()
+
+                emoji_clear = WebDriverWait(self.driver, 10).until(
+                    EC.presence_of_element_located((By.CSS_SELECTOR, "[data-testid='clearButton']"))
+                )
+                self.driver.execute_script("arguments[0].click();", emoji_clear)
+                short_random_delay()
+
+            emoji_search.send_keys(Keys.ESCAPE)
+            random_delay()
+            
+            return True
+        except:
+            return False
+
+    def comment(self, message):
+        try:
+            reply_button = self.tweet.find_element(By.CSS_SELECTOR, "[data-testid='reply']")
+            self.driver.execute_script("arguments[0].click();", reply_button)
+            short_random_delay()
+            
+            comment_type = random.choices(['text', 'picture', 'text_picture', 'emojis'], weights=[0.1, 0.05, 0.8, 0.05])[0]
+            if comment_type == 'text':
+                comment_box = WebDriverWait(self.driver, 10).until(
+                    EC.presence_of_element_located((By.CSS_SELECTOR, "[data-testid='tweetTextarea_0']"))
+                )
+                comment_box.send_keys(message)
+                self.add_emojis(get_random_emojis())
+
+            elif comment_type == 'picture':
+                picture = get_random_picture()
+                self.send_picture(picture)
+
+            elif comment_type == 'text_picture':
+                comment_box = WebDriverWait(self.driver, 10).until(
+                    EC.presence_of_element_located((By.CSS_SELECTOR, "[data-testid='tweetTextarea_0']"))
+                )
+                comment_box.send_keys(message)
+                self.add_emojis(get_random_emojis())
+
+                picture = get_random_picture()
+                self.send_picture(picture)
+
+            elif comment_type == 'emojis':
+                self.add_emojis(get_random_emojis())
+
+            submit_button = WebDriverWait(self.driver, 20).until(
+                EC.element_to_be_clickable((By.CSS_SELECTOR, "[data-testid='tweetButton']"))
+            )
+            self.driver.execute_script("arguments[0].click();", submit_button)
+            random_delay()
+
+            return True
+        except:
+            return False
+
+    def bookmark(self):
+        try:
+            random_delay()
+            try:
+                unbookmark_button = self.tweet.find_element(By.CSS_SELECTOR, "[data-testid='unbookmark']")
+                if unbookmark_button:
+                    short_random_delay()
+                    return True
+            except:
+                bookmark_button = self.tweet.find_element(By.CSS_SELECTOR, "[data-testid='bookmark']")
+                self.driver.execute_script("arguments[0].click();", bookmark_button)
+                short_random_delay()
+                return True
+        except:
+            return False
+        
+    def post(self, account, message, picture, retries=3):
+        try:
+            email = account['email']
+            username = account['username']
+            password = account['password']
+
+            # Delete all cookies to ensure a fresh start
+            random_delay()
+            self.restart()
+
+            random_delay()
+            self.driver.get("https://x.com")
+            if self.load_cookies(username):
+                if not self.verify_login(username, 'https://x.com/aleromeo0/status/1854263974294118642'):  # Check if cookies are valid
+                    print(f"Cookies expired for {username}. Logging in manually.")
+                    self.restart()  # Clear cookies if invalid
+                    if not self.login(email, username, password):  # Attempt login
+                        trace_account_status(account, False)
+                        return False
+                    save_cookies(username)  # Update cookies after login
+            else:
+                # Perform login if no cookies are found
+                if not self.login(email, username, password):
+                    trace_account_status(account, False)
+                    return False
+                save_cookies(username)
+
+            self.driver.get("https://x.com/home")
+            random_delay()
+            if not self.post_tweet(message, picture):
+                log_error(f"Failed to post tweet for {username}")
+                return False
+            
+            log_info(f"Successfully posted tweet for {username}")
+            return True
+        
+        except TimeoutError:
+            # Retry the post if verify_login fails
+            if retries > 0:
+                self.post(account, message, picture, retries - 1)
+        except:
+            return False
+
+    def interact(self, account, tweet_url, retries=3):
+        try:
+            email = account['email']
+            username = account['username']
+            password = account['password']
+
+            random_delay()
+            self.restart()
+
+            random_delay()
+            self.driver.get("https://x.com")
+            if load_cookies(username): # Load cookies if available
+                if not self.verify_login(username, tweet_url=tweet_url):  # Check if cookies are valid
+                    print(f"Cookies expired for {username}. Logging in manually.")
+                    self.restart()  # Clear cookies if invalid
+                    if not self.login(email, username, password):  # Attempt login
+                        trace_account_status(account, False)
+                        return False
+                    save_cookies(username)  # Update cookies after login
+            else:
+                # Perform login if no cookies are found
+                if not self.login(email, username, password):
+                    trace_account_status(account, False)
+                    return False
+                save_cookies(username)
+
+            # Check if there are some issues with the account
+            if not self.get_tweet(tweet_url) or not self.like() or not self.repost() or not self.comment(get_random_message()) or not self.bookmark():
+                trace_account_status(account, False)
+                return False
+            
+            trace_account_status(account, True)
+            return True
+        
+        except TimeoutError:
+            # Retry the interaction if verify_login fails
+            if retries > 0:
+                self.interact(account, tweet_url, retries - 1)
+        except:
+            trace_account_status(account, False)
+            return False
+
+    def restart(self):
+        self.driver.delete_all_cookies()
+
+    def teardown(self):
+        self.driver.quit()
+

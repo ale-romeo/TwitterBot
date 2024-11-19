@@ -1,6 +1,14 @@
 import os
 
 user = os.getenv('USER')
-PICTURE_PATH = f"/home/{user}/Documents/TwitterBot/img/"
-MESSAGE_PATH = "conf/messages.json"
-POST_PATH = "conf/posts.json"
+PICTURES_PATH = f"/home/{user}/Documents/TwitterBot/img/"
+COOKIES_PATH = f"/home/{user}/Documents/TwitterBot/code/conf/cookies/"
+MESSAGE_PATH = f"/home/{user}/Documents/TwitterBot/code/config/messages.json"
+POST_PATH = f"/home/{user}/Documents/TwitterBot/code/config/posts.json"
+LOG_PATH = f"/home/{user}/Documents/TwitterBot/logs/automation.log"
+ACCOUNTS_PATH = f"/home/{user}/Documents/TwitterBot/code/config/accounts.json"
+TWEETS_PATH = f"/home/{user}/Documents/TwitterBot/code/config/tweets.json"
+
+API_KEY = "aac405691061c7841c55612ed7477606"
+TWITTER_URL = "https://www.x.com/"
+PUBLIC_KEY = "4d9fc2f0-efb9-41a6-9986-586db3d92c3b"

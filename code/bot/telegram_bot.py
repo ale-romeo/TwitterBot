@@ -1,9 +1,8 @@
 from telegram.ext import Application, CommandHandler, MessageHandler, filters
+from automation.selenium_actions import SeleniumActions
+from utils.file_handler import get_random_post_text, get_random_picture, get_raid_picture, get_accounts, save_interacted_tweet, check_interacted_tweet, erase_logs, get_logs, get_quarantined_accounts, move_account_to_active
 import logging
 import random
-from automation.selenium_actions import SeleniumActions
-from utils.file_handler import load_json, save_interacted_tweet, check_interacted_tweet
-from utils.helpers import get_random_post_text, get_random_picture
 
 class TelegramBot:
     def __init__(self, token):
@@ -17,15 +16,14 @@ class TelegramBot:
 
     async def monitor_group_messages(self, update, context):
         try:
-            chat_type = update.effective_chat.type
             if not update.message.text:
                 return
             message_text = update.message.text
             twitter_link = self.extract_twitter_link(message_text)
 
             if twitter_link and not check_interacted_tweet(twitter_link):
-                await update.message.reply_animation(animation='img/push.gif', caption=f"ZHOA ARMY!! IT'S TIME TO SHINE 🔥🔥\n{twitter_link}")
-                result = self.raid(tweet_url=twitter_link)
+                await update.message.reply_animation(animation=get_raid_picture(), caption=f"ZHOA ARMY!! IT'S TIME TO SHINE 🔥🔥\n{twitter_link}")
+                self.raid(tweet_url=twitter_link)
                 save_interacted_tweet(twitter_link)
         except Exception as e:
             logging.error(f"Error processing group message: {e}")
@@ -42,18 +40,49 @@ class TelegramBot:
             picture = get_random_picture()
 
             xactions = SeleniumActions()
-            account = random.choice(accounts)
+            account = random.choice(get_accounts())
             post_success = xactions.post(account, message, picture)
             xactions.teardown()
             if post_success:
                 await update.message.reply_text('Tweet posted successfully!')
             else:
-                await update.message.reply_text('Failed to post the tweet.\nPlease check the logs for more information.')
+                await update.message.reply_text('Failed to post the tweet.')
+                await update.message.reply_text('Please check the logs for more details.')
 
+    async def raid(self, tweet_url):
+        erase_logs()
+        sel_actions = SeleniumActions()
+        accounts = get_accounts()
+        for account in accounts:
+            sel_actions.raid(account, tweet_url)
+            sel_actions.restart()
+        sel_actions.teardown()
 
     async def logs(self, update, context):
-        # Add logs retrieval logic
-        pass
+        chat_type = update.effective_chat.type
+        if chat_type == 'private':
+            logs = get_logs()
+            await update.message.reply_text(logs)
+
+    async def get_quarantined_accounts(self, update, context):
+        chat_type = update.effective_chat.type
+        if chat_type == 'private':
+            quarantined_accounts = get_quarantined_accounts()
+            if not quarantined_accounts:
+                await update.message.reply_text('No accounts in quarantine.')
+                return
+            usernames = ', '.join(quarantined_accounts.keys())
+            await update.message.reply_text(usernames)
+
+    async def move_account_to_active(self, update, context):
+        chat_type = update.effective_chat.type
+        if chat_type == 'private':
+            username = update.message.text.split(' ')[1]
+            if not username:
+                await update.message.reply_text('No username provided.')
+                return
+            move_account_to_active(username)
+            await update.message.reply_text(f"{username} moved to active accounts.")    
 
     def start(self):
         self.application.run_polling()

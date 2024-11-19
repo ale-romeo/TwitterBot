@@ -1,4 +1,5 @@
 test.py
-bot.log
-interacted_tweets.txt
-conf/accounts.json
+code/config/cookies
+code/config/accounts.json
+code/config/tweets.json
+code/config/logs
