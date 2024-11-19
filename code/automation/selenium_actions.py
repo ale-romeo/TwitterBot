@@ -36,10 +36,10 @@ class SeleniumActions():
                 EC.presence_of_element_located((By.NAME, "text"))
             )
             textbox.send_keys(email)
-            next_button = WebDriverWait(self.driver, 10).until(
+            button = WebDriverWait(self.driver, 10).until(
                 EC.element_to_be_clickable((By.XPATH, "//span[contains(text(), 'Next')]"))
             )
-            next_button.click()
+            button.click()
             short_random_delay()
 
             try:
@@ -51,29 +51,29 @@ class SeleniumActions():
                     EC.presence_of_element_located((By.NAME, "password"))
                 )
                 password_box.send_keys(password)
-                login_button = WebDriverWait(self.driver, 10).until(
+                button = WebDriverWait(self.driver, 10).until(
                     EC.element_to_be_clickable((By.XPATH, "//span[contains(text(), 'Log in')]"))
                 )
-                login_button.click()
+                button.click()
+                random_delay()
                 save_cookies(username)
-                short_random_delay()
                 return True
                 
             username_box.send_keys(username)
-            next_button = WebDriverWait(self.driver, 10).until(
+            button = WebDriverWait(self.driver, 10).until(
                 EC.element_to_be_clickable((By.XPATH, "//span[contains(text(), 'Next')]"))
             )
-            next_button.click()
+            button.click()
             short_random_delay()
             
             password_box = WebDriverWait(self.driver, 10).until(
                 EC.presence_of_element_located((By.NAME, "password"))
             )
             password_box.send_keys(password)
-            login_button = WebDriverWait(self.driver, 10).until(
+            button = WebDriverWait(self.driver, 10).until(
                 EC.element_to_be_clickable((By.XPATH, "//span[contains(text(), 'Log in')]"))
             )
-            login_button.click()
+            button.click()
             random_delay()
             save_cookies(username)
             return True
