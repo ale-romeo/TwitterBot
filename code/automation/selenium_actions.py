@@ -26,7 +26,8 @@ class SeleniumActions():
         
         self.driver = uc.Chrome(options=options)
         self.driver.set_window_size(800, 800)
-    
+        self.driver.set_page_load_timeout(30)
+
     def login(self, email, username, password, retries=1):
         try:        
             self.driver.get("https://x.com/i/flow/login")
@@ -56,7 +57,7 @@ class SeleniumActions():
                 )
                 button.click()
                 random_delay()
-                save_cookies(username)
+                save_cookies(username, self.driver.get_cookies())
                 return True
                 
             username_box.send_keys(username)
@@ -75,9 +76,13 @@ class SeleniumActions():
             )
             button.click()
             random_delay()
-            save_cookies(username)
-            print(f"Successfully logged in as {username}")
+            save_cookies(username, self.driver.get_cookies())
             return True
+
+        except TimeoutError:
+            # Retry the login if it fails
+            if retries > 0:
+                self.login(email, username, password, retries - 1)
 
         except:
             try:
@@ -353,22 +358,25 @@ class SeleniumActions():
                     if not self.login(email, username, password):  # Attempt login
                         trace_account_status(account, False)
                         return False
-                    save_cookies(username)  # Update cookies after login
             else:
                 # Perform login if no cookies are found
                 if not self.login(email, username, password):
                     trace_account_status(account, False)
                     return False
-                save_cookies(username)
 
             self.driver.get("https://x.com/home")
             random_delay()
             if not self.post_tweet(message, picture):
-                log_error(f"Failed to post tweet for {username}")
+                trace_account_status(account, False)
                 return False
             
-            log_info(f"Successfully posted tweet for {username}")
+            trace_account_status(account, True)
             return True
+
+        except TimeoutError:
+            # Retry the post if it fails
+            if retries > 0:
+                self.post(account, message, picture, retries - 1)
 
         except Exception as e:
             log_error(f"Error posting tweet: {e}")
@@ -392,13 +400,11 @@ class SeleniumActions():
                     if not self.login(email, username, password):  # Attempt login
                         trace_account_status(account, False)
                         return False
-                    save_cookies(username)  # Update cookies after login
             else:
                 # Perform login if no cookies are found
                 if not self.login(email, username, password):
                     trace_account_status(account, False)
                     return False
-                save_cookies(username)
 
             # Check if there are some issues with the account
             if not self.get_tweet(tweet_url) or not self.like() or not self.repost() or not self.comment(get_random_message()) or not self.bookmark():
@@ -408,6 +414,11 @@ class SeleniumActions():
             trace_account_status(account, True)
             return True
         
+        except TimeoutError:
+            # Retry the interaction if it fails
+            if retries > 0:
+                self.interact(account, tweet_url, retries - 1)
+
         except:
             trace_account_status(account, False)
             return False
