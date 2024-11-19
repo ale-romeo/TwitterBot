@@ -82,11 +82,14 @@ class TelegramBot:
     async def move_account_to_active(self, update, context):
         chat_type = update.effective_chat.type
         if chat_type == 'private':
-            username = update.message.text.split(' ')[1]
-            if not username:
+            if len(update.message.text.split(' ')) < 2:
                 await update.message.reply_text('No username provided.')
                 return
-            move_account_to_active(username)
+            username = update.message.text.split(' ')[1]
+            operation_result = move_account_to_active(username)
+            if not operation_result:
+                await update.message.reply_text(f"Failed to move {username} to active accounts.")
+                return
             await update.message.reply_text(f"{username} moved to active accounts.")    
 
     def start(self):

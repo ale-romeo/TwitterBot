@@ -88,7 +88,9 @@ class SeleniumActions():
             try:
                 if self.driver.find_element(By.XPATH, "//a[contains(text(), 'Start')]") or self.driver.find_element(By.XPATH, "//a[contains(text(), 'email')]") or self.driver.find_element(By.XPATH, "//a[contains(text(), 'Try again')]"):
                     log_error(f"AUTH REQUIRED - {username}")
-                    move_account_to_quarantine(username)
+                    quarantine_op = move_account_to_quarantine(username)
+                    if not quarantine_op:
+                        log_error(f"NOT FOUND - {username}")
                     short_random_delay()
                     return False
             except:
