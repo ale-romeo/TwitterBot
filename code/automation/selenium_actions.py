@@ -5,9 +5,9 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from utils.logging_handler import trace_account_status
+from utils.logging_handler import trace_account_status, log_info, log_error
 from utils.helpers import short_random_delay, random_delay
-from utils.file_handler import get_random_emojis, get_random_picture, get_random_message, load_cookies, save_cookies, log_info, log_error, move_account_to_quarantine
+from utils.file_handler import get_random_emojis, get_random_picture, get_random_message, load_cookies, save_cookies, move_account_to_quarantine
 
 
 class SeleniumActions():

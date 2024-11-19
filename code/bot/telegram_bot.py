@@ -1,8 +1,8 @@
 from telegram.ext import Application, CommandHandler, MessageHandler, filters
 from automation.selenium_actions import SeleniumActions
 from utils.file_handler import get_random_post_text, get_random_picture, get_raid_picture, get_accounts, save_interacted_tweet, check_interacted_tweet, erase_logs, get_logs, get_quarantined_accounts, move_account_to_active
-import logging
 import random
+from utils.logging_handler import log_error
 
 class TelegramBot:
     def __init__(self, token):
@@ -26,7 +26,7 @@ class TelegramBot:
                 self.raid(tweet_url=twitter_link)
                 save_interacted_tweet(twitter_link)
         except Exception as e:
-            logging.error(f"Error processing group message: {e}")
+            log_error(f"Error processing group message: {e}")
 
     async def post(self, update, context):
         chat_type = update.effective_chat.type
