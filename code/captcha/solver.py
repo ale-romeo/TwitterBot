@@ -1,4 +1,4 @@
-from anticaptcha_funcaptcha import funcaptchaProxyless
+from anticaptchaofficial import funcaptchaProxyless
 from config.settings import API_KEY, TWITTER_URL, PUBLIC_KEY
 
 
