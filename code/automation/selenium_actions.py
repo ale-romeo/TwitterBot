@@ -96,7 +96,7 @@ class SeleniumActions():
                 else:
                     return False
         
-    def verify_login(self, username, tweet_url, retries=3):
+    def verify_login(self, username, tweet_url):
         try:
             short_random_delay()
             self.driver.get(tweet_url)
@@ -110,9 +110,6 @@ class SeleniumActions():
                 return False
             except:
                 return True
-        except TimeoutError:
-            if retries > 0:
-                self.verify_login(username, tweet_url, retries - 1)
         except:
             return False
 
@@ -204,10 +201,6 @@ class SeleniumActions():
                     return True
                 except:
                     return False
-
-        except TimeoutError:
-            if retries > 0:
-                self.get_tweet(tweet_url, retries - 1)
 
         except:
             return False
@@ -348,7 +341,7 @@ class SeleniumActions():
         except:
             return False
         
-    def post(self, account, message, picture, retries=3):
+    def post(self, account, message, picture):
         try:
             email = account['email']
             username = account['username']
@@ -388,7 +381,7 @@ class SeleniumActions():
             log_error(f"Error posting tweet: {e}")
             return False
 
-    def interact(self, account, tweet_url, retries=3):
+    def interact(self, account, tweet_url):
         try:
             email = account['email']
             username = account['username']
@@ -422,10 +415,6 @@ class SeleniumActions():
             trace_account_status(account, True)
             return True
         
-        except TimeoutError:
-            # Retry the interaction if verify_login fails
-            if retries > 0:
-                self.interact(account, tweet_url, retries - 1)
         except:
             trace_account_status(account, False)
             return False
