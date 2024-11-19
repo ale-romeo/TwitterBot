@@ -2,7 +2,7 @@ import os
 
 user = os.getenv('USER')
 PICTURES_PATH = f"/home/{user}/Documents/TwitterBot/img/"
-COOKIES_PATH = f"/home/{user}/Documents/TwitterBot/code/conf/cookies/"
+COOKIES_PATH = f"/home/{user}/Documents/TwitterBot/code/config/cookies/"
 MESSAGE_PATH = f"/home/{user}/Documents/TwitterBot/code/config/messages.json"
 POST_PATH = f"/home/{user}/Documents/TwitterBot/code/config/posts.json"
 LOG_PATH = f"/home/{user}/Documents/TwitterBot/code/config/logs/automation.log"
