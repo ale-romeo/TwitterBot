@@ -85,21 +85,26 @@ class SeleniumActions():
                 self.login(email, username, password, retries - 1)
 
         except:
+            print("AUTH REQUIRED")
             try:
                 WebDriverWait(self.driver, 10).until(
                     EC.presence_of_element_located((By.CSS_SELECTOR, "input[type='submit']"))
                 )
+                print("AUTH REQUIRED - CAPTCHA")
             except:
                 try:
                     WebDriverWait(self.driver, 10).until(
                         EC.presence_of_element_located((By.CSS_SELECTOR, "button[contains(text(), 'email')]"))
                     )
+                    print("AUTH REQUIRED - EMAIL")
                 except:
                     try:
                         WebDriverWait(self.driver, 10).until(
                             EC.presence_of_element_located((By.XPATH, "//a[contains(text(), 'Try again')]"))
                         )
+                        print("AUTH REQUIRED - TRY AGAIN")
                     except:
+                        print("AUTH REQUIRED - UNKNOWN")
                         return False
             
             log_error(f"AUTH REQUIRED - {username}")
@@ -366,7 +371,10 @@ class SeleniumActions():
 
             short_random_delay()
             self.driver.get("https://x.com")
-            if load_cookies(username):  # Load cookies if available
+            cookies = load_cookies(username)
+            if cookies:  # Load cookies if available
+                for cookie in cookies:
+                    self.driver.add_cookie(cookie)
                 if not self.verify_login(username, 'https://x.com/aleromeo0/status/1854263974294118642'):  # Check if cookies are valid
                     print(f"Cookies expired for {username}. Logging in manually.")
                     self.restart()  # Clear cookies if invalid
@@ -408,7 +416,10 @@ class SeleniumActions():
 
             random_delay()
             self.driver.get("https://x.com")
-            if load_cookies(username): # Load cookies if available
+            cookies = load_cookies(username)
+            if cookies:  # Load cookies if available
+                for cookie in cookies:
+                    self.driver.add_cookie(cookie)
                 if not self.verify_login(username, tweet_url=tweet_url):  # Check if cookies are valid
                     print(f"Cookies expired for {username}. Logging in manually.")
                     self.restart()  # Clear cookies if invalid
