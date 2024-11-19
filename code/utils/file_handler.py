@@ -60,7 +60,7 @@ def get_accounts():
 def move_account_to_quarantine(username):
     accounts = load_json(ACCOUNTS_PATH)
     # Check if account exists
-    if username not in accounts:
+    if not any(account['username'] == username for account in accounts):
         return False
     account = accounts.pop(username)
     with open(ACCOUNTS_PATH, "w") as file:
@@ -75,8 +75,8 @@ def get_quarantined_accounts():
 
 def move_account_to_active(username):
     accounts = load_json(QUARANTINE_PATH)
-    # Check if account exists
-    if username not in accounts:
+    # Check if account exists (usernames of accounts are account['username'])
+    if not any(account['username'] == username for account in accounts):
         return False
     account = accounts.pop(username)
     with open(QUARANTINE_PATH, "w") as file:
