@@ -86,7 +86,7 @@ class SeleniumActions():
 
         except:
             try:
-                if self.driver.find_element(By.XPATH, "//a[contains(text(), 'Start')]") or self.driver.find_element(By.XPATH, "//a[contains(text(), 'email')]") or self.driver.find_element(By.XPATH, "//a[contains(text(), 'Try again')]"):
+                if self.driver.find_element(By.CSS_SELECTOR, "input[type='submit']") or self.driver.find_element(By.CSS_SELECTOR, "button[contains(text(), 'email')]") or self.driver.find_element(By.XPATH, "//a[contains(text(), 'Try again')]"):
                     log_error(f"AUTH REQUIRED - {username}")
                     quarantine_op = move_account_to_quarantine(username)
                     if not quarantine_op:
