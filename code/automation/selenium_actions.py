@@ -388,7 +388,8 @@ class SeleniumActions():
             # Retry the post if verify_login fails
             if retries > 0:
                 self.post(account, message, picture, retries - 1)
-        except:
+        except Exception as e:
+            log_error(f"Error posting tweet: {e}")
             return False
 
     def interact(self, account, tweet_url, retries=3):
