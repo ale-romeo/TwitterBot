@@ -117,8 +117,7 @@ class SeleniumActions():
             return True
 
         except:
-            auth_required = self.check_auth_required()
-            if auth_required:
+            if self.driver.current_url == "https://x.com/account/access":
                 log_error(f"AUTH REQUIRED - {username}")
                 quarantine_op = move_account_to_quarantine(username)
                 if not quarantine_op:
@@ -438,7 +437,7 @@ class SeleniumActions():
             random_delay()
             self.driver.get("https://x.com")
             short_random_delay()
-            
+
             cookies = load_cookies(username)
             if cookies:  # Load cookies if available
                 for cookie in cookies:
