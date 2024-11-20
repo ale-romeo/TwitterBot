@@ -396,10 +396,6 @@ class SeleniumActions():
                     self.driver.add_cookie(cookie)
 
                 if not self.verify_login(username, 'https://x.com/aleromeo0/status/1854263974294118642'):  # Check if cookies are valid
-                    # Check if it gets redirected to an authentication page
-                    if self.check_auth_required(username):
-                        return False
-                    
                     print(f"COOKIES EXPIRED - {username}")
                     self.restart()
                     
@@ -410,7 +406,11 @@ class SeleniumActions():
                 if not self.login(email, username, password):
                     trace_account_status(account, False)
                     return False
-
+            
+            # Check if it gets redirected to an authentication page
+            if self.check_auth_required(username):
+                return False
+            
             self.driver.get("https://x.com/home")
             random_delay()
             if not self.post_tweet(message, picture):
@@ -452,11 +452,7 @@ class SeleniumActions():
                     self.driver.add_cookie(cookie)
                 short_random_delay()
                 
-                if not self.verify_login(username, tweet_url=tweet_url):  # Check if cookies are valid 
-                    # Check if it gets redirected to an authentication page
-                    if self.check_auth_required(username):
-                        return False
-                    
+                if not self.verify_login(username, tweet_url=tweet_url):  # Check if cookies are valid                     
                     print(f"COOKIES EXPIRED - {username}")
                     self.restart()
 
@@ -468,6 +464,10 @@ class SeleniumActions():
                     trace_account_status(account, False)
                     return False
 
+            # Check if it gets redirected to an authentication page
+            if self.check_auth_required(username):
+                return False
+            
             # Check if there are some issues with the account
             if not self.get_tweet(tweet_url) or not self.like() or not self.repost() or not self.comment(get_random_message()) or not self.bookmark():
                 trace_account_status(account, False)
