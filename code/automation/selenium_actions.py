@@ -119,7 +119,6 @@ class SeleniumActions():
                 quarantine_op = move_account_to_quarantine(username)
                 if not quarantine_op:
                     log_error(f"NOT FOUND - {username}")
-                short_random_delay()
                 return False
             else:
                 return False
@@ -385,6 +384,13 @@ class SeleniumActions():
             if cookies:  # Load cookies if available
                 for cookie in cookies:
                     self.driver.add_cookie(cookie)
+                auth_required = self.check_auth_required()
+                if auth_required:
+                    log_error(f"AUTH REQUIRED - {username}")
+                    quarantine_op = move_account_to_quarantine(username)
+                    if not quarantine_op:
+                        log_error(f"NOT FOUND - {username}")
+                    return False
                 if not self.verify_login(username, 'https://x.com/aleromeo0/status/1854263974294118642'):  # Check if cookies are valid
                     print(f"COOKIES EXPIRED - {username}")
                     self.restart()  # Clear cookies if invalid
@@ -407,15 +413,11 @@ class SeleniumActions():
             return True
 
         except TimeoutError:
-            auth_required = self.check_auth_required()
-            if auth_required:
-                log_error(f"AUTH REQUIRED - {username}")
-                quarantine_op = move_account_to_quarantine(username)
-                if not quarantine_op:
-                    log_error(f"NOT FOUND - {username}")
-                short_random_delay()
-                return False
+            # Retry the post if it fails
+            if retries > 0:
+                self.post(account, message, picture, retries - 1)
             else:
+                trace_account_status(account, False)
                 return False
 
         except:
@@ -436,6 +438,13 @@ class SeleniumActions():
             if cookies:  # Load cookies if available
                 for cookie in cookies:
                     self.driver.add_cookie(cookie)
+                auth_required = self.check_auth_required()
+                if auth_required:
+                    log_error(f"AUTH REQUIRED - {username}")
+                    quarantine_op = move_account_to_quarantine(username)
+                    if not quarantine_op:
+                        log_error(f"NOT FOUND - {username}")
+                    return False
                 if not self.verify_login(username, tweet_url=tweet_url):  # Check if cookies are valid
                     print(f"Cookies expired for {username}. Logging in manually.")
                     self.restart()  # Clear cookies if invalid
