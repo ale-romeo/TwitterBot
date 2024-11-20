@@ -26,15 +26,25 @@ class SeleniumActions():
         
         self.driver = uc.Chrome(options=options)
         self.driver.set_window_size(800, 800)
-        self.driver.set_page_load_timeout(30)
+        self.driver.set_page_load_timeout(20)
 
-    def check_auth_required(self):
+    def deal_auth_required(self, username):
+        log_error(f"AUTH REQUIRED - {username}")
+        quarantine_op = move_account_to_quarantine(username)
+        if not quarantine_op:
+            log_error(f"NOT FOUND - {username}")
+        return True
+
+    def check_auth_required(self, username):
+        if self.driver.current_url == "https://x.com/account/access":
+            self.deal_auth_required(username)
         try:
             WebDriverWait(self.driver, 10).until(
                 EC.frame_to_be_available_and_switch_to_it(
                     (By.ID, "arkose_iframe")
                 )
             )
+            self.deal_auth_required(username)
             return True
         except:
             try:
@@ -43,24 +53,28 @@ class SeleniumActions():
                         (By.ID, "arkoseFrame")
                     )
                 )
+                self.deal_auth_required(username)
                 return True
             except:
                 try:
                     WebDriverWait(self.driver, 10).until(
                         EC.presence_of_element_located((By.CSS_SELECTOR, "input[type='submit']"))
                     )
+                    self.deal_auth_required(username)
                     return True
                 except:
                     try:
                         WebDriverWait(self.driver, 10).until(
                             EC.presence_of_element_located((By.CSS_SELECTOR, "button[contains(text(), 'email')]"))
                         )
+                        self.deal_auth_required(username)
                         return True
                     except:
                         try:
                             WebDriverWait(self.driver, 10).until(
                                 EC.presence_of_element_located((By.XPATH, "//a[contains(text(), 'Try again')]"))
                             )
+                            self.deal_auth_required(username)
                             return True
                         except:
                             return False
@@ -117,14 +131,8 @@ class SeleniumActions():
             return True
 
         except:
-            if self.driver.current_url == "https://x.com/account/access" or self.check_auth_required():
-                log_error(f"AUTH REQUIRED - {username}")
-                quarantine_op = move_account_to_quarantine(username)
-                if not quarantine_op:
-                    log_error(f"NOT FOUND - {username}")
-                return False
-            else:
-                return False
+            self.check_auth_required(username)
+            return False
         
     def verify_login(self, username, tweet_url):
         try:
@@ -388,11 +396,7 @@ class SeleniumActions():
                     self.driver.add_cookie(cookie)
                 short_random_delay()
                 # Check if it gets redirected to an authentication page
-                if self.driver.current_url == "https://x.com/account/access":
-                    log_error(f"AUTH REQUIRED - {username}")
-                    quarantine_op = move_account_to_quarantine(username)
-                    if not quarantine_op:
-                        log_error(f"NOT FOUND - {username}")
+                if self.check_auth_required(username):
                     return False
                 if not self.verify_login(username, 'https://x.com/aleromeo0/status/1854263974294118642'):  # Check if cookies are valid
                     print(f"COOKIES EXPIRED - {username}")
@@ -418,11 +422,7 @@ class SeleniumActions():
             return True
 
         except TimeoutError:
-            if self.driver.current_url == "https://x.com/account/access":
-                log_error(f"AUTH REQUIRED - {username}")
-                quarantine_op = move_account_to_quarantine(username)
-                if not quarantine_op:
-                    log_error(f"NOT FOUND - {username}")
+            if self.check_auth_required(username):
                 return False
             # Retry the post if it fails
             if retries > 0:
@@ -432,6 +432,7 @@ class SeleniumActions():
                 return False
 
         except:
+            self.check_auth_required(username)
             return False
 
     def interact(self, account, tweet_url, retries=1):
@@ -449,16 +450,15 @@ class SeleniumActions():
                 for cookie in cookies:
                     self.driver.add_cookie(cookie)
                 short_random_delay()
+
                 # Check if it gets redirected to an authentication page
-                if self.driver.current_url == "https://x.com/account/access":
-                    log_error(f"AUTH REQUIRED - {username}")
-                    quarantine_op = move_account_to_quarantine(username)
-                    if not quarantine_op:
-                        log_error(f"NOT FOUND - {username}")
+                if self.check_auth_required(username):
                     return False
+                
                 if not self.verify_login(username, tweet_url=tweet_url):  # Check if cookies are valid
                     print(f"COOKIES EXPIRED - {username}")
-                    self.restart()  # Clear cookies if invalid
+                    self.restart()
+
                     if not self.login(email, username, password):  # Attempt login
                         trace_account_status(account, False)
                         return False
@@ -479,11 +479,7 @@ class SeleniumActions():
             return True
         
         except TimeoutError:
-            if self.driver.current_url == "https://x.com/account/access":
-                log_error(f"AUTH REQUIRED - {username}")
-                quarantine_op = move_account_to_quarantine(username)
-                if not quarantine_op:
-                    log_error(f"NOT FOUND - {username}")
+            if self.check_auth_required(username):
                 return False
             # Retry the interaction if it fails
             if retries > 0:
@@ -493,6 +489,7 @@ class SeleniumActions():
                 return False
 
         except:
+            self.check_auth_required(username)
             trace_account_status(account, False)
             return False
 
