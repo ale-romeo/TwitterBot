@@ -136,6 +136,17 @@ class SeleniumActions():
             self.check_auth_required(username)
             return False
         
+    def check_suspended(self, username):
+        try:
+            WebDriverWait(self.driver, 10).until(
+                EC.presence_of_element_located((By.CSS_SELECTOR, "span[contains(text(), 'Your account is suspended')]"))
+            )
+            log_error(f"SUSPENDED - {username}")
+            move_account_to_quarantine(username)
+            return True
+        except:
+            return False
+
     def verify_login(self, username, tweet_url):
         try:
             short_random_delay()
@@ -476,6 +487,10 @@ class SeleniumActions():
                 if not self.login(email, username, password):
                     trace_account_status(account, False)
                     return False
+
+            # Check if the account is suspended
+            if self.check_suspended(username):
+                return False
 
             # Check if it gets redirected to an authentication page
             if self.driver.get(tweet_url):
