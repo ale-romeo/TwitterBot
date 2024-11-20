@@ -29,7 +29,6 @@ class SeleniumActions():
         self.driver.set_page_load_timeout(20)
 
     def deal_auth_required(self, username):
-        print(f"AUTH REQUIRED - {username}")
         log_error(f"AUTH REQUIRED - {username}")
         quarantine_op = move_account_to_quarantine(username)
         if not quarantine_op:
@@ -140,6 +139,9 @@ class SeleniumActions():
             short_random_delay()
             self.driver.get(tweet_url)
             random_delay()
+            # Check if it gets redirected to an authentication page
+            if self.check_auth_required(username):
+                return False
             try:
                 WebDriverWait(self.driver, 10).until(
                     EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="login"]'))
@@ -396,10 +398,7 @@ class SeleniumActions():
                 for cookie in cookies:
                     self.driver.add_cookie(cookie)
                 random_delay()
-                print(f"COOKIES LOADED - {username}")
-                # Check if it gets redirected to an authentication page
-                if self.check_auth_required(username):
-                    return False
+
                 if not self.verify_login(username, 'https://x.com/aleromeo0/status/1854263974294118642'):  # Check if cookies are valid
                     print(f"COOKIES EXPIRED - {username}")
                     self.restart()  # Clear cookies if invalid
@@ -452,10 +451,6 @@ class SeleniumActions():
                 for cookie in cookies:
                     self.driver.add_cookie(cookie)
                 short_random_delay()
-
-                # Check if it gets redirected to an authentication page
-                if self.check_auth_required(username):
-                    return False
                 
                 if not self.verify_login(username, tweet_url=tweet_url):  # Check if cookies are valid
                     print(f"COOKIES EXPIRED - {username}")
