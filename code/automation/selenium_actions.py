@@ -28,6 +28,39 @@ class SeleniumActions():
         self.driver.set_window_size(800, 800)
         self.driver.set_page_load_timeout(30)
 
+    def check_auth_required(self):
+        try:
+            WebDriverWait(self.driver, 10).until(
+                EC.frame_to_be_available_and_switch_to_it(
+                    (By.ID, "arkoseFrame")
+                )
+            )
+            return True
+        except:
+            try:
+                WebDriverWait(self.driver, 10).until(
+                    EC.presence_of_element_located((By.CSS_SELECTOR, "input[type='submit']"))
+                )
+                print("AUTH REQUIRED - CAPTCHA")
+                return True
+            except:
+                try:
+                    WebDriverWait(self.driver, 10).until(
+                        EC.presence_of_element_located((By.CSS_SELECTOR, "button[contains(text(), 'email')]"))
+                    )
+                    print("AUTH REQUIRED - EMAIL")
+                    return True
+                except:
+                    try:
+                        WebDriverWait(self.driver, 10).until(
+                            EC.presence_of_element_located((By.XPATH, "//a[contains(text(), 'Try again')]"))
+                        )
+                        print("AUTH REQUIRED - TRY AGAIN")
+                        return True
+                    except:
+                        print("AUTH REQUIRED - UNKNOWN")
+                        return False
+
     def login(self, email, username, password):
         try:        
             self.driver.get("https://x.com/i/flow/login")
@@ -80,34 +113,16 @@ class SeleniumActions():
             return True
 
         except:
-            print("AUTH REQUIRED")
-            try:
-                WebDriverWait(self.driver, 10).until(
-                    EC.presence_of_element_located((By.CSS_SELECTOR, "input[type='submit']"))
-                )
-                print("AUTH REQUIRED - CAPTCHA")
-            except:
-                try:
-                    WebDriverWait(self.driver, 10).until(
-                        EC.presence_of_element_located((By.CSS_SELECTOR, "button[contains(text(), 'email')]"))
-                    )
-                    print("AUTH REQUIRED - EMAIL")
-                except:
-                    try:
-                        WebDriverWait(self.driver, 10).until(
-                            EC.presence_of_element_located((By.XPATH, "//a[contains(text(), 'Try again')]"))
-                        )
-                        print("AUTH REQUIRED - TRY AGAIN")
-                    except:
-                        print("AUTH REQUIRED - UNKNOWN")
-                        return False
-            
-            log_error(f"AUTH REQUIRED - {username}")
-            quarantine_op = move_account_to_quarantine(username)
-            if not quarantine_op:
-                log_error(f"NOT FOUND - {username}")
-            short_random_delay()
-            return False
+            auth_required = self.check_auth_required()
+            if auth_required:
+                log_error(f"AUTH REQUIRED - {username}")
+                quarantine_op = move_account_to_quarantine(username)
+                if not quarantine_op:
+                    log_error(f"NOT FOUND - {username}")
+                short_random_delay()
+                return False
+            else:
+                return False
         
     def verify_login(self, username, tweet_url):
         try:
@@ -392,22 +407,15 @@ class SeleniumActions():
             return True
 
         except TimeoutError:
-            print("AUTH REQUIRED")
-            try:
-                # Check if arkoseFrame is present
-                WebDriverWait(self.driver, 10).until(
-                    EC.frame_to_be_available_and_switch_to_it(
-                        (By.ID, "arkoseFrame")
-                    )
-                )
-                print("AUTH REQUIRED - CAPTCHA")
+            auth_required = self.check_auth_required()
+            if auth_required:
                 log_error(f"AUTH REQUIRED - {username}")
                 quarantine_op = move_account_to_quarantine(username)
                 if not quarantine_op:
                     log_error(f"NOT FOUND - {username}")
                 short_random_delay()
                 return False
-            except:
+            else:
                 return False
 
         except:
