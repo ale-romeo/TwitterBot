@@ -7,7 +7,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from utils.logging_handler import trace_account_status, log_error
 from utils.helpers import short_random_delay, random_delay
-from utils.file_handler import get_random_emojis, get_random_picture, get_random_message, load_cookies, save_cookies, move_account_to_quarantine
+from utils.file_handler import get_random_emojis, get_random_picture, get_random_message, load_cookies, save_cookies, move_account_to_quarantine, move_account_to_suspended
 from config.settings import TEST_TWITTER_URL
 
 
@@ -142,7 +142,7 @@ class SeleniumActions():
                 EC.presence_of_element_located((By.CSS_SELECTOR, "span[contains(text(), 'Your account is suspended')]"))
             )
             log_error(f"SUSPENDED - {username}")
-            move_account_to_quarantine(username)
+            move_account_to_suspended(username)
             return True
         except:
             return False

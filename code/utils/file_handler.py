@@ -2,7 +2,7 @@ import json
 import os
 import pickle
 import random
-from config.settings import PICTURES_PATH, MESSAGE_PATH, POST_PATH, ACCOUNTS_PATH, QUARANTINE_PATH, LOG_PATH, COOKIES_PATH, TWEETS_PATH
+from config.settings import PICTURES_PATH, MESSAGE_PATH, POST_PATH, ACCOUNTS_PATH, QUARANTINE_PATH, LOG_PATH, COOKIES_PATH, TWEETS_PATH, SUSPENDED_PATH
 
 def load_json(filename):
     with open(filename, "r") as file:
@@ -80,6 +80,33 @@ def move_account_to_quarantine(username):
 
     # Save the updated quarantined accounts
     with open(QUARANTINE_PATH, "w") as file:
+        json.dump(quarantine_accounts, file, indent=4)
+        
+    return True
+
+def move_account_to_quarantine(username):
+    active_accounts = load_json(ACCOUNTS_PATH)
+
+    account_to_move = None
+    for account in active_accounts:
+        if account['username'] == username:
+            account_to_move = account
+            break
+
+    if not account_to_move:
+        # Account not found in active accounts
+        return False
+    
+    active_accounts.remove(account_to_move)
+    with open(ACCOUNTS_PATH, "w") as file:
+        json.dump(active_accounts, file, indent=4)
+
+    # Load quarantined accounts and add the account
+    quarantine_accounts = load_json(SUSPENDED_PATH)
+    quarantine_accounts.append(account_to_move)
+
+    # Save the updated quarantined accounts
+    with open(SUSPENDED_PATH, "w") as file:
         json.dump(quarantine_accounts, file, indent=4)
         
     return True
