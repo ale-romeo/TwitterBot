@@ -29,6 +29,7 @@ class SeleniumActions():
         self.driver.set_page_load_timeout(20)
 
     def deal_auth_required(self, username):
+        print(f"AUTH REQUIRED - {username}")
         log_error(f"AUTH REQUIRED - {username}")
         quarantine_op = move_account_to_quarantine(username)
         if not quarantine_op:
@@ -395,6 +396,7 @@ class SeleniumActions():
                 for cookie in cookies:
                     self.driver.add_cookie(cookie)
                 random_delay()
+                print(f"COOKIES LOADED - {username}")
                 # Check if it gets redirected to an authentication page
                 if self.check_auth_required(username):
                     return False
