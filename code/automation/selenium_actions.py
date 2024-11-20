@@ -118,7 +118,7 @@ class SeleniumActions():
                 WebDriverWait(self.driver, 10).until(
                     EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="login"]'))
                 )
-                log_error(f"Failed to load cookies for {username}")
+                log_error(f"COOKIES FAILED - {username}")
                 short_random_delay()
                 return False
             except:
@@ -371,7 +371,7 @@ class SeleniumActions():
                 for cookie in cookies:
                     self.driver.add_cookie(cookie)
                 if not self.verify_login(username, 'https://x.com/aleromeo0/status/1854263974294118642'):  # Check if cookies are valid
-                    print(f"Cookies expired for {username}. Logging in manually.")
+                    print(f"COOKIES EXPIRED - {username}")
                     self.restart()  # Clear cookies if invalid
                     if not self.login(email, username, password):  # Attempt login
                         trace_account_status(account, False)
@@ -392,12 +392,25 @@ class SeleniumActions():
             return True
 
         except TimeoutError:
-            # Retry the post if it fails
-            if retries > 0:
-                self.post(account, message, picture, retries - 1)
+            print("AUTH REQUIRED")
+            try:
+                # Check if arkoseFrame is present
+                WebDriverWait(self.driver, 10).until(
+                    EC.frame_to_be_available_and_switch_to_it(
+                        (By.ID, "arkoseFrame")
+                    )
+                )
+                print("AUTH REQUIRED - CAPTCHA")
+                log_error(f"AUTH REQUIRED - {username}")
+                quarantine_op = move_account_to_quarantine(username)
+                if not quarantine_op:
+                    log_error(f"NOT FOUND - {username}")
+                short_random_delay()
+                return False
+            except:
+                return False
 
-        except Exception as e:
-            log_error(f"Error posting tweet: {e}")
+        except:
             return False
 
     def interact(self, account, tweet_url, retries=1):
