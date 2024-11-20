@@ -456,22 +456,23 @@ class SeleniumActions():
 
             random_delay()
             self.driver.get("https://x.com")
-            short_random_delay()
 
             cookies = load_cookies(username)
             if cookies:  # Load cookies if available
                 for cookie in cookies:
                     self.driver.add_cookie(cookie)
-                short_random_delay()
+                random_delay()
                 
                 if not self.verify_login(username, tweet_url=tweet_url):  # Check if cookies are valid                     
                     print(f"COOKIES EXPIRED - {username}")
                     self.restart()
-
+                    short_random_delay()
+                    
                     if not self.login(email, username, password):
                         trace_account_status(account, False)
                         return False
             else:
+                random_delay()
                 if not self.login(email, username, password):
                     trace_account_status(account, False)
                     return False
@@ -505,17 +506,16 @@ class SeleniumActions():
             return True
         
         except TimeoutError:
-            if self.check_auth_required(username):
-                return False
             # Retry the interaction if it fails
             if retries > 0:
+                self.restart()
                 self.interact(account, tweet_url, retries - 1)
             else:
                 trace_account_status(account, False)
                 return False
 
         except:
-            self.check_auth_required(username)
+            self.restart()
             trace_account_status(account, False)
             return False
 
