@@ -84,7 +84,7 @@ def move_account_to_quarantine(username):
         
     return True
 
-def move_account_to_quarantine(username):
+def move_account_to_suspended(username):
     active_accounts = load_json(ACCOUNTS_PATH)
 
     account_to_move = None
