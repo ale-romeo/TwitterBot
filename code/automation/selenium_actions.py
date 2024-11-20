@@ -470,8 +470,11 @@ class SeleniumActions():
             
             # Check if there are some issues with the account
             if not self.get_tweet(tweet_url) or not self.like() or not self.repost() or not self.comment(get_random_message()) or not self.bookmark():
-                trace_account_status(account, False)
-                return False
+                if retries > 0:
+                    self.interact(account, tweet_url, retries - 1)
+                else:
+                    trace_account_status(account, False)
+                    return False
             
             trace_account_status(account, True)
 
