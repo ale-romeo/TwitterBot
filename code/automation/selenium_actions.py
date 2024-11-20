@@ -380,10 +380,9 @@ class SeleniumActions():
 
             # Delete all cookies to ensure a fresh start
             short_random_delay()
-            self.restart()
-
-            short_random_delay()
             self.driver.get("https://x.com")
+            short_random_delay()
+
             cookies = load_cookies(username)
             if cookies:  # Load cookies if available
                 for cookie in cookies:
@@ -415,6 +414,8 @@ class SeleniumActions():
                 return False
             
             trace_account_status(account, True)
+            
+            self.restart()
             return True
 
         except TimeoutError:
@@ -435,10 +436,9 @@ class SeleniumActions():
             password = account['password']
 
             random_delay()
-            self.restart()
-
-            random_delay()
             self.driver.get("https://x.com")
+            short_random_delay()
+            
             cookies = load_cookies(username)
             if cookies:  # Load cookies if available
                 for cookie in cookies:
@@ -452,7 +452,7 @@ class SeleniumActions():
                         log_error(f"NOT FOUND - {username}")
                     return False
                 if not self.verify_login(username, tweet_url=tweet_url):  # Check if cookies are valid
-                    print(f"Cookies expired for {username}. Logging in manually.")
+                    print(f"COOKIES EXPIRED - {username}")
                     self.restart()  # Clear cookies if invalid
                     if not self.login(email, username, password):  # Attempt login
                         trace_account_status(account, False)
@@ -469,6 +469,8 @@ class SeleniumActions():
                 return False
             
             trace_account_status(account, True)
+
+            self.restart()
             return True
         
         except TimeoutError:
