@@ -394,7 +394,7 @@ class SeleniumActions():
             if cookies:  # Load cookies if available
                 for cookie in cookies:
                     self.driver.add_cookie(cookie)
-                short_random_delay()
+                random_delay()
                 # Check if it gets redirected to an authentication page
                 if self.check_auth_required(username):
                     return False
