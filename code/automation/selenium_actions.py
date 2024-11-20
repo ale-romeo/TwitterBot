@@ -418,6 +418,12 @@ class SeleniumActions():
             return True
 
         except TimeoutError:
+            if self.driver.current_url == "https://x.com/account/access":
+                log_error(f"AUTH REQUIRED - {username}")
+                quarantine_op = move_account_to_quarantine(username)
+                if not quarantine_op:
+                    log_error(f"NOT FOUND - {username}")
+                return False
             # Retry the post if it fails
             if retries > 0:
                 self.post(account, message, picture, retries - 1)
@@ -473,6 +479,12 @@ class SeleniumActions():
             return True
         
         except TimeoutError:
+            if self.driver.current_url == "https://x.com/account/access":
+                log_error(f"AUTH REQUIRED - {username}")
+                quarantine_op = move_account_to_quarantine(username)
+                if not quarantine_op:
+                    log_error(f"NOT FOUND - {username}")
+                return False
             # Retry the interaction if it fails
             if retries > 0:
                 self.interact(account, tweet_url, retries - 1)
