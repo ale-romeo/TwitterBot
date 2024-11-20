@@ -1,5 +1,5 @@
 import random
-import undetected_chromedriver as uc
+import seleniumwire.undetected_chromedriver as uc
 from captcha.solver import solve_funcaptcha
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -14,6 +14,18 @@ from config.settings import TEST_TWITTER_URL
 class SeleniumActions():
     def __init__(self):
         self.tweet = None
+        proxy_username = "14a5079adc8b0"
+        proxy_password = "b1ff49ab22"
+        proxy_host = "91.234.58.173"
+        proxy_port = "12323"
+        proxy = f"{proxy_username}:{proxy_password}@{proxy_host}:{proxy_port}"
+        proxy_options = {
+            'proxy': {
+                'http': proxy,
+                'https': proxy
+            }
+        }
+
         options = uc.ChromeOptions()
         #options.add_argument('--headless')
         options.add_argument('--no-sandbox')
@@ -25,7 +37,7 @@ class SeleniumActions():
         options.add_argument('--disable-logging')
 
         
-        self.driver = uc.Chrome(options=options)
+        self.driver = uc.Chrome(options=options, seleniumwire_options=proxy_options, use_subprocess=False)
         self.driver.set_window_size(800, 800)
         self.driver.set_page_load_timeout(20)
 
