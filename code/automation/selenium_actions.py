@@ -117,7 +117,7 @@ class SeleniumActions():
             return True
 
         except:
-            if self.driver.current_url == "https://x.com/account/access":
+            if self.driver.current_url == "https://x.com/account/access" or self.check_auth_required():
                 log_error(f"AUTH REQUIRED - {username}")
                 quarantine_op = move_account_to_quarantine(username)
                 if not quarantine_op:
