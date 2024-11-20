@@ -32,34 +32,38 @@ class SeleniumActions():
         try:
             WebDriverWait(self.driver, 10).until(
                 EC.frame_to_be_available_and_switch_to_it(
-                    (By.ID, "arkoseFrame")
+                    (By.ID, "arkose_iframe")
                 )
             )
             return True
         except:
             try:
                 WebDriverWait(self.driver, 10).until(
-                    EC.presence_of_element_located((By.CSS_SELECTOR, "input[type='submit']"))
+                    EC.frame_to_be_available_and_switch_to_it(
+                        (By.ID, "arkoseFrame")
+                    )
                 )
-                print("AUTH REQUIRED - CAPTCHA")
                 return True
             except:
                 try:
                     WebDriverWait(self.driver, 10).until(
-                        EC.presence_of_element_located((By.CSS_SELECTOR, "button[contains(text(), 'email')]"))
+                        EC.presence_of_element_located((By.CSS_SELECTOR, "input[type='submit']"))
                     )
-                    print("AUTH REQUIRED - EMAIL")
                     return True
                 except:
                     try:
                         WebDriverWait(self.driver, 10).until(
-                            EC.presence_of_element_located((By.XPATH, "//a[contains(text(), 'Try again')]"))
+                            EC.presence_of_element_located((By.CSS_SELECTOR, "button[contains(text(), 'email')]"))
                         )
-                        print("AUTH REQUIRED - TRY AGAIN")
                         return True
                     except:
-                        print("AUTH REQUIRED - UNKNOWN")
-                        return False
+                        try:
+                            WebDriverWait(self.driver, 10).until(
+                                EC.presence_of_element_located((By.XPATH, "//a[contains(text(), 'Try again')]"))
+                            )
+                            return True
+                        except:
+                            return False
 
     def login(self, email, username, password):
         try:        
@@ -438,8 +442,9 @@ class SeleniumActions():
             if cookies:  # Load cookies if available
                 for cookie in cookies:
                     self.driver.add_cookie(cookie)
-                auth_required = self.check_auth_required()
-                if auth_required:
+                short_random_delay()
+                # Check if it gets redirected to an authentication page
+                if self.driver.current_url == "https://x.com/account/access":
                     log_error(f"AUTH REQUIRED - {username}")
                     quarantine_op = move_account_to_quarantine(username)
                     if not quarantine_op:
