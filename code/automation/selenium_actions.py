@@ -5,9 +5,10 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from utils.logging_handler import trace_account_status, log_info, log_error
+from utils.logging_handler import trace_account_status, log_error
 from utils.helpers import short_random_delay, random_delay
 from utils.file_handler import get_random_emojis, get_random_picture, get_random_message, load_cookies, save_cookies, move_account_to_quarantine
+from config.settings import TEST_TWITTER_URL
 
 
 class SeleniumActions():
@@ -395,7 +396,7 @@ class SeleniumActions():
                 for cookie in cookies:
                     self.driver.add_cookie(cookie)
 
-                if not self.verify_login(username, 'https://x.com/aleromeo0/status/1854263974294118642'):  # Check if cookies are valid
+                if not self.verify_login(username, TEST_TWITTER_URL):  # Check if cookies are valid
                     print(f"COOKIES EXPIRED - {username}")
                     self.restart()
                     
@@ -408,7 +409,18 @@ class SeleniumActions():
                     return False
             
             # Check if it gets redirected to an authentication page
-            if self.check_auth_required(username):
+            if self.get_tweet(TEST_TWITTER_URL):
+                if self.driver.current_url != TEST_TWITTER_URL:
+                    if self.check_auth_required(username):
+                        return False
+                else:
+                    if retries > 0:
+                        self.post(account, message, picture, retries - 1)
+                    else:
+                        trace_account_status(account, False)
+                        return False
+            else:
+                trace_account_status(account, False)
                 return False
             
             self.driver.get("https://x.com/home")
@@ -465,11 +477,22 @@ class SeleniumActions():
                     return False
 
             # Check if it gets redirected to an authentication page
-            if self.check_auth_required(username):
+            if self.get_tweet(tweet_url):
+                if self.driver.current_url != tweet_url:
+                    if self.check_auth_required(username):
+                        return False
+                else:
+                    if retries > 0:
+                        self.interact(account, tweet_url, retries - 1)
+                    else:
+                        trace_account_status(account, False)
+                        return False
+            else:
+                trace_account_status(account, False)
                 return False
             
             # Check if there are some issues with the account
-            if not self.get_tweet(tweet_url) or not self.like() or not self.repost() or not self.comment(get_random_message()) or not self.bookmark():
+            if not self.like() or not self.repost() or not self.comment(get_random_message()) or not self.bookmark():
                 if retries > 0:
                     self.interact(account, tweet_url, retries - 1)
                 else:
