@@ -139,7 +139,6 @@ class SeleniumActions():
         try:
             short_random_delay()
             self.driver.get(tweet_url)
-            random_delay()
             try:
                 WebDriverWait(self.driver, 10).until(
                     EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="login"]'))
@@ -395,19 +394,19 @@ class SeleniumActions():
             if cookies:  # Load cookies if available
                 for cookie in cookies:
                     self.driver.add_cookie(cookie)
-                random_delay()
 
                 if not self.verify_login(username, 'https://x.com/aleromeo0/status/1854263974294118642'):  # Check if cookies are valid
                     # Check if it gets redirected to an authentication page
                     if self.check_auth_required(username):
                         return False
+                    
                     print(f"COOKIES EXPIRED - {username}")
-                    self.restart()  # Clear cookies if invalid
-                    if not self.login(email, username, password):  # Attempt login
+                    self.restart()
+                    
+                    if not self.login(email, username, password):
                         trace_account_status(account, False)
                         return False
             else:
-                # Perform login if no cookies are found
                 if not self.login(email, username, password):
                     trace_account_status(account, False)
                     return False
@@ -457,14 +456,14 @@ class SeleniumActions():
                     # Check if it gets redirected to an authentication page
                     if self.check_auth_required(username):
                         return False
+                    
                     print(f"COOKIES EXPIRED - {username}")
                     self.restart()
 
-                    if not self.login(email, username, password):  # Attempt login
+                    if not self.login(email, username, password):
                         trace_account_status(account, False)
                         return False
             else:
-                # Perform login if no cookies are found
                 if not self.login(email, username, password):
                     trace_account_status(account, False)
                     return False

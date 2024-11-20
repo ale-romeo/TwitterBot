@@ -62,7 +62,7 @@ def move_account_to_quarantine(username):
 
     account_to_move = None
     for account in active_accounts:
-        if account['username'] == username.strip():
+        if account['username'] == username:
             account_to_move = account
             break
 
