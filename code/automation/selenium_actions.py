@@ -38,6 +38,7 @@ class SeleniumActions():
     def check_auth_required(self, username):
         if self.driver.current_url == "https://x.com/account/access":
             self.deal_auth_required(username)
+            return True
         try:
             WebDriverWait(self.driver, 10).until(
                 EC.frame_to_be_available_and_switch_to_it(
@@ -139,9 +140,6 @@ class SeleniumActions():
             short_random_delay()
             self.driver.get(tweet_url)
             random_delay()
-            # Check if it gets redirected to an authentication page
-            if self.check_auth_required(username):
-                return False
             try:
                 WebDriverWait(self.driver, 10).until(
                     EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="login"]'))
@@ -400,6 +398,9 @@ class SeleniumActions():
                 random_delay()
 
                 if not self.verify_login(username, 'https://x.com/aleromeo0/status/1854263974294118642'):  # Check if cookies are valid
+                    # Check if it gets redirected to an authentication page
+                    if self.check_auth_required(username):
+                        return False
                     print(f"COOKIES EXPIRED - {username}")
                     self.restart()  # Clear cookies if invalid
                     if not self.login(email, username, password):  # Attempt login
@@ -452,7 +453,10 @@ class SeleniumActions():
                     self.driver.add_cookie(cookie)
                 short_random_delay()
                 
-                if not self.verify_login(username, tweet_url=tweet_url):  # Check if cookies are valid
+                if not self.verify_login(username, tweet_url=tweet_url):  # Check if cookies are valid 
+                    # Check if it gets redirected to an authentication page
+                    if self.check_auth_required(username):
+                        return False
                     print(f"COOKIES EXPIRED - {username}")
                     self.restart()
 
