@@ -1,5 +1,5 @@
 import os
-from config.settings import COOKIES_PATH, ACCOUNTS_PATH, MESSAGE_PATH, POST_PATH, LOG_PATH, QUARANTINE_PATH, TWEETS_PATH, PICTURES_PATH
+from config.settings import COOKIES_PATH, ACCOUNTS_PATH, MESSAGE_PATH, POST_PATH, LOG_PATH, QUARANTINE_PATH, TWEETS_PATH, PICTURES_PATH, SUSPENDED_PATH
 
 def setup():
     print("Setting up directories...")
@@ -24,6 +24,8 @@ def setup():
         os.system(f"touch {TWEETS_PATH}")
     if not os.path.exists(ACCOUNTS_PATH):
         os.system(f"touch {ACCOUNTS_PATH}")
+    if not os.path.exists(SUSPENDED_PATH):
+        os.system(f"touch {SUSPENDED_PATH}")
 
     # Install dependencies
     os.system("pip install -r requirements.txt")

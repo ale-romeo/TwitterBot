@@ -468,6 +468,7 @@ class SeleniumActions():
             random_delay()
             self.driver.get("https://x.com")
 
+            random_delay()
             cookies = load_cookies(username)
             if cookies:  # Load cookies if available
                 for cookie in cookies:
@@ -477,7 +478,7 @@ class SeleniumActions():
                 if not self.verify_login(username, tweet_url=tweet_url):  # Check if cookies are valid                     
                     print(f"COOKIES EXPIRED - {username}")
                     self.restart()
-                    short_random_delay()
+                    random_delay()
 
                     if not self.login(email, username, password):
                         trace_account_status(account, False)
@@ -490,22 +491,15 @@ class SeleniumActions():
 
             # Check if the account is suspended
             if self.check_suspended(username):
+                trace_account_status(account, False)
                 return False
 
             # Check if it gets redirected to an authentication page
-            if self.driver.get(tweet_url):
-                if self.driver.current_url != tweet_url:
-                    if self.check_auth_required(username):
-                        return False
-                else:
-                    if retries > 0:
-                        self.interact(account, tweet_url, retries - 1)
-                    else:
-                        trace_account_status(account, False)
-                        return False
-            else:
-                trace_account_status(account, False)
-                return False
+            random_delay()
+            self.driver.get(tweet_url)
+            if self.driver.current_url != tweet_url:
+                if self.check_auth_required(username):
+                    return False
             
             # Check if there are some issues with the account
             if not self.like() or not self.repost() or not self.comment(get_random_message()) or not self.bookmark():
