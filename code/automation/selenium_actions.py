@@ -467,7 +467,7 @@ class SeleniumActions():
                     print(f"COOKIES EXPIRED - {username}")
                     self.restart()
                     short_random_delay()
-                    
+
                     if not self.login(email, username, password):
                         trace_account_status(account, False)
                         return False
@@ -478,7 +478,7 @@ class SeleniumActions():
                     return False
 
             # Check if it gets redirected to an authentication page
-            if self.get_tweet(tweet_url):
+            if self.driver.get(tweet_url):
                 if self.driver.current_url != tweet_url:
                     if self.check_auth_required(username):
                         return False
