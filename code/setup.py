@@ -29,6 +29,7 @@ def setup():
 
     # Install dependencies
     os.system("pip install -r requirements.txt")
+    os.system("python3 -m seleniumwire extractcert")
 
     print("Setup complete.")
 
