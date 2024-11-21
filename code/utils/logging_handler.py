@@ -11,6 +11,10 @@ class NoHttpRequestsFilter(logging.Filter):
 class NoChromeDriverFilter(logging.Filter):
     def filter(self, record):
         return not ("patching" in record.getMessage())
+    
+class NoSeleniumFilter(logging.Filter):
+    def filter(self, record):
+        return not ("Capturing" in record.getMessage())
 
 for handler in logging.getLogger().handlers:
     handler.addFilter(NoHttpRequestsFilter())
