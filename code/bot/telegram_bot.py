@@ -3,10 +3,11 @@ from automation.selenium_actions import SeleniumActions
 from utils.file_handler import get_random_post_text, get_random_picture, get_raid_picture, get_accounts, save_interacted_tweet, check_interacted_tweet, erase_logs, get_logs, get_quarantined_accounts, move_account_to_active
 import random
 from utils.logging_handler import log_error
-from utils.helpers import extract_tweet_link
+from utils.helpers import extract_tweet_link, random_delay
 
 class TelegramBot:
     def __init__(self, token):
+        self.token = token
         self.application = Application.builder().token(token).build()
         self.setup_handlers()
 
@@ -25,7 +26,8 @@ class TelegramBot:
             twitter_link = extract_tweet_link(message_text)
 
             if twitter_link and not check_interacted_tweet(twitter_link):
-                await update.message.reply_animation(animation=get_raid_picture(), caption=f"ZHOA ARMY!! IT'S TIME TO SHINE 🔥🔥\n{twitter_link}")
+                if self.token == '8149924758:AAEFdtxS1cm1JYlOtmrZd2yvnC88JcXY7ck':
+                    await update.message.reply_animation(animation=get_raid_picture(), caption=f"ZHOA ARMY!! IT'S TIME TO SHINE 🔥🔥\n{twitter_link}")
                 self.raid(tweet_url=twitter_link)
                 save_interacted_tweet(twitter_link)
         except Exception as e:
@@ -60,6 +62,8 @@ class TelegramBot:
             interaction_result = sel_actions.interact(account, tweet_url)
             sel_actions.restart()
             raid_result = raid_result and interaction_result
+            random_delay()
+            random_delay()
         sel_actions.teardown()
         return raid_result
 
