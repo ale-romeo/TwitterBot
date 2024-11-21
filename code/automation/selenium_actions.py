@@ -413,33 +413,31 @@ class SeleniumActions():
             if cookies:  # Load cookies if available
                 for cookie in cookies:
                     self.driver.add_cookie(cookie)
+                random_delay()
 
                 if not self.verify_login(username, TEST_TWITTER_URL):  # Check if cookies are valid
                     print(f"COOKIES EXPIRED - {username}")
                     self.restart()
+                    random_delay()
                     
                     if not self.login(email, username, password):
                         trace_account_status(account, False)
                         return False
             else:
+                random_delay()
                 if not self.login(email, username, password):
                     trace_account_status(account, False)
                     return False
             
             # Check if it gets redirected to an authentication page
-            if self.get_tweet(TEST_TWITTER_URL):
-                if self.driver.current_url != TEST_TWITTER_URL:
-                    if self.check_auth_required(username):
-                        return False
+            self.driver.get(TEST_TWITTER_URL)
+            random_delay()
+            if self.driver.current_url != TEST_TWITTER_URL:
+                if self.check_auth_required(username):
+                    return False
                 else:
-                    if retries > 0:
-                        self.post(account, message, picture, retries - 1)
-                    else:
-                        trace_account_status(account, False)
-                        return False
-            else:
-                trace_account_status(account, False)
-                return False
+                    self.restart()
+                    return False
             
             self.driver.get("https://x.com/home")
             random_delay()
@@ -453,17 +451,16 @@ class SeleniumActions():
             return True
 
         except TimeoutError:
-            if self.check_auth_required(username):
-                return False
-            # Retry the post if it fails
             if retries > 0:
                 self.post(account, message, picture, retries - 1)
             else:
                 trace_account_status(account, False)
+                self.restart()
                 return False
 
         except:
-            self.check_auth_required(username)
+            trace_account_status(account, False)
+            self.restart()
             return False
 
     def interact(self, account, tweet_url, retries=1):
