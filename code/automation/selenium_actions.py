@@ -239,7 +239,7 @@ class SeleniumActions():
         except:
             return False
 
-    def get_tweet(self, tweet_url, retries=3):
+    def get_tweet(self, tweet_url):
         try:
             self.driver.get(tweet_url)
             random_delay()
@@ -503,7 +503,7 @@ class SeleniumActions():
 
             # Check if it gets redirected to an authentication page
             random_delay()
-            self.driver.get(tweet_url)
+            self.get_tweet(tweet_url)
             if self.driver.current_url != tweet_url:
                 if self.check_auth_required(username):
                     return False
