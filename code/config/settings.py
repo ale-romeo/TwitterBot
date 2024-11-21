@@ -1,6 +1,7 @@
 import os
 
 user = os.getenv('USER')
+PROXY_STRING = os.getenv('PROXY_STRING')
 PICTURES_PATH = f"/home/{user}/Documents/TwitterBot/img/"
 COOKIES_PATH = f"/home/{user}/Documents/TwitterBot/code/config/cookies/"
 MESSAGE_PATH = f"/home/{user}/Documents/TwitterBot/code/config/messages.json"

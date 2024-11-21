@@ -8,21 +8,16 @@ from selenium.webdriver.support import expected_conditions as EC
 from utils.logging_handler import trace_account_status, log_error
 from utils.helpers import short_random_delay, random_delay
 from utils.file_handler import get_random_emojis, get_random_picture, get_random_message, load_cookies, save_cookies, move_account_to_quarantine, move_account_to_suspended
-from config.settings import TEST_TWITTER_URL
+from config.settings import TEST_TWITTER_URL, PROXY_STRING
 
 
 class SeleniumActions():
     def __init__(self):
         self.tweet = None
-        proxy_username = "14a5079adc8b0"
-        proxy_password = "b1ff49ab22"
-        proxy_host = "91.234.58.173"
-        proxy_port = "12323"
-        proxy = f"{proxy_username}:{proxy_password}@{proxy_host}:{proxy_port}"
         proxy_options = {
             'proxy': {
-                'http': proxy,
-                'https': proxy
+                'http': PROXY_STRING,
+                'https': PROXY_STRING
             }
         }
 
