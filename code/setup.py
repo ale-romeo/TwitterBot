@@ -1,5 +1,5 @@
 import os
-from config.settings import COOKIES_PATH, ACCOUNTS_PATH, MESSAGE_PATH, POST_PATH, LOG_PATH, QUARANTINE_PATH, TWEETS_PATH, PICTURES_PATH, SUSPENDED_PATH
+from config.settings import COOKIES_PATH, ACCOUNTS_PATH, MESSAGE_PATH, POST_PATH, LOG_PATH, QUARANTINE_PATH, TWEETS_PATH, PICTURES_PATH, SUSPENDED_PATH, LOGS_PATH
 
 def setup():
     print("Setting up directories...")
@@ -9,7 +9,7 @@ def setup():
     if not os.path.exists(COOKIES_PATH):
         os.system(f"mkdir -p {COOKIES_PATH}")
     if not os.path.exists(LOG_PATH):
-        os.system(f"mkdir -p {LOG_PATH}")
+        os.system(f"mkdir -p {LOGS_PATH}")
 
     print("Setting up config files...")
 
@@ -22,6 +22,8 @@ def setup():
         os.system(f"touch {QUARANTINE_PATH}")
     if not os.path.exists(TWEETS_PATH):
         os.system(f"touch {TWEETS_PATH}")
+    if not os.path.exists(LOG_PATH):
+        os.system(f"touch {LOG_PATH}")
     if not os.path.exists(ACCOUNTS_PATH):
         os.system(f"touch {ACCOUNTS_PATH}")
     if not os.path.exists(SUSPENDED_PATH):

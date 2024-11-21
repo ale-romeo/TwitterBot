@@ -11,6 +11,7 @@ ACCOUNTS_PATH = f"/home/{user}/Documents/TwitterBot/code/config/accounts.json"
 QUARANTINE_PATH = f"/home/{user}/Documents/TwitterBot/code/config/quarantine.json"
 SUSPENDED_PATH = f"/home/{user}/Documents/TwitterBot/code/config/suspended.json"
 TWEETS_PATH = f"/home/{user}/Documents/TwitterBot/code/config/logs/tweets.json"
+LOGS_PATH = f"/home/{user}/Documents/TwitterBot/code/config/logs/"
 
 API_KEY = "aac405691061c7841c55612ed7477606"
 TWITTER_URL = "https://www.x.com/"
