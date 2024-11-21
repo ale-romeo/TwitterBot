@@ -136,11 +136,8 @@ class SeleniumActions():
             )
             button.click()
             random_delay()
-            random_delay()
-            random_delay()
-            random_delay()
-            random_delay()
-            random_delay()
+            for i in range(10):
+                random_delay()
             save_cookies(username, self.driver.get_cookies())
             return True
 

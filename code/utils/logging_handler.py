@@ -19,6 +19,7 @@ class NoSeleniumFilter(logging.Filter):
 for handler in logging.getLogger().handlers:
     handler.addFilter(NoHttpRequestsFilter())
     handler.addFilter(NoChromeDriverFilter())
+    handler.addFilter(NoSeleniumFilter())
 
 def log_info(message):
     logging.info(message)
