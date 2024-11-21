@@ -488,6 +488,9 @@ class SeleniumActions():
                     random_delay()
 
                     if not self.login(email, username, password):
+                        random_delay()
+                        random_delay()
+                        random_delay()
                         trace_account_status(account, False)
                         return False
             else:
