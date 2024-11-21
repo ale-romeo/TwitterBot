@@ -25,7 +25,6 @@ class SeleniumActions():
         #options.add_argument('--headless')
         options.add_argument('--no-sandbox')
         options.add_argument('--disable-dev-shm-usage')
-        options.add_argument('--blink-settings=imagesEnabled=false')
         options.add_argument('--disable-extensions')
         options.add_argument('--disable-infobars')
         options.add_argument('--disable-notifications')
@@ -136,6 +135,8 @@ class SeleniumActions():
             )
             button.click()
             random_delay()
+            for _ in range (10):
+                random_delay()
             save_cookies(username, self.driver.get_cookies())
             return True
 
