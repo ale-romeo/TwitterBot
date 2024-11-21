@@ -136,6 +136,11 @@ class SeleniumActions():
             )
             button.click()
             random_delay()
+            random_delay()
+            random_delay()
+            random_delay()
+            random_delay()
+            random_delay()
             save_cookies(username, self.driver.get_cookies())
             return True
 
@@ -488,17 +493,11 @@ class SeleniumActions():
                     random_delay()
 
                     if not self.login(email, username, password):
-                        random_delay()
-                        random_delay()
-                        random_delay()
                         trace_account_status(account, False)
                         return False
             else:
                 random_delay()
                 if not self.login(email, username, password):
-                    random_delay()
-                    random_delay()
-                    random_delay()
                     trace_account_status(account, False)
                     return False
 
