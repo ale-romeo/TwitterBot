@@ -17,4 +17,4 @@ API_KEY = "aac405691061c7841c55612ed7477606"
 TWITTER_URL = "https://www.x.com/"
 PUBLIC_KEY = "4d9fc2f0-efb9-41a6-9986-586db3d92c3b"
 
-TEST_TWITTER_URL = "'https://x.com/aleromeo0/status/1854263974294118642'"
+TEST_TWITTER_URL = "https://x.com/aleromeo0/status/1854263974294118642"
