@@ -15,11 +15,16 @@ class NoChromeDriverFilter(logging.Filter):
 class NoSeleniumFilter(logging.Filter):
     def filter(self, record):
         return not ("Capturing" in record.getMessage())
+    
+class NoHTTPFilter(logging.Filter):
+    def filter(self, record):
+        return not ("HTTP" in record.getMessage())
 
 for handler in logging.getLogger().handlers:
     handler.addFilter(NoHttpRequestsFilter())
     handler.addFilter(NoChromeDriverFilter())
     handler.addFilter(NoSeleniumFilter())
+    handler.addFilter(NoHTTPFilter())
 
 def log_info(message):
     logging.info(message)
