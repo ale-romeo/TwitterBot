@@ -1,5 +1,3 @@
-test.py
 ./code/config/cookies
 ./code/config/accounts.json
-./code/config/tweets.json
-./code/config/logs
+./code/config/logs/
