@@ -21,6 +21,9 @@ class SeleniumActions(BaseCase):
         # Adjust window size for consistent behavior
         self.set_window_size(800, 800)
 
+    def tearDown(self):
+        super().tearDown()
+
     def random_delay(self):
         self.sleep(random.uniform(1, 3))
 

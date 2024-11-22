@@ -24,6 +24,7 @@ class TelegramBot:
         self.application = Application.builder().token(token).build()
         self.lock = Lock()  # Shared lock for raid and post
         self.setup_handlers()
+        self.selenium_actions = SeleniumActions()
 
     def setup_handlers(self):
         self.application.add_handler(CommandHandler("post", self.post))
@@ -38,17 +39,16 @@ class TelegramBot:
             if not update.message.text:
                 return
             message_text = update.message.text
-            twitter_link = extract_tweet_link(message_text)
+            twitter_url = extract_tweet_link(message_text)
 
-            if twitter_link and not check_interacted_tweet(twitter_link):
+            if twitter_url and not check_interacted_tweet(twitter_url):
                 if self.token == 'YOUR_BOT_TOKEN_HERE':
                     await update.message.reply_animation(
                         animation=get_raid_picture(), 
-                        caption=f"ZHOA ARMY!! IT'S TIME TO SHINE 🔥🔥\n{twitter_link}"
+                        caption=f"ZHOA ARMY!! IT'S TIME TO SHINE 🔥🔥\n{twitter_url}"
                     )
                 # Run raid in the background with a lock
-                asyncio.create_task(self.run_locked(self.raid, twitter_link))
-                save_interacted_tweet(twitter_link)
+                asyncio.create_task(self.run_locked(self.raid, twitter_url))
         except Exception as e:
             log_error(f"Error processing group message: {e}")
 
@@ -66,7 +66,9 @@ class TelegramBot:
 
             await update.message.reply_text('Posting your tweet...')
             # Run post in the background with a lock
-            success = await self.run_locked(SeleniumActions().post, account, message, picture)
+            self.selenium_actions.setUp()
+            success = await self.run_locked(self.selenium_actions.post(), account, message, picture)
+            self.selenium_actions.tearDown()
             if success:
                 await update.message.reply_text('Tweet posted successfully!')
             else:
@@ -74,15 +76,19 @@ class TelegramBot:
 
     async def raid(self, tweet_url):
         """Perform a raid using all available accounts."""
-        erase_logs()
+        erase_logs()  # Clear logs before starting a new raid
+        self.selenium_actions.setUp()  # Initialize SeleniumActions
         accounts = get_accounts()
-        results = []
-
+        raid_result = True
         async with self.lock:
             for account in accounts:
-                with SeleniumActions() as sel_actions:
-                    results.append(sel_actions.interact(account, tweet_url))
-        return all(results)
+                interaction_result = self.selenium_actions.interact(account, tweet_url)
+                raid_result = raid_result and interaction_result
+                random_delay()
+            self.selenium_actions.tearDown()  # Clean up after SeleniumActions
+        
+        save_interacted_tweet(tweet_url)
+        return raid_result
 
     async def logs(self, update, context):
         """Retrieve and send the latest logs."""
