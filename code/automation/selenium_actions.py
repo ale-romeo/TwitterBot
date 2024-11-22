@@ -17,7 +17,7 @@ class SeleniumActions:
         self.start_page_load_timeout = 20  # Set page load timeout
         self.proxy = PROXY_STRING  # Assign proxy if needed
         self.tweet = None  # Store the tweet element
-        self.window_size = (800, 800) # Set window size for the browser 800, 800
+        self.window_size = "800, 800" # Set window size for the browser 800, 800
         self.driver = Driver(uc=self.uc, headless=self.headless, incognito=self.incognito, proxy=self.proxy, window_size=self.window_size)
         self.driver.set_page_load_timeout(self.start_page_load_timeout)
 
