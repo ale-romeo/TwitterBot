@@ -1,5 +1,5 @@
 import random
-from seleniumbase import BaseCase
+from seleniumbase import SB
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from utils.logging_handler import trace_account_status, log_error
@@ -8,7 +8,7 @@ from config.settings import TEST_TWITTER_URL
 from config.env import PROXY_STRING
 
 
-class SeleniumActions(BaseCase):
+class SeleniumActions(SB):
     def __init__(self):
         # Initialization
         super().__init__()
