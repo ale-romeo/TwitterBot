@@ -24,7 +24,6 @@ class TelegramBot:
         self.application = Application.builder().token(token).build()
         self.lock = Lock()  # Shared lock for raid and post
         self.setup_handlers()
-        self.selenium_actions = SeleniumActions()
 
     def setup_handlers(self):
         self.application.add_handler(CommandHandler("post", self.post))
@@ -66,8 +65,9 @@ class TelegramBot:
 
             await update.message.reply_text('Posting your tweet...')
             # Run post in the background with a lock
-            self.selenium_actions.setUp()
-            success = await self.run_locked(self.selenium_actions.post(), account, message, picture)
+            selenium_actions = SeleniumActions()
+            selenium_actions.setUp()
+            success = await self.run_locked(selenium_actions.post(), account, message, picture)
             self.selenium_actions.tearDown()
             if success:
                 await update.message.reply_text('Tweet posted successfully!')
@@ -77,15 +77,17 @@ class TelegramBot:
     async def raid(self, tweet_url):
         """Perform a raid using all available accounts."""
         erase_logs()  # Clear logs before starting a new raid
-        self.selenium_actions.setUp()  # Initialize SeleniumActions
+        selenium_actions = SeleniumActions()
+        selenium_actions.setUp()  # Initialize SeleniumActions
         accounts = get_accounts()
         raid_result = True
+
         async with self.lock:
             for account in accounts:
-                interaction_result = self.selenium_actions.interact(account, tweet_url)
+                interaction_result = selenium_actions.interact(account, tweet_url)
                 raid_result = raid_result and interaction_result
                 random_delay()
-            self.selenium_actions.tearDown()  # Clean up after SeleniumActions
+            selenium_actions.tearDown()  # Clean up after SeleniumActions
         
         save_interacted_tweet(tweet_url)
         return raid_result

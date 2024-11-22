@@ -9,16 +9,18 @@ from config.env import PROXY_STRING
 
 
 class SeleniumActions(BaseCase):
-    def setUp(self):
-        # Enable undetected-chromedriver mode
-        self.uc = True  # Activates stealth mode
-        self.headless = False  # Optional: Set True to run headless
-        self.incognito = True  # Enables incognito mode for stealth
+    def __init__(self):
+        # Initialization
+        super().__init__()
+        self.uc = True  # Enable undetected-chromedriver mode
+        self.headless = False  # Optional: Set True for headless mode
+        self.incognito = True  # Enable incognito mode for stealth
+        self.start_page_load_timeout = 20  # Set page load timeout
         self.proxy = PROXY_STRING  # Assign proxy if needed
-        self.start_page_load_timeout = 20  # Sets page load timeout
-        super().setUp()
 
-        # Adjust window size for consistent behavior
+
+    def setUp(self):
+        super().setUp()
         self.set_window_size(800, 800)
 
     def tearDown(self):
