@@ -351,8 +351,8 @@ class SeleniumActions:
 
             # Open the website and clear cookies for a fresh start
             self.driver.open("https://x.com")
-            self.driver.sleep(1)
-
+            self.random_delay()
+            
             if self.driver.load_cookies(username):  # Load cookies if available
                 self.random_delay()
                 
