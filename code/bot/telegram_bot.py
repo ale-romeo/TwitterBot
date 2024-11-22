@@ -57,14 +57,13 @@ class TelegramBot:
         raid_result = True
         erase_logs()
         sel_actions = SeleniumActions()
+        SeleniumActions.setUp()
         accounts = get_accounts()
         for account in accounts:
             interaction_result = sel_actions.interact(account, tweet_url)
-            sel_actions.restart()
             raid_result = raid_result and interaction_result
             random_delay()
-            random_delay()
-        sel_actions.teardown()
+        sel_actions.tearDown()
         return raid_result
 
     async def logs(self, update, context):
