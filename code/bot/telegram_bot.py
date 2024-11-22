@@ -72,20 +72,17 @@ class TelegramBot:
             else:
                 await update.message.reply_text('Failed to post the tweet. Please check the logs.')
 
-    def raid(self, tweet_url):
+    async def raid(self, tweet_url):
         """Perform a raid using all available accounts."""
-        raid_result = True
         erase_logs()
-        sel_actions = SeleniumActions()
         accounts = get_accounts()
+        results = []
 
-        for account in accounts:
-            interaction_result = sel_actions.interact(account, tweet_url)
-            raid_result = raid_result and interaction_result
-            random_delay()
-
-        sel_actions.tearDown()
-        return raid_result
+        async with self.lock:
+            for account in accounts:
+                with SeleniumActions() as sel_actions:
+                    results.append(sel_actions.interact(account, tweet_url))
+        return all(results)
 
     async def logs(self, update, context):
         """Retrieve and send the latest logs."""
