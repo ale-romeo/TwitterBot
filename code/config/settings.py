@@ -1,17 +1,15 @@
-import os
+from config.env import USER
 
-user = os.getenv('USER')
-PROXY_STRING = os.getenv('PROXY_STRING')
-PICTURES_PATH = f"/home/{user}/Documents/TwitterBot/img/"
-COOKIES_PATH = f"/home/{user}/Documents/TwitterBot/code/config/cookies/"
-MESSAGE_PATH = f"/home/{user}/Documents/TwitterBot/code/config/messages.json"
-POST_PATH = f"/home/{user}/Documents/TwitterBot/code/config/posts.json"
-LOG_PATH = f"/home/{user}/Documents/TwitterBot/code/config/logs/automation.log"
-ACCOUNTS_PATH = f"/home/{user}/Documents/TwitterBot/code/config/accounts.json"
-QUARANTINE_PATH = f"/home/{user}/Documents/TwitterBot/code/config/quarantine.json"
-SUSPENDED_PATH = f"/home/{user}/Documents/TwitterBot/code/config/suspended.json"
-TWEETS_PATH = f"/home/{user}/Documents/TwitterBot/code/config/logs/tweets.json"
-LOGS_PATH = f"/home/{user}/Documents/TwitterBot/code/config/logs/"
+PICTURES_PATH = f"/home/{USER}/Documents/TwitterBot/img/"
+COOKIES_PATH = f"/home/{USER}/Documents/TwitterBot/code/config/cookies/"
+MESSAGE_PATH = f"/home/{USER}/Documents/TwitterBot/code/config/messages.json"
+POST_PATH = f"/home/{USER}/Documents/TwitterBot/code/config/posts.json"
+LOG_PATH = f"/home/{USER}/Documents/TwitterBot/code/config/logs/automation.log"
+ACCOUNTS_PATH = f"/home/{USER}/Documents/TwitterBot/code/config/accounts.json"
+QUARANTINE_PATH = f"/home/{USER}/Documents/TwitterBot/code/config/quarantine.json"
+SUSPENDED_PATH = f"/home/{USER}/Documents/TwitterBot/code/config/suspended.json"
+TWEETS_PATH = f"/home/{USER}/Documents/TwitterBot/code/config/logs/tweets.json"
+LOGS_PATH = f"/home/{USER}/Documents/TwitterBot/code/config/logs/"
 
 API_KEY = "aac405691061c7841c55612ed7477606"
 TWITTER_URL = "https://www.x.com/"

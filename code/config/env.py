@@ -1,4 +1,5 @@
 import os
 
 TELEGRAM_TOKEN = os.getenv("TEL_BOT_TOKEN")
-ANTICAPTCHA_API_KEY = os.getenv("ANTICAPTCHA_API_KEY")
+PROXY_STRING = os.getenv("PROXY_STRING")
+USER = os.getenv("USER")
