@@ -66,9 +66,8 @@ class TelegramBot:
             await update.message.reply_text('Posting your tweet...')
             # Run post in the background with a lock
             selenium_actions = SeleniumActions()
-            selenium_actions.setUp()
             success = await self.run_locked(selenium_actions.post(), account, message, picture)
-            self.selenium_actions.tearDown()
+            selenium_actions.teardown()  # Clean up after SeleniumActions
             if success:
                 await update.message.reply_text('Tweet posted successfully!')
             else:
@@ -78,7 +77,6 @@ class TelegramBot:
         """Perform a raid using all available accounts."""
         erase_logs()  # Clear logs before starting a new raid
         selenium_actions = SeleniumActions()
-        selenium_actions.setUp()  # Initialize SeleniumActions
         accounts = get_accounts()
         raid_result = True
 

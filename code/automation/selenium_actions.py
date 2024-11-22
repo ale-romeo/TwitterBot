@@ -19,6 +19,9 @@ class SeleniumActions:
         self.tweet = None  # Store the tweet element
         self.driver = SB(uc=self.uc, headless=self.headless, incognito=self.incognito, proxy=self.proxy, start_page_load_timeout=self.start_page_load_timeout)
 
+    def teardown(self):
+        self.driver.quit()
+
     def random_delay(self):
         self.driver.sleep(random.uniform(1, 3))
 
