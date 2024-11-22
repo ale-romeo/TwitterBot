@@ -41,7 +41,7 @@ class TelegramBot:
             twitter_url = extract_tweet_link(message_text)
 
             if twitter_url and not check_interacted_tweet(twitter_url):
-                if self.token == 'YOUR_BOT_TOKEN_HERE':
+                if self.token == '8149924758:AAEFdtxS1cm1JYlOtmrZd2yvnC88JcXY7ck':
                     await update.message.reply_animation(
                         animation=get_raid_picture(), 
                         caption=f"ZHOA ARMY!! IT'S TIME TO SHINE 🔥🔥\n{twitter_url}"

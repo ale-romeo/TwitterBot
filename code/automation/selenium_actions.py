@@ -1,5 +1,5 @@
 import random
-from seleniumbase import SB
+from seleniumbase import Driver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from utils.logging_handler import trace_account_status, log_error
@@ -18,7 +18,7 @@ class SeleniumActions:
         self.proxy = PROXY_STRING  # Assign proxy if needed
         self.tweet = None  # Store the tweet element
         self.window_size = (800, 800) # Set window size for the browser 800, 800
-        self.driver = SB(uc=self.uc, headless=self.headless, incognito=self.incognito, proxy=self.proxy, window_size=self.window_size)
+        self.driver = Driver(uc=self.uc, headless=self.headless, incognito=self.incognito, proxy=self.proxy, window_size=self.window_size)
         self.driver.set_page_load_timeout(self.start_page_load_timeout)
 
     def teardown(self):
