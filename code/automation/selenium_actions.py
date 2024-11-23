@@ -395,7 +395,7 @@ class SeleniumActions:
             return False
 
 
-    def interact(self, account, tweet_url):
+    def interact(self, account, tweet_url, comment=True):
         try:
             email = account['email']
             username = account['username']
@@ -442,9 +442,11 @@ class SeleniumActions:
             interaction_success = (
                 self.like() and 
                 self.repost() and 
-                self.comment(get_random_message()) and 
                 self.bookmark()
             )
+
+            if comment:
+                interaction_success = interaction_success and self.comment(get_random_message())
 
             if not interaction_success:
                 trace_account_status(account, False)

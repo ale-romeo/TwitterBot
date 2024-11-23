@@ -78,11 +78,13 @@ class TelegramBot:
         erase_logs()  # Clear logs before starting a new raid
         selenium_actions = SeleniumActions()
         accounts = get_accounts()
+        random.shuffle(accounts)
         raid_result = True
 
         async with self.lock:
             for account in accounts:
-                interaction_result = selenium_actions.interact(account, tweet_url)
+                comment = random.choice([True, False])
+                interaction_result = selenium_actions.interact(account, tweet_url, comment)
                 raid_result = raid_result and interaction_result
                 random_delay()
             selenium_actions.tearDown()  # Clean up after SeleniumActions
