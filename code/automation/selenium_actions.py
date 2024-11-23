@@ -1,5 +1,5 @@
 import random
-from seleniumbase import Driver
+from seleniumbase import SB
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from utils.logging_handler import trace_account_status, log_error
@@ -7,30 +7,16 @@ from utils.file_handler import get_random_emojis, get_random_picture, get_random
 from config.settings import TEST_TWITTER_URL
 from config.env import PROXY_STRING
 
-
-@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-TRY with SB in telegrambot class or here in some way
-@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 class SeleniumActions:
     def __init__(self):
-        # Initialization
-        self.uc = True  # Enable undetected-chromedriver mode
-        self.headless = False  # Optional: Set True for headless mode
-        self.incognito = True  # Enable incognito mode for stealth
-        self.start_page_load_timeout = 20  # Set page load timeout
-        self.proxy = PROXY_STRING  # Assign proxy if needed
+        self.driver = SB(
+            uc=True,  # Enable undetected-chromedriver mode
+            headless=False,  # Optional: Set True for headless mode
+            incognito=True,  # Enable incognito mode for stealth
+            proxy=PROXY_STRING,  # Assign proxy if needed
+            window_size="800,800"  # Set window size for the browser
+        )
         self.tweet = None  # Store the tweet element
-        self.window_size = "800, 800" # Set window size for the browser 800, 800
-        self.driver = Driver(uc=self.uc, headless=self.headless, incognito=self.incognito, proxy=self.proxy, window_size=self.window_size)
-        self.driver.set_page_load_timeout(self.start_page_load_timeout)
 
     def teardown(self):
         self.driver.quit()
