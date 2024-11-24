@@ -78,18 +78,15 @@ class TelegramBot:
                 await update.message.reply_text('Failed to post the tweet. Please check the logs.')
 
     async def raid(self):
-        """Perform a raid using all available accounts."""
-
-        async with self.lock:
-            erase_logs()  # Clear logs before starting a new raid
-            selenium_actions = SeleniumActions(self.link_queue, self.processed_tracker)
-            accounts = get_accounts()
-            random.shuffle(accounts)
-            for account in accounts:
-                selenium_actions.process_account(account)
-                random_delay()
-                random_delay()
-            selenium_actions.tearDown()
+        erase_logs()  # Clear logs before starting a new raid
+        selenium_actions = SeleniumActions(self.link_queue, self.processed_tracker)
+        accounts = get_accounts()
+        random.shuffle(accounts)
+        for account in accounts:
+            selenium_actions.process_account(account)
+            random_delay()
+            random_delay()
+        selenium_actions.tearDown()
 
 
     async def logs(self, update, context):
