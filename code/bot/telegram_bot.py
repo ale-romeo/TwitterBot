@@ -1,12 +1,12 @@
 import asyncio
 from threading import Lock
+from queue import Queue
 from telegram.ext import Application, CommandHandler, MessageHandler, filters
 from utils.file_handler import (
     get_random_post_text, 
     get_random_picture, 
     get_raid_picture, 
     get_accounts, 
-    save_interacted_tweet, 
     check_interacted_tweet, 
     erase_logs, 
     get_logs, 
@@ -23,6 +23,8 @@ class TelegramBot:
         self.token = token
         self.application = Application.builder().token(token).build()
         self.lock = Lock()  # Shared lock for raid and post
+        self.link_queue = Queue()
+        self.processed_tracker = {}
         self.setup_handlers()
 
     def setup_handlers(self):
@@ -40,12 +42,14 @@ class TelegramBot:
             message_text = update.message.text
             twitter_url = extract_tweet_link(message_text)
 
-            if twitter_url and not check_interacted_tweet(twitter_url):
+            if twitter_url and not check_interacted_tweet(twitter_url) and twitter_url not in self.processed_tracker:
                 if self.token == '8149924758:AAEFdtxS1cm1JYlOtmrZd2yvnC88JcXY7ck':
                     await update.message.reply_animation(
                         animation=get_raid_picture(), 
                         caption=f"ZHOA ARMY!! IT'S TIME TO SHINE 🔥🔥\n{twitter_url}"
                     )
+                self.link_queue.put(twitter_url)
+                self.processed_tracker[twitter_url] = set()
                 # Run raid in the background with a lock
                 asyncio.create_task(self.run_locked(self.raid, twitter_url))
         except Exception as e:
@@ -73,24 +77,20 @@ class TelegramBot:
             else:
                 await update.message.reply_text('Failed to post the tweet. Please check the logs.')
 
-    async def raid(self, tweet_url):
+    async def raid(self):
         """Perform a raid using all available accounts."""
-        erase_logs()  # Clear logs before starting a new raid
-        selenium_actions = SeleniumActions()
-        accounts = get_accounts()
-        random.shuffle(accounts)
-        raid_result = True
 
         async with self.lock:
+            erase_logs()  # Clear logs before starting a new raid
+            selenium_actions = SeleniumActions(self.link_queue, self.processed_tracker)
+            accounts = get_accounts()
+            random.shuffle(accounts)
             for account in accounts:
-                comment = random.choice([True, False])
-                interaction_result = selenium_actions.interact(account, tweet_url, comment)
-                raid_result = raid_result and interaction_result
+                selenium_actions.process_account(account)
                 random_delay()
-            selenium_actions.tearDown()  # Clean up after SeleniumActions
-        
-        save_interacted_tweet(tweet_url)
-        return raid_result
+                random_delay()
+            selenium_actions.tearDown()
+
 
     async def logs(self, update, context):
         """Retrieve and send the latest logs."""

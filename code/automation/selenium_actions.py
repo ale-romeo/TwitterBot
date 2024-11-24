@@ -3,12 +3,12 @@ from seleniumbase import SB
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from utils.logging_handler import trace_account_status, log_error
-from utils.file_handler import get_random_emojis, get_random_picture, get_random_message, move_account_to_quarantine, move_account_to_suspended
+from utils.file_handler import get_random_emojis, get_random_picture, get_random_message, move_account_to_quarantine, move_account_to_suspended, save_interacted_tweet
 from config.settings import TEST_TWITTER_URL
 from config.env import PROXY_STRING
 
 class SeleniumActions:
-    def __init__(self):
+    def __init__(self, link_queue, processed_tracker):
         self.driver = SB(
             uc=True,  # Enable undetected-chromedriver mode
             headless=False,  # Optional: Set True for headless mode
@@ -17,6 +17,8 @@ class SeleniumActions:
             window_size="800,800"  # Set window size for the browser
         )
         self.tweet = None  # Store the tweet element
+        self.link_queue = link_queue
+        self.processed_tracker = processed_tracker
 
     def teardown(self):
         self.driver.quit()
@@ -410,7 +412,7 @@ class SeleniumActions:
                 self.random_delay()
 
                 # Verify login status with the cookies
-                if not self.verify_login(username, tweet_url=tweet_url):
+                if not self.verify_login(username, TEST_TWITTER_URL):
                     log_error(f"COOKIES EXPIRED - {username}", level="WARNING")
                     self.delete_all_cookies()
                     self.driver.sleep(1)
@@ -464,4 +466,18 @@ class SeleniumActions:
             trace_account_status(account, False)
             return False
 
+    def process_account(self, account):
+        username = account['username']
+        
+        for link in list(self.link_queue.queue):
+            if username in self.processed_tracker[link]:
+                continue
 
+            success = self.interact(account, link, comment=random.choice([True, False]))
+    
+            if success:
+                self.processed_tracker[link].add(username)
+                if len(self.processed_tracker[link]) == len(self.link_queue):
+                    self.link_queue.get()
+                    del self.processed_tracker[link]
+                    save_interacted_tweet(link)
