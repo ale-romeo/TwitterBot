@@ -86,7 +86,6 @@ class TelegramBot:
             selenium_actions.process_account(account)
             random_delay()
             random_delay()
-        selenium_actions.tearDown()
 
 
     async def logs(self, update, context):
