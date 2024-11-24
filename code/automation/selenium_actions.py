@@ -441,7 +441,7 @@ class SeleniumActions:
                 sb.sleep(1)
 
                 # Load cookies if available
-                if sb.load_cookies(username):
+                if sb.load_cookies(name=username):
                     self.random_delay(sb)
 
                     # Verify login status with the cookies
