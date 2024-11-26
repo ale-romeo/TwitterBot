@@ -5,7 +5,7 @@ from selenium.webdriver.common.keys import Keys
 from utils.logging_handler import trace_account_status, log_error
 from utils.file_handler import get_random_emojis, get_random_picture, get_random_message, move_account_to_quarantine, move_account_to_suspended, save_interacted_tweet
 from config.settings import TEST_TWITTER_URL
-from config.env import PROXY_STRING
+#from config.env import PROXY_STRING
 
 class SeleniumActions:
     def __init__(self, link_queue, processed_tracker):
@@ -342,7 +342,7 @@ class SeleniumActions:
                 uc=True,  # Enable undetected-chromedriver mode
                 headless=False,  # Optional: Set True for headless mode
                 incognito=True,  # Enable incognito mode for stealth
-                proxy=PROXY_STRING,  # Assign proxy if needed
+                #proxy=PROXY_STRING,  # Assign proxy if needed
                 window_size="800,800"  # Set window size for the browser
             ) as sb:
                 # Open the website and clear cookies for a fresh start
