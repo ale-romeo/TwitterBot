@@ -32,8 +32,13 @@ def setup_directories_and_files():
         LOG_PATH, ACCOUNTS_PATH, SUSPENDED_PATH
     ]:
         if not os.path.exists(file_path):
-            with open(file_path, "w") as f:
-                pass
+            # Create an empty json file if not log_path
+            if file_path == LOG_PATH:
+                with open(file_path, "w") as f:
+                    pass
+            else:
+                with open(file_path, "w") as f:
+                    f.write("[]")
 
 def replace_seleniumbase_file():
     """Replaces SeleniumBase's `base_case.py` with the modified version."""
