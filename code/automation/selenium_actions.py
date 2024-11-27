@@ -142,7 +142,7 @@ class SeleniumActions:
             submit_button_selector = "[data-testid='tweetButtonInline']"
             # Type the tweet message
             try:
-                sb.add_text(tweet_box_selector, message, timeout=10, retry=1)
+                sb.add_text(tweet_box_selector, message, timeout=10)
             except:
                 return False
 
