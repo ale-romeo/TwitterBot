@@ -147,8 +147,7 @@ class SeleniumActions:
                 return False
 
             self.random_delay(sb)
-            print("Adding emojis")
-            self.add_emojis(get_random_emojis())
+            self.add_emojis(sb, get_random_emojis())
 
             self.random_delay(sb)
             self.send_picture(sb, picture)
