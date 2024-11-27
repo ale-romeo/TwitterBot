@@ -40,7 +40,7 @@ def replace_seleniumbase_file():
     print("Replacing SeleniumBase's base_case.py...")
 
     # Locate site-packages directory
-    site_packages_path = site.getsitepackages()[0]  # Adjust this for specific environments if needed
+    site_packages_path = site.getsitepackages()[1]  # Adjust this for specific environments if needed
 
     # Target SeleniumBase base_case.py file
     target_file = os.path.join(site_packages_path, "seleniumbase", "fixtures", "base_case.py")
@@ -59,7 +59,9 @@ def install_dependencies():
     """Install required dependencies."""
     print("Installing dependencies...")
     os.system("pip install -r requirements.txt")
-    os.system("python3 -m seleniumwire extractcert")
+    # Check if there's a need to extract the certificate
+    if not os.path.exists("ca.crt"):
+        os.system("python3 -m seleniumwire extractcert")
 
 def setup():
     """Main setup function."""
