@@ -364,8 +364,11 @@ class SeleniumActions:
                     
                     if not self.verify_login(sb, username, TEST_TWITTER_URL):  # Validate cookies
                         log_error(f"COOKIES EXPIRED - {username}", level="WARNING")
-                        sb.delete_all_cookies()
-                        print("Cookies expired")
+                        try:
+                            sb.delete_all_cookies()  # Attempt to clear cookies
+                            print("Cookies expired")
+                        except Exception as e:
+                            log_error(f"Error deleting cookies: {e}")
                         sb.sleep(1)
 
                         if not self.login(sb, email, username, password):
