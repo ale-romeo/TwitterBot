@@ -55,6 +55,8 @@ def get_random_post_text():
 
 def get_accounts():
     accounts = load_json(ACCOUNTS_PATH)
+    if not accounts:
+        return []
     return accounts
 
 def move_account_to_quarantine(username):

@@ -65,7 +65,11 @@ class TelegramBot:
                 else ' '.join(update.message.text.split(' ')[1:])
             )
             picture = get_random_picture()
-            account = random.choice(get_accounts())
+            accounts = get_accounts()
+            if not accounts:
+                log_error("No accounts available for raid.")
+                return
+            account = random.choice(accounts)
 
             await update.message.reply_text('Posting your tweet...')
             # Run post in the background with a lock
@@ -80,6 +84,9 @@ class TelegramBot:
         erase_logs()  # Clear logs before starting a new raid
         selenium_actions = SeleniumActions(self.link_queue, self.processed_tracker)
         accounts = get_accounts()
+        if not accounts:
+            log_error("No accounts available for raid.")
+            return
         random.shuffle(accounts)
         for account in accounts:
             selenium_actions.process_account(account)
