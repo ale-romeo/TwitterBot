@@ -2,8 +2,10 @@ import os
 import seleniumbase as _
 
 # Paths
-config_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__name__))), "code", "config")
-mod_files_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__name__))), "mod_files")
+base_path = os.path.dirname(os.path.dirname(os.path.abspath(__name__)))
+config_path = os.path.join(base_path, "code", "config")
+mod_files_path = os.path.join(base_path, "mod_files")
+logs_path = os.path.join(base_path, "logs")
 seleniumbase_path = os.path.dirname(os.path.abspath(_.__file__))
 
 # Config paths
@@ -11,12 +13,12 @@ PICTURES_PATH = os.path.join(config_path, "pictures")
 COOKIES_PATH = os.path.join(config_path, "cookies")
 MESSAGE_PATH = os.path.join(config_path, "messages.json")
 POST_PATH = os.path.join(config_path, "posts.json")
-LOG_PATH = os.path.join(config_path, "automation.log")
+LOG_PATH = os.path.join(logs_path, "automation.log")
 ACCOUNTS_PATH = os.path.join(config_path, "accounts.json")
 QUARANTINE_PATH = os.path.join(config_path, "quarantine.json")
 SUSPENDED_PATH = os.path.join(config_path, "suspended.json")
-TWEETS_PATH = os.path.join(config_path, "tweets.json")
-LOGS_PATH = os.path.join(config_path, "logs")
+TWEETS_PATH = os.path.join(logs_path, "tweets.json")
+LOGS_PATH = logs_path
 
 # Modified SeleniumBase file
 ORIGINAL_BASECASE_PATH = os.path.join(seleniumbase_path, "fixtures", "base_case.py")
