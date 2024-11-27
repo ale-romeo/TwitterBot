@@ -2,7 +2,7 @@ import os
 import seleniumbase as _
 
 # Paths
-base_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__name__))))
+base_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 config_path = os.path.join(base_path, "code", "config")
 mod_files_path = os.path.join(base_path, "mod_files")
 logs_path = os.path.join(base_path, "logs")
