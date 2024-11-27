@@ -257,6 +257,7 @@ class SeleniumActions:
             # Click the "Add emoji" button
             emoji_button_selector = "[aria-label='Add emoji']"
             emoji_search_selector = "[aria-label='Search emojis']"
+            clear_button_selector = "[data-testid='clearButton']"
             try:
                 sb.click(emoji_button_selector, timeout=10, delay=1)
                 sb.sleep(0.5)
@@ -265,14 +266,18 @@ class SeleniumActions:
                     emoji_button_selector = f"[aria-label='{emoji}']"
                     # Type the emoji name in the search bar
                     try:
-                        sb.update_text(emoji_search_selector, emoji, timeout=10, retry=1)
+                        sb.add_text(emoji_search_selector, emoji, timeout=10)
                         sb.sleep(0.5)  # Small delay for realism
 
                         # Select the emoji from the search results
                         try:
                             sb.click(emoji_button_selector, timeout=5, delay=1)
                             sb.sleep(0.5)
-
+                            try:
+                                sb.click(clear_button_selector, timeout=5, delay=1)
+                                sb.sleep(0.5)  # Delay for realism
+                            except:
+                                continue
                         except:
                             continue
                     except:
