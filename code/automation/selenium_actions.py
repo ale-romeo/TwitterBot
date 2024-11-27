@@ -72,12 +72,14 @@ class SeleniumActions:
 
     def login(self, sb, email, username, password):
         try:
+            print("Logging in")
             # Navigate to Twitter login page
             sb.open("https://x.com/i/flow/login")
             self.random_delay(sb)
 
             # Enter email and proceed
             if sb.is_element_present("input[name='text']"):
+                print("Email input field found")
                 sb.type("input[name='text']", email)
                 sb.click("//span[contains(text(), 'Next')]", by=By.XPATH)
                 self.random_delay(sb)
