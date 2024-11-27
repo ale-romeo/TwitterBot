@@ -40,7 +40,7 @@ def replace_seleniumbase_file():
     print("Replacing SeleniumBase's base_case.py...")
 
     # Locate site-packages directory
-    site_packages_path = site.getsitepackages()[2]  # Adjust this for specific environments if needed
+    site_packages_path = site.getsitepackages()[3]  # Adjust this for specific environments if needed
 
     # Target SeleniumBase base_case.py file
     target_file = os.path.join(site_packages_path, "seleniumbase", "fixtures", "base_case.py")
