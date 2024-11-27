@@ -79,7 +79,6 @@ class SeleniumActions:
 
             # Enter email and proceed
             if sb.is_element_present("input[name='text']"):
-                print("Email input field found")
                 sb.type("input[name='text']", email)
                 sb.click("//span[contains(text(), 'Next')]", by=By.XPATH)
                 self.random_delay(sb)
@@ -138,7 +137,7 @@ class SeleniumActions:
             tweet_box_selector = "[data-testid='tweetTextarea_0']"
             
             # Type the tweet message
-            if sb.is_element_present(tweet_box_selector):
+            if sb.is_element_present(tweet_box_selector, timeout=10):
                 sb.type(tweet_box_selector, message)
             else:
                 return False
@@ -153,7 +152,7 @@ class SeleniumActions:
 
             # Submit the tweet
             submit_button_selector = "[data-testid='tweetButtonInline']"
-            if sb.is_element_clickable(submit_button_selector):
+            if sb.is_element_clickable(submit_button_selector, timeout=10):
                 sb.click(submit_button_selector)
                 self.random_delay(sb)
                 return True
