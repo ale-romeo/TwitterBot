@@ -134,11 +134,11 @@ class SeleniumActions:
         try:
             self.random_delay(sb)
             tweet_box_selector = "[data-testid='tweetTextarea_0']"
-            print("Attempting to post tweet...")
+            submit_button_selector = "[data-testid='tweetButtonInline']"
             # Type the tweet message
-            if sb.is_element_present(tweet_box_selector, timeout=10):
-                sb.type(tweet_box_selector, message)
-            else:
+            try:
+                sb.update_text(tweet_box_selector, message, timeout=10, retry=1)
+            except:
                 return False
 
             self.random_delay(sb)
@@ -150,12 +150,11 @@ class SeleniumActions:
             self.random_delay(sb)
 
             # Submit the tweet
-            submit_button_selector = "[data-testid='tweetButtonInline']"
-            if sb.is_element_clickable(submit_button_selector, timeout=10):
-                sb.click(submit_button_selector)
+            try:
+                sb.click(submit_button_selector, timeout=10, delay=1)
                 self.random_delay(sb)
                 return True
-            else:
+            except:
                 return False
 
         except:
@@ -170,17 +169,19 @@ class SeleniumActions:
             tweet_selector = "//article[@data-testid='tweet']"
 
             # Try to find the tweet with tabindex="-1"
-            if sb.is_element_present(tweet_selector_with_tabindex, timeout=10):
+            try:
                 self.tweet = sb.find_element(tweet_selector_with_tabindex)
                 self.random_delay(sb)
                 return True
+            except:
+                pass
 
             # Fall back to finding the tweet without tabindex
-            elif sb.is_element_present(tweet_selector, timeout=10):
+            try:
                 self.tweet = sb.find_element(tweet_selector)
                 self.random_delay(sb)
                 return True
-            else:
+            except:
                 return False
 
         except:
@@ -188,42 +189,48 @@ class SeleniumActions:
 
     def like(self, sb):
         try:
+            unlike_selector = "[data-testid='unlike']"
+            like_selector = "[data-testid='like']"
             # Check if the tweet is already liked
-            if sb.is_element_visible('[data-testid="unlike"]', timeout=5):
-                sb.sleep(0.5)  # Optional small delay for realism
+            try:
+                sb.assert_element(unlike_selector, timeout=5)
                 return True  # Already liked
+            except:
+                pass
 
-            # Attempt to like the tweet
-            if sb.is_element_visible('[data-testid="like"]', timeout=5):
-                sb.click('[data-testid="like"]')
-                sb.sleep(1)  # Optional delay for natural interaction
-                return True  # Like successful
+            try:
+                sb.click(like_selector, timeout=5, delay=1)
+                sb.sleep(0.5)  # Optional small delay for realism
+                return True
+            except:
+                return False
 
         except:
             return False
 
     def repost(self, sb):
         try:
+            unretweet_selector = "[data-testid='unretweet']"
+            retweet_selector = "[data-testid='retweet']"
+            retweet_confirm_selector = "[data-testid='retweetConfirm']"
             # Check if already reposted
             try:
-                if sb.is_element_visible('[data-testid="unretweet"]'):
-                    sb.sleep(0.5)  # Optional short delay for realism
-                    return True
+                sb.assert_element(unretweet_selector, timeout=5)
+                return True
             except:
                 pass  # If unretweet button is not present, proceed to retweet
 
-            # Retweet the post
-            if sb.is_element_visible('[data-testid="retweet"]'):
-                sb.click('[data-testid="retweet"]')
-                sb.sleep(0.5)
-
-                # Confirm the retweet
-                sb.wait_for_element_visible('[data-testid="retweetConfirm"]', timeout=10)
-                sb.click('[data-testid="retweetConfirm"]')
-                sb.sleep(1)  # Delay for confirmation realism
-
-                return True
-            return False  # Retweet button not found
+            try:
+                sb.click(retweet_selector, timeout=5, delay=1)
+                sb.sleep(0.5)  # Optional small delay for realism
+                try:
+                    sb.click(retweet_confirm_selector, timeout=5, delay=1)
+                    sb.sleep(1)  # Delay for confirmation realism
+                    return True
+                except:
+                    return False
+            except:
+                return False
 
         except:
             return False
@@ -232,11 +239,11 @@ class SeleniumActions:
         try:
             # Locate and upload the picture using the file input element
             file_input_selector = "[data-testid='fileInput']"
-            if sb.is_element_visible(file_input_selector, timeout=10):
-                sb.find_element(file_input_selector).send_keys(picture)
-                sb.sleep(1)  # Short delay to allow the upload process to start
-                return True
-            return False  # File input element not found
+            try:
+                sb.update_text(file_input_selector, picture, timeout=10, retry=1)
+                return True  # Picture upload successful
+            except:
+                return False  # File input element not found
         except:
             return False
 
@@ -244,100 +251,105 @@ class SeleniumActions:
         try:
             # Click the "Add emoji" button
             emoji_button_selector = "[aria-label='Add emoji']"
-            if sb.is_element_clickable(emoji_button_selector, timeout=10):
-                sb.click(emoji_button_selector)
+            emoji_search_selector = "[aria-label='Search emojis']"
+            try:
+                sb.click(emoji_button_selector, timeout=10, delay=1)
                 sb.sleep(0.5)
 
                 for emoji in emojis:
+                    emoji_button_selector = f"[aria-label='{emoji}']"
                     # Type the emoji name in the search bar
-                    emoji_search_selector = "[aria-label='Search emojis']"
-                    if sb.is_element_visible(emoji_search_selector, timeout=10):
-                        sb.type(emoji_search_selector, emoji)
+                    try:
+                        sb.update_text(emoji_search_selector, emoji, timeout=10, retry=1)
                         sb.sleep(0.5)  # Small delay for realism
 
                         # Select the emoji from the search results
-                        emoji_button_selector = f"[aria-label='{emoji}']"
-                        if sb.is_element_visible(emoji_button_selector, timeout=5):
-                            sb.click(emoji_button_selector)
+                        try:
+                            sb.click(emoji_button_selector, timeout=5, delay=1)
                             sb.sleep(0.5)
 
-                        # Clear the search bar
-                        clear_button_selector = "[data-testid='clearButton']"
-                        if sb.is_element_visible(clear_button_selector, timeout=5):
-                            sb.click(clear_button_selector)
-                            sb.sleep(0.5)
-                    else:
+                        except:
+                            continue
+                    except:
                         continue
 
                 # Close the emoji picker
-                sb.press_keys(emoji_search_selector, Keys.ESCAPE)
+                sb.press_keys(emoji_search_selector, Keys.ESCAPE, timeout=5)
                 sb.sleep(1)  # Delay for realism
                 return True
-            return False  # Emoji button not found
+            except:
+                return False  # Emoji button not found
         except:
             return False
 
     def comment(self, sb, message):
+        # Click the reply button
+        reply_button_selector = "[data-testid='reply']"
+        textarea_selector = "[data-testid='tweetTextarea_0']"
+        submit_button_selector = "[data-testid='tweetButton']"
         try:
-            # Click the reply button
-            reply_button_selector = "[data-testid='reply']"
-            if sb.is_element_visible(reply_button_selector, timeout=10):
-                sb.click(reply_button_selector)
-                sb.sleep(1)  # Slight delay for realism
-
-                # Randomly choose comment type
-                comment_type = random.choices(
-                    ['text', 'picture', 'text_picture', 'emojis'],
-                    weights=[0.1, 0.05, 0.8, 0.05]
-                )[0]
-
-                # Comment logic based on the type
-                if comment_type in ['text', 'text_picture']:
-                    textarea_selector = "[data-testid='tweetTextarea_0']"
-                    if sb.is_element_visible(textarea_selector, timeout=10):
-                        sb.type(textarea_selector, message)
-
-                        # Add emojis if applicable
-                        if comment_type == 'text' or comment_type == 'text_picture':
-                            self.add_emojis(sb, get_random_emojis())
-
-                if comment_type in ['picture', 'text_picture']:
-                    # Attach a picture
-                    picture = get_random_picture()
-                    self.send_picture(sb, picture)
-
-                if comment_type == 'emojis':
-                    # Add only emojis
-                    self.add_emojis(sb, get_random_emojis())
-
-                # Submit the comment
-                submit_button_selector = "[data-testid='tweetButton']"
-                if sb.is_element_visible(submit_button_selector, timeout=10):
-                    sb.click(submit_button_selector)
-                    sb.sleep(2)  # Pause for completion
-                    return True
-                else:
-                    return False
+            sb.click(reply_button_selector, timeout=10, delay=1)
+            sb.sleep(1)  # Slight delay for realism
+        except:
             return False
+        
+        # Randomly choose comment type
+        comment_type = random.choices(
+            ['text', 'picture', 'text_picture', 'emojis'],
+            weights=[0.1, 0.05, 0.8, 0.05]
+        )[0]
+
+        # Comment logic based on the type
+        if comment_type in ['text', 'text_picture']:
+            try:
+                sb.update_text(textarea_selector, message, timeout=10, retry=1)
+                if comment_type == 'text_picture' or comment_type == 'text':
+                    self.add_emojis(sb, get_random_emojis())
+                sb.sleep(1)  # Pause for realism
+            except:
+                return False
+
+        if comment_type in ['picture', 'text_picture']:
+            try:
+                # Attach a picture
+                picture = get_random_picture()
+                self.send_picture(sb, picture)
+            except:
+                return False
+
+        if comment_type == 'emojis':
+            try:
+                # Add only emojis
+                self.add_emojis(sb, get_random_emojis())
+            except:
+                return False
+
+        # Submit the comment
+        try:
+            sb.click(submit_button_selector, timeout=10, delay=1)
+            sb.sleep(2)  # Pause for completion
+            return True
         except:
             return False
 
     def bookmark(self, sb):
         try:
-            # Selector for the "unbookmark" button
             unbookmark_selector = "[data-testid='unbookmark']"
-            if sb.is_element_visible(unbookmark_selector, timeout=10):
-                sb.sleep(1)  # Short delay for realism
+            bookmark_selector = "[data-testid='bookmark']"
+            # Selector for the "unbookmark" button
+            try:
+                sb.assert_element(unbookmark_selector, timeout=10)
                 return True  # Tweet is already bookmarked
+            except:
+                pass
 
             # Selector for the "bookmark" button
-            bookmark_selector = "[data-testid='bookmark']"
-            if sb.is_element_visible(bookmark_selector, timeout=10):
-                sb.click(bookmark_selector)
+            try:
+                sb.click(bookmark_selector, timeout=10, delay=1)
                 sb.sleep(1)  # Slight delay after clicking
                 return True  # Bookmark operation successful
-            
-            return False  # Bookmark element not found
+            except:
+                return False
         except:
             return False
         
