@@ -358,15 +358,14 @@ class SeleniumActions:
                 # Open the website and clear cookies for a fresh start
                 sb.uc_open("https://x.com")
                 self.random_delay(sb)
-                print("Opened website")
                 
                 if sb.load_cookies(username):  # Load cookies if available
                     self.random_delay(sb)
-                    print("Loaded cookies")
                     
                     if not self.verify_login(sb, username, TEST_TWITTER_URL):  # Validate cookies
                         log_error(f"COOKIES EXPIRED - {username}", level="WARNING")
                         sb.delete_all_cookies()
+                        print("Cookies expired")
                         sb.sleep(1)
 
                         if not self.login(sb, email, username, password):
