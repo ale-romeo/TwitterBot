@@ -2,8 +2,8 @@ import os
 import seleniumbase as _
 
 # Paths
-config_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "code", "config")
-mod_files_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "mod_files")
+config_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__name__))), "code", "config")
+mod_files_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__name__))), "mod_files")
 seleniumbase_path = os.path.dirname(os.path.abspath(_.__file__))
 
 # Config paths
