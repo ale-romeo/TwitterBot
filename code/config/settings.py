@@ -1,18 +1,19 @@
-from config.env import USER
+import os
 
-PICTURES_PATH = f"/home/{USER}/Documents/TwitterBot/img/"
-COOKIES_PATH = f"/home/{USER}/Documents/TwitterBot/code/config/cookies/"
-MESSAGE_PATH = f"/home/{USER}/Documents/TwitterBot/code/config/messages.json"
-POST_PATH = f"/home/{USER}/Documents/TwitterBot/code/config/posts.json"
-LOG_PATH = f"/home/{USER}/Documents/TwitterBot/code/config/logs/automation.log"
-ACCOUNTS_PATH = f"/home/{USER}/Documents/TwitterBot/code/config/accounts.json"
-QUARANTINE_PATH = f"/home/{USER}/Documents/TwitterBot/code/config/quarantine.json"
-SUSPENDED_PATH = f"/home/{USER}/Documents/TwitterBot/code/config/suspended.json"
-TWEETS_PATH = f"/home/{USER}/Documents/TwitterBot/code/config/logs/tweets.json"
-LOGS_PATH = f"/home/{USER}/Documents/TwitterBot/code/config/logs/"
+# Main path
+main_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "code", "config")
 
-API_KEY = "aac405691061c7841c55612ed7477606"
+# Paths
+PICTURES_PATH = os.path.join(main_path, "pictures")
+COOKIES_PATH = os.path.join(main_path, "cookies")
+MESSAGE_PATH = os.path.join(main_path, "messages.json")
+POST_PATH = os.path.join(main_path, "posts.json")
+LOG_PATH = os.path.join(main_path, "automation.log")
+ACCOUNTS_PATH = os.path.join(main_path, "accounts.json")
+QUARANTINE_PATH = os.path.join(main_path, "quarantine.json")
+SUSPENDED_PATH = os.path.join(main_path, "suspended.json")
+TWEETS_PATH = os.path.join(main_path, "tweets.json")
+LOGS_PATH = os.path.join(main_path, "logs")
+
 TWITTER_URL = "https://www.x.com/"
-PUBLIC_KEY = "4d9fc2f0-efb9-41a6-9986-586db3d92c3b"
-
 TEST_TWITTER_URL = "https://x.com/ChengpangZhoa/status/1859703180977897978"

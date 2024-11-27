@@ -435,7 +435,7 @@ class SeleniumActions:
                 uc=True,  # Enable undetected-chromedriver mode
                 headless=False,  # Optional: Set True for headless mode
                 incognito=True,  # Enable incognito mode for stealth
-                proxy=PROXY_STRING,  # Assign proxy if needed
+                #proxy=PROXY_STRING,  # Assign proxy if needed
                 window_size="800,800"  # Set window size for the browser
             ) as sb:
                 # Open X.com and clear session for a fresh start
