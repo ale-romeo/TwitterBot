@@ -72,7 +72,6 @@ class SeleniumActions:
 
     def login(self, sb, email, username, password):
         try:
-            print("Logging in")
             # Navigate to Twitter login page
             sb.open("https://x.com/i/flow/login")
             self.random_delay(sb)
@@ -135,7 +134,7 @@ class SeleniumActions:
         try:
             self.random_delay(sb)
             tweet_box_selector = "[data-testid='tweetTextarea_0']"
-            
+            print("Attempting to post tweet...")
             # Type the tweet message
             if sb.is_element_present(tweet_box_selector, timeout=10):
                 sb.type(tweet_box_selector, message)
