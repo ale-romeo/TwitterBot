@@ -1,5 +1,4 @@
 import os
-import site
 import shutil
 from config.settings import (
     COOKIES_PATH,
@@ -12,7 +11,8 @@ from config.settings import (
     PICTURES_PATH,
     SUSPENDED_PATH,
     LOGS_PATH,
-    BASECASE_PATH
+    ORIGINAL_BASECASE_PATH,
+    MODIFIED_BASECASE_PATH
 )
 
 def setup_directories_and_files():
@@ -39,21 +39,15 @@ def replace_seleniumbase_file():
     """Replaces SeleniumBase's `base_case.py` with the modified version."""
     print("Replacing SeleniumBase's base_case.py...")
 
-    # Locate site-packages directory
-    site_packages_path = site.getsitepackages()[3]  # Adjust this for specific environments if needed
-
-    # Target SeleniumBase base_case.py file
-    target_file = os.path.join(site_packages_path, "seleniumbase", "fixtures", "base_case.py")
-
     # Replace the file
-    if os.path.exists(target_file):
+    if os.path.exists(ORIGINAL_BASECASE_PATH):
         try:
-            shutil.copy(BASECASE_PATH, target_file)
-            print(f"Replaced {target_file} with the modified version.")
+            shutil.copy(MODIFIED_BASECASE_PATH, ORIGINAL_BASECASE_PATH)
+            print(f"Replaced {ORIGINAL_BASECASE_PATH} with the modified version.")
         except Exception as e:
-            print(f"Failed to replace {target_file}: {e}")
+            print(f"Failed to replace {ORIGINAL_BASECASE_PATH}: {e}")
     else:
-        print(f"SeleniumBase's base_case.py not found at {target_file}. Skipping replacement.")
+        print(f"SeleniumBase's base_case.py not found at {ORIGINAL_BASECASE_PATH}. Skipping replacement.")
 
 def install_dependencies():
     """Install required dependencies."""
