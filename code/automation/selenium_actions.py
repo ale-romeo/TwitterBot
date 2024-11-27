@@ -258,10 +258,8 @@ class SeleniumActions:
             emoji_button_selector = "[aria-label='Add emoji']"
             emoji_search_selector = "[aria-label='Search emojis']"
             try:
-                print("Adding emojis")
                 sb.click(emoji_button_selector, timeout=10, delay=1)
                 sb.sleep(0.5)
-                print("Emojis clicked")
 
                 for emoji in emojis:
                     emoji_button_selector = f"[aria-label='{emoji}']"
