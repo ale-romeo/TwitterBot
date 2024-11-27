@@ -75,32 +75,35 @@ class SeleniumActions:
             # Navigate to Twitter login page
             sb.open("https://x.com/i/flow/login")
             self.random_delay(sb)
+            input_selector = "input[name='text']"
+            password_selector = "input[name='password']"
+            next_button_selector = "//span[contains(text(), 'Next')]"
 
             # Enter email and proceed
-            if sb.is_element_present("input[name='text']"):
-                sb.type("input[name='text']", email)
-                sb.click("//span[contains(text(), 'Next')]", by=By.XPATH)
+            try:
+                sb.update_text(input_selector, email, timeout=10, retry=1)
+                sb.click(next_button_selector, by=By.XPATH)
                 self.random_delay(sb)
-            else:
-                log_error("Email input field not found.")
+            except:
                 return False
 
             # Handle username or password input
-            if sb.is_element_present("input[name='text']"):
-                sb.type("input[name='text']", username)
-                sb.click("//span[contains(text(), 'Next')]", by=By.XPATH)
+            try:
+                sb.update_text(input_selector, username, timeout=10, retry=1)
+                sb.click(next_button_selector, by=By.XPATH)
                 self.random_delay(sb)
+            except:
+                pass
 
-            if sb.is_element_present("input[name='password']"):
-                sb.type("input[name='password']", password)
+            try:
+                sb.update_text(password_selector, password, timeout=10, retry=1)
                 sb.click("//span[contains(text(), 'Log in')]", by=By.XPATH)
                 self.random_delay(sb)
                 sb.save_cookies(username)
                 return True
-
-            # If neither username nor password worked, deal with auth-required flow
-            self.check_auth_required(username)
-            return False
+            except:
+                self.check_suspended(sb, username)
+                return False
 
         except:
             return False
@@ -122,11 +125,13 @@ class SeleniumActions:
             sb.open(tweet_url)
 
             # Check if the "login" element is present
-            if sb.is_element_present('[data-testid="login"]'):
+            try:
+                sb.assert_element("[data-testid='login']", timeout=5)
                 log_error(f"COOKIES FAILED - {username}")
                 sb.sleep(1)
                 return False
-            return True
+            except:
+                return True
         except:
             return False
 
