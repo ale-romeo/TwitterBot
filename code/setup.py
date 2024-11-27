@@ -11,7 +11,8 @@ from config.settings import (
     TWEETS_PATH,
     PICTURES_PATH,
     SUSPENDED_PATH,
-    LOGS_PATH
+    LOGS_PATH,
+    BASECASE_PATH
 )
 
 def setup_directories_and_files():
@@ -38,9 +39,6 @@ def replace_seleniumbase_file():
     """Replaces SeleniumBase's `base_case.py` with the modified version."""
     print("Replacing SeleniumBase's base_case.py...")
 
-    # Path to the modified file in your repository
-    local_file = os.path.join(os.path.dirname(__file__), "mod_files", "base_case.py")
-
     # Locate site-packages directory
     site_packages_path = site.getsitepackages()[0]  # Adjust this for specific environments if needed
 
@@ -50,7 +48,7 @@ def replace_seleniumbase_file():
     # Replace the file
     if os.path.exists(target_file):
         try:
-            shutil.copy(local_file, target_file)
+            shutil.copy(BASECASE_PATH, target_file)
             print(f"Replaced {target_file} with the modified version.")
         except Exception as e:
             print(f"Failed to replace {target_file}: {e}")
