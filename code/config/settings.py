@@ -9,7 +9,7 @@ logs_path = os.path.join(config_path, "logs")
 seleniumbase_path = os.path.dirname(os.path.abspath(_.__file__))
 
 # Config paths
-PICTURES_PATH = os.path.join(config_path, "pictures")
+PICTURES_PATH = os.path.join(base_path, "img")
 COOKIES_PATH = os.path.join(config_path, "cookies")
 MESSAGE_PATH = os.path.join(config_path, "messages.json")
 POST_PATH = os.path.join(config_path, "posts.json")
