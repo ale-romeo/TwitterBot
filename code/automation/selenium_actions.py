@@ -381,7 +381,7 @@ class SeleniumActions:
                 sb.uc_open("https://x.com")
                 self.random_delay(sb)
                 
-                if sb.load_cookies(username):  # Load cookies if available
+                if sb.load_cookies(username, -1):  # Load cookies if available
                     self.random_delay(sb)
                     
                     if not self.verify_login(sb, username, TEST_TWITTER_URL):  # Validate cookies
