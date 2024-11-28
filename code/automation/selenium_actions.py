@@ -245,16 +245,14 @@ class SeleniumActions:
             return False
 
     def send_picture(self, sb, picture):
+        # Locate and upload the picture using the file input element
+        file_input_selector = "[data-testid='fileInput']"
         try:
-            # Locate and upload the picture using the file input element
-            file_input_selector = "[data-testid='fileInput']"
-            try:
-                sb.update_text(file_input_selector, picture, timeout=10, retry=1)
-                return True  # Picture upload successful
-            except:
-                return False  # File input element not found
+            file_input = sb.find_element(file_input_selector)
+            file_input.send_keys(picture)
+            return True  # Picture upload successful
         except:
-            return False
+            return False  # File input element not found
      
     def add_emojis(self, sb, text_box, emojis):
         try:
