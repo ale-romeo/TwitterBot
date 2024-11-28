@@ -147,7 +147,8 @@ class SeleniumActions:
                 return False
 
             self.random_delay(sb)
-            self.add_emojis(sb, tweet_box_selector, get_random_emojis())
+            tweet_box = sb.find_element(tweet_box_selector)
+            self.add_emojis(sb, tweet_box, get_random_emojis())
 
             self.random_delay(sb)
             self.send_picture(sb, picture)
@@ -252,7 +253,7 @@ class SeleniumActions:
         except:
             return False
         
-    def send_keys_with_emojis(self, sb, element_selector, text):
+    def send_keys_with_emojis(self, sb, element, text):
         """Send keys with support for emojis using JavaScript."""
         script = """
             var elm = arguments[0];
@@ -265,7 +266,7 @@ class SeleniumActions:
         """
         try:
             # Execute the JavaScript to send keys with emojis
-            sb.execute_script(script, element_selector, text)
+            sb.execute_script(script, element, text)
             sb.sleep(1)  # Optional delay for realism
             return True
         except Exception as e:
@@ -315,11 +316,11 @@ class SeleniumActions:
         except:
             return False
     '''
-    def add_emojis(self, sb, text_box_selector, emojis):
+    def add_emojis(self, sb, element, emojis):
         """Add emojis to the text input."""
         try:
             for emoji in emojis:
-                self.send_keys_with_emojis(sb, text_box_selector, emoji)
+                self.send_keys_with_emojis(sb, element, emoji)
                 sb.sleep(0.5)  # Small delay for realism
             return True
         except Exception as e:
