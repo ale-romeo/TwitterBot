@@ -258,6 +258,7 @@ class SeleniumActions:
     def add_emojis(self, sb, emojis):
         # Click the "Add emoji" button
         emoji_button_selector = "[aria-label='Add emoji']"
+        emoji_hovercard_selector = "[data-testid='Hovercard']"
         emoji_search_selector = "[aria-label='Search emojis']"
         clear_button_selector = "[data-testid='clearButton']"
         try:
@@ -269,6 +270,7 @@ class SeleniumActions:
                 # Type the emoji name in the search bar
                 try:
                     # Type the emoji name into the search bar
+                    sb.focus(emoji_search_selector, timeout=10, retry=True)
                     sb.type(emoji_search_selector, emoji, timeout=10, retry=True)
                     sb.sleep(0.5)  # Wait for results to load
 
