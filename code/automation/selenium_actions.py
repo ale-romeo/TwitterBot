@@ -253,42 +253,41 @@ class SeleniumActions:
             return False
 
     def add_emojis(self, sb, emojis):
+        # Click the "Add emoji" button
+        emoji_button_selector = "[aria-label='Add emoji']"
+        emoji_search_selector = "[aria-label='Search emojis']"
+        clear_button_selector = "[data-testid='clearButton']"
         try:
-            # Click the "Add emoji" button
-            emoji_button_selector = "[aria-label='Add emoji']"
-            emoji_search_selector = "[aria-label='Search emojis']"
-            clear_button_selector = "[data-testid='clearButton']"
-            try:
-                sb.click(emoji_button_selector, timeout=10, delay=1)
-                sb.sleep(0.5)
+            print("Adding emojis")
+            sb.click(emoji_button_selector, timeout=10, delay=1)
+            sb.sleep(0.5)
+            print("Clicked emoji button")
 
-                for emoji in emojis:
-                    emoji_button_selector = f"[aria-label='{emoji}']"
-                    # Type the emoji name in the search bar
+            for emoji in emojis:
+                emoji_button_selector = f"[aria-label='{emoji}']"
+                # Type the emoji name in the search bar
+                try:
+                    sb.add_text(emoji_search_selector, emoji, timeout=10)
+                    sb.sleep(0.5)  # Small delay for realism
+
+                    # Select the emoji from the search results
                     try:
-                        sb.add_text(emoji_search_selector, emoji, timeout=10)
-                        sb.sleep(0.5)  # Small delay for realism
-
-                        # Select the emoji from the search results
+                        sb.click(emoji_button_selector, timeout=5, delay=1)
+                        sb.sleep(0.5)
                         try:
-                            sb.click(emoji_button_selector, timeout=5, delay=1)
-                            sb.sleep(0.5)
-                            try:
-                                sb.click(clear_button_selector, timeout=5, delay=1)
-                                sb.sleep(0.5)  # Delay for realism
-                            except:
-                                continue
+                            sb.click(clear_button_selector, timeout=5, delay=1)
+                            sb.sleep(0.5)  # Delay for realism
                         except:
                             continue
                     except:
                         continue
+                except:
+                    continue
 
-                # Close the emoji picker
-                sb.press_keys(emoji_search_selector, Keys.ESCAPE, timeout=5)
-                sb.sleep(1)  # Delay for realism
-                return True
-            except:
-                return False  # Emoji button not found
+            # Close the emoji picker
+            sb.press_keys(emoji_search_selector, Keys.ESCAPE, timeout=5)
+            sb.sleep(1)  # Delay for realism
+            return True
         except:
             return False
 
