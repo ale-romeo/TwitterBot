@@ -147,7 +147,7 @@ class SeleniumActions:
                 return False
 
             self.random_delay(sb)
-            self.add_emojis(sb, get_random_emojis())
+            self.add_emojis(sb, tweet_box_selector, get_random_emojis())
 
             self.random_delay(sb)
             self.send_picture(sb, picture)
@@ -251,7 +251,29 @@ class SeleniumActions:
                 return False  # File input element not found
         except:
             return False
-
+        
+    def send_keys_with_emojis(self, sb, element_selector, text):
+        """Send keys with support for emojis using JavaScript."""
+        script = """
+            var elm = arguments[0];
+            var txt = arguments[1];
+            elm.value += txt;
+            elm.dispatchEvent(new Event('keydown', {bubbles: true}));
+            elm.dispatchEvent(new Event('keypress', {bubbles: true}));
+            elm.dispatchEvent(new Event('input', {bubbles: true}));
+            elm.dispatchEvent(new Event('keyup', {bubbles: true}));
+        """
+        try:
+            # Locate the element using SeleniumBase
+            element = sb.find_element(element_selector, timeout=10)
+            # Execute the JavaScript to send keys with emojis
+            sb.execute_script(script, element, text)
+            sb.sleep(1)  # Optional delay for realism
+            return True
+        except Exception as e:
+            print(f"Failed to send keys with emojis: {e}")
+            return False
+    '''
     def add_emojis(self, sb, emojis):
         # Click the "Add emoji" button
         emoji_button_selector = "[aria-label='Add emoji']"
@@ -294,7 +316,19 @@ class SeleniumActions:
             return True
         except:
             return False
-
+    '''
+    def add_emojis(self, sb, text_box_selector, emojis):
+        """Add emojis to the text input."""
+        try:
+            for emoji in emojis:
+                if sb.is_element_visible(text_box_selector, timeout=10):
+                    self.send_keys_with_emojis(sb, text_box_selector, emoji)
+                    sb.sleep(0.5)  # Small delay for realism
+            return True
+        except Exception as e:
+            print(f"Error adding emojis: {e}")
+            return False
+    
     def comment(self, sb, message):
         # Click the reply button
         reply_button_selector = "[data-testid='reply']"
