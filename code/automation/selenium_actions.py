@@ -1,4 +1,5 @@
 import random
+import pyperclip
 from seleniumbase import SB
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -147,7 +148,7 @@ class SeleniumActions:
         self.random_delay(sb)
 
         try:
-            self.add_emojis(sb, get_random_emojis())
+            self.add_emojis(sb, tweet_box_selector, get_random_emojis())
         except:
             pass
 
@@ -254,11 +255,21 @@ class SeleniumActions:
                 return False  # File input element not found
         except:
             return False
-    
+        
+    def add_emojis(self, sb, text_box, emojis):
+        try:
+            for emoji in emojis:
+                # Copy the emoji to the clipboard
+                pyperclip.copy(emoji)
+                sb.press_keys(text_box, Keys.CONTROL, 'v', timeout=5)
+            sb.sleep(1)  # Delay for realism
+            return True
+        except:
+            return False
+    '''
     def add_emojis(self, sb, emojis):
         # Click the "Add emoji" button
         emoji_button_selector = "[aria-label='Add emoji']"
-        emoji_hovercard_selector = "[data-testid='Hovercard']"
         emoji_search_selector = "[aria-label='Search emojis']"
         clear_button_selector = "[data-testid='clearButton']"
         try:
@@ -270,7 +281,6 @@ class SeleniumActions:
                 # Type the emoji name in the search bar
                 try:
                     # Type the emoji name into the search bar
-                    sb.focus(emoji_search_selector)
                     sb.type(emoji_search_selector, emoji, timeout=10, retry=True)
                     sb.sleep(0.5)  # Wait for results to load
 
@@ -285,10 +295,8 @@ class SeleniumActions:
                             continue
                     except:
                         continue
-                except Exception as e:
-                    log_error(f"Error adding emojis: {e}")
+                except:
                     continue
-                    
 
             # Close the emoji picker
             sb.press_keys(emoji_search_selector, Keys.ESCAPE, timeout=5)
@@ -296,6 +304,7 @@ class SeleniumActions:
             return True
         except:
             return False
+    '''
     
     def comment(self, sb, message):
         # Click the reply button
