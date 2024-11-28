@@ -148,7 +148,7 @@ class SeleniumActions:
         self.random_delay(sb)
 
         try:
-            self.add_emojis(sb, get_random_emojis())
+            self.add_emojis(sb, tweet_box_selector, get_random_emojis())
         except:
             pass
 
@@ -255,29 +255,29 @@ class SeleniumActions:
                 return False  # File input element not found
         except:
             return False
-    '''  
-    def add_emojis(self, sb, text_box):
+     
+    def add_emojis(self, sb, text_box, emojis):
         try:
-            for emoji in ['🚀', '🌕', '🔥', '💰', '💎','🧡', '👑', '✨', '👏']:
+            for emoji in emojis:
                 # Copy the emoji to the clipboard
-                if emoji == '👏':
+                if emoji == 'Clapping hands sign':
                     pyperclip.copy('👏')
-                if emoji == '🧡':
-                    pyperclip.copy('🧡')
-                if emoji == '👑':
+                if emoji == 'Crown':
                     pyperclip.copy('👑')
-                if emoji == '✨':
+                if emoji == 'Sparkles':
                     pyperclip.copy('✨')
-                if emoji == '🚀':
+                if emoji == 'Rocket':
                     pyperclip.copy('🚀')
-                if emoji == '🌕':
+                if emoji == 'Full moon symbol':
                     pyperclip.copy('🌕')
-                if emoji == '🔥':
+                if emoji == 'Fire':
                     pyperclip.copy('🔥')
-                if emoji == '💰':
+                if emoji == 'Money bag':
                     pyperclip.copy('💰')
-                if emoji == '💎':
+                if emoji == 'Gem stone':
                     pyperclip.copy('💎')
+                if emoji == 'Small orange diamond':
+                    pyperclip.copy('🔸')
                 sb.send_keys(text_box, Keys.CONTROL + 'v', timeout=5)
             sb.sleep(1)  # Delay for realism
             return True
@@ -322,7 +322,7 @@ class SeleniumActions:
             return True
         except:
             return False
-    
+    ''' 
     def comment(self, sb, message):
         # Click the reply button
         reply_button_selector = "[data-testid='reply']"
