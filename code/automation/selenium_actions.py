@@ -270,8 +270,8 @@ class SeleniumActions:
                 try:
                     # Type the emoji name into the search bar
                     # Use JavaScript to set the emoji search text
-                    js_code = f'document.querySelector("{emoji_search_selector}").value = "{emoji}";'
-                    sb.execute_script(js_code)
+                    emoji_search_bar = sb.find_element(emoji_search_selector)
+                    sb.driver.send_keys(emoji_search_bar, emoji)
 
                     # Select the emoji from the search results
                     try:
