@@ -270,7 +270,7 @@ class SeleniumActions:
                 # Type the emoji name in the search bar
                 try:
                     # Type the emoji name into the search bar
-                    sb.focus(emoji_search_selector, timeout=10, retry=True)
+                    sb.focus(emoji_search_selector)
                     sb.type(emoji_search_selector, emoji, timeout=10, retry=True)
                     sb.sleep(0.5)  # Wait for results to load
 
