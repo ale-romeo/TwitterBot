@@ -292,6 +292,7 @@ class SeleniumActions:
         try:
             sb.click(emoji_button_selector, timeout=10)
             sb.sleep(0.5)
+            sb.wait_for_element_visible(emoji_search_selector, timeout=10)
 
             for emoji in emojis:
                 emoji_button_selector = f"[aria-label='{emoji}']"
