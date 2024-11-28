@@ -287,24 +287,18 @@ class SeleniumActions:
     def add_emojis(self, sb, emojis):
         # Click the "Add emoji" button
         emoji_button_selector = "[aria-label='Add emoji']"
-        layers_selector = "[id='layers']"
         emoji_search_selector = "[aria-label='Search emojis']"
         clear_button_selector = "[data-testid='clearButton']"
         try:
             sb.click(emoji_button_selector, timeout=10)
             sb.sleep(0.5)
-            sb.focus(layers_selector, timeout=5)
 
             for emoji in emojis:
                 emoji_button_selector = f"[aria-label='{emoji}']"
                 # Type the emoji name in the search bar
                 try:
-                    hovercard_selector = "[data-testid='hoverCard']"
-                    sb.focus(hovercard_selector, timeout=5)
-                    sb.sleep(0.5)  # Delay for realism
-                    
-                    # Type the emoji name into the search bar
-                    sb.type(emoji_search_selector, emoji, timeout=10, retry=True)
+                    # Use JavaScript to type the emoji name in the search bar input
+                    sb.execute_script("arguments[0].value = arguments[1];", emoji_search_selector, emoji)
                     sb.sleep(0.5)  # Wait for results to load
 
                     # Select the emoji from the search results
