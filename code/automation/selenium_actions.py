@@ -249,7 +249,7 @@ class SeleniumActions:
         file_input_selector = "[data-testid='fileInput']"
         try:
             file_input = sb.find_element(file_input_selector)
-            file_input.add_text(picture)
+            file_input.send_keys(picture)
             return True  # Picture upload successful
         except:
             return False  # File input element not found
@@ -260,39 +260,39 @@ class SeleniumActions:
                 # Copy the emoji to the clipboard
                 if emoji == 'Clapping hands sign':
                     pyperclip.copy('👏')
-                    sb.press_keys(text_box, Keys.CONTROL + 'v', timeout=5)
+                    sb.send_keys(text_box, Keys.CONTROL + 'v', timeout=5)
                     sb.sleep(1)  # Delay for realism
                 elif emoji == 'Crown':
                     pyperclip.copy('👑')
-                    sb.press_keys(text_box, Keys.CONTROL + 'v', timeout=5)
+                    sb.send_keys(text_box, Keys.CONTROL + 'v', timeout=5)
                     sb.sleep(1)  # Delay for realism
                 elif emoji == 'Sparkles':
                     pyperclip.copy('✨')
-                    sb.press_keys(text_box, Keys.CONTROL + 'v', timeout=5)
+                    sb.send_keys(text_box, Keys.CONTROL + 'v', timeout=5)
                     sb.sleep(1)  # Delay for realism
                 elif emoji == 'Rocket':
                     pyperclip.copy('🚀')
-                    sb.press_keys(text_box, Keys.CONTROL + 'v', timeout=5)
+                    sb.send_keys(text_box, Keys.CONTROL + 'v', timeout=5)
                     sb.sleep(1)  # Delay for realism
                 elif emoji == 'Full moon symbol':
                     pyperclip.copy('🌕')
-                    sb.press_keys(text_box, Keys.CONTROL + 'v', timeout=5)
+                    sb.send_keys(text_box, Keys.CONTROL + 'v', timeout=5)
                     sb.sleep(1)  # Delay for realism
                 elif emoji == 'Fire':
                     pyperclip.copy('🔥')
-                    sb.press_keys(text_box, Keys.CONTROL + 'v', timeout=5)
+                    sb.send_keys(text_box, Keys.CONTROL + 'v', timeout=5)
                     sb.sleep(1)  # Delay for realism
                 elif emoji == 'Money bag':
                     pyperclip.copy('💰')
-                    sb.press_keys(text_box, Keys.CONTROL + 'v', timeout=5)
+                    sb.send_keys(text_box, Keys.CONTROL + 'v', timeout=5)
                     sb.sleep(1)  # Delay for realism
                 elif emoji == 'Gem stone':
                     pyperclip.copy('💎')
-                    sb.press_keys(text_box, Keys.CONTROL + 'v', timeout=5)
+                    sb.send_keys(text_box, Keys.CONTROL + 'v', timeout=5)
                     sb.sleep(1)  # Delay for realism
                 elif emoji == 'Small orange diamond':
                     pyperclip.copy('🔸')
-                    sb.press_keys(text_box, Keys.CONTROL + 'v', timeout=5)
+                    sb.send_keys(text_box, Keys.CONTROL + 'v', timeout=5)
                     sb.sleep(1)  # Delay for realism
             return True
         except:
