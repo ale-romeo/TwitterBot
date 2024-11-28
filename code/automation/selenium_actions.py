@@ -254,10 +254,7 @@ class SeleniumActions:
             var elm = arguments[0];
             var txt = arguments[1];
             elm.value += txt;
-            elm.dispatchEvent(new Event('keydown', {bubbles: true}));
-            elm.dispatchEvent(new Event('keypress', {bubbles: true}));
             elm.dispatchEvent(new Event('input', {bubbles: true}));
-            elm.dispatchEvent(new Event('keyup', {bubbles: true}));
         """
         try:
             # Execute the JavaScript to send keys with emojis
