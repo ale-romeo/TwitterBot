@@ -141,7 +141,7 @@ class SeleniumActions:
         submit_button_selector = "[data-testid='tweetButtonInline']"
         # Type the tweet message
         try:
-            sb.add_text(tweet_box_selector, message, timeout=10)
+            sb.add_text(tweet_box_selector, message+'🚀', timeout=10)
         except:
             return False
 
@@ -258,7 +258,7 @@ class SeleniumActions:
         
     def add_emojis(self, sb, text_box, emojis):
         try:
-            for emoji in emojis:
+            for emoji in ['🚀', '🌕', '🔥', '💰', '💎','🧡', '👑', '✨', '👏']:
                 # Copy the emoji to the clipboard
                 pyperclip.copy(emoji)
                 sb.send_keys(text_box, Keys.CONTROL + 'v', timeout=5)
