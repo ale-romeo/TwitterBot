@@ -2,6 +2,7 @@ import random
 import pyperclip
 from seleniumbase import SB
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 from utils.logging_handler import trace_account_status, log_error
 from utils.file_handler import get_random_emojis, get_random_picture, get_random_message, move_account_to_quarantine, move_account_to_suspended, save_interacted_tweet
@@ -261,7 +262,8 @@ class SeleniumActions:
             for emoji in emojis:
                 # Copy the emoji to the clipboard
                 pyperclip.copy(emoji)
-                sb.send_keys(text_box, Keys.CONTROL + 'v', timeout=5)
+                act = ActionChains(sb.driver)
+                act.key_down(Keys.CONTROL).send_keys("v").key_up(Keys.CONTROL).perform()
             sb.sleep(1)  # Delay for realism
             return True
         except:
