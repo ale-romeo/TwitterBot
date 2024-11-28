@@ -260,7 +260,7 @@ class SeleniumActions:
         try:
             for emoji in emojis:
                 # Copy the emoji to the clipboard
-                pyperclip.copy('emoji')
+                pyperclip.copy(emoji)
                 sb.send_keys(text_box, Keys.CONTROL + 'v', timeout=5)
             sb.sleep(1)  # Delay for realism
             return True
