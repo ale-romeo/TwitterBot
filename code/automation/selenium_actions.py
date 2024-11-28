@@ -269,10 +269,9 @@ class SeleniumActions:
                 # Type the emoji name in the search bar
                 try:
                     search_bar = sb.find_element(emoji_search_selector)
-                    print(search_bar)
                     # Type the emoji name into the search bar
-                    sb.add_text(search_bar, emoji, timeout=10)
-                    sb.sleep(1.5)  # Wait for results to load
+                    sb.type(search_bar, emoji, timeout=10, retry=True)
+                    sb.sleep(5)  # Wait for results to load
 
                     # Select the emoji from the search results
                     try:
