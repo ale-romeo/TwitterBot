@@ -140,11 +140,16 @@ class SeleniumActions:
         submit_button_selector = "[data-testid='tweetButtonInline']"
         # Type the tweet message
         try:
-            sb.type(tweet_box_selector, '⚪📢😆', timeout=10, retry=True)
+            sb.add_text(tweet_box_selector, message, timeout=10)
         except:
             return False
 
         self.random_delay(sb)
+
+        try:
+            self.add_emojis(sb, get_random_emojis())
+        except:
+            pass
 
         self.random_delay(sb)
 
@@ -264,9 +269,8 @@ class SeleniumActions:
                 # Type the emoji name in the search bar
                 try:
                     # Type the emoji name into the search bar
-                    # Use JavaScript to set the emoji search text
-                    emoji_search_bar = sb.find_element(emoji_search_selector)
-                    sb.driver.send_keys(emoji_search_bar, emoji)
+                    sb.type(emoji_search_selector, emoji, timeout=10, retry=True)
+                    sb.sleep(0.5)  # Wait for results to load
 
                     # Select the emoji from the search results
                     try:
@@ -279,8 +283,10 @@ class SeleniumActions:
                             continue
                     except:
                         continue
-                except:
+                except Exception as e:
+                    log_error(f"Error adding emojis: {e}")
                     continue
+                    
 
             # Close the emoji picker
             sb.press_keys(emoji_search_selector, Keys.ESCAPE, timeout=5)
