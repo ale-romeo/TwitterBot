@@ -299,6 +299,10 @@ class SeleniumActions:
                 emoji_button_selector = f"[aria-label='{emoji}']"
                 # Type the emoji name in the search bar
                 try:
+                    hovercard_selector = "[data-testid='hoverCard']"
+                    sb.focus(hovercard_selector, timeout=5)
+                    sb.sleep(0.5)  # Delay for realism
+                    
                     # Type the emoji name into the search bar
                     sb.type(emoji_search_selector, emoji, timeout=10, retry=True)
                     sb.sleep(0.5)  # Wait for results to load
