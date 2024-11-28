@@ -148,7 +148,7 @@ class SeleniumActions:
         self.random_delay(sb)
 
         try:
-            self.add_emojis(sb, tweet_box_selector, get_random_emojis())
+            self.add_emojis(sb, get_random_emojis())
         except:
             pass
 
@@ -255,12 +255,29 @@ class SeleniumActions:
                 return False  # File input element not found
         except:
             return False
-        
-    def add_emojis(self, sb, text_box, emojis):
+    '''  
+    def add_emojis(self, sb, text_box):
         try:
             for emoji in ['🚀', '🌕', '🔥', '💰', '💎','🧡', '👑', '✨', '👏']:
                 # Copy the emoji to the clipboard
-                pyperclip.copy(emoji)
+                if emoji == '👏':
+                    pyperclip.copy('👏')
+                if emoji == '🧡':
+                    pyperclip.copy('🧡')
+                if emoji == '👑':
+                    pyperclip.copy('👑')
+                if emoji == '✨':
+                    pyperclip.copy('✨')
+                if emoji == '🚀':
+                    pyperclip.copy('🚀')
+                if emoji == '🌕':
+                    pyperclip.copy('🌕')
+                if emoji == '🔥':
+                    pyperclip.copy('🔥')
+                if emoji == '💰':
+                    pyperclip.copy('💰')
+                if emoji == '💎':
+                    pyperclip.copy('💎')
                 sb.send_keys(text_box, Keys.CONTROL + 'v', timeout=5)
             sb.sleep(1)  # Delay for realism
             return True
@@ -270,11 +287,13 @@ class SeleniumActions:
     def add_emojis(self, sb, emojis):
         # Click the "Add emoji" button
         emoji_button_selector = "[aria-label='Add emoji']"
+        layers_selector = "[id='layers']"
         emoji_search_selector = "[aria-label='Search emojis']"
         clear_button_selector = "[data-testid='clearButton']"
         try:
             sb.click(emoji_button_selector, timeout=10)
             sb.sleep(0.5)
+            sb.focus(layers_selector, timeout=5)
 
             for emoji in emojis:
                 emoji_button_selector = f"[aria-label='{emoji}']"
@@ -304,7 +323,6 @@ class SeleniumActions:
             return True
         except:
             return False
-    '''
     
     def comment(self, sb, message):
         # Click the reply button
