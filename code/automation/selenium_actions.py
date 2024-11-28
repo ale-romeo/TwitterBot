@@ -140,16 +140,11 @@ class SeleniumActions:
         submit_button_selector = "[data-testid='tweetButtonInline']"
         # Type the tweet message
         try:
-            sb.add_text(tweet_box_selector, message, timeout=10)
+            sb.type(tweet_box_selector, '⚪📢😆', timeout=10, retry=True)
         except:
             return False
 
         self.random_delay(sb)
-
-        try:
-            self.add_emojis(sb, get_random_emojis())
-        except:
-            pass
 
         self.random_delay(sb)
 
