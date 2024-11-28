@@ -259,14 +259,16 @@ class SeleniumActions:
         clear_button_selector = "[data-testid='clearButton']"
         try:
             sb.click(emoji_button_selector, timeout=10, delay=1)
-            sb.sleep(1.5)
+            sb.sleep(0.5)
 
             for emoji in emojis:
                 emoji_button_selector = f"[aria-label='{emoji}']"
                 # Type the emoji name in the search bar
                 try:
+                    sb.click(emoji_search_selector, timeout=5, delay=1)
+                    sb.update_text(emoji_search_selector, "", timeout=10, retry=1)
                     sb.add_text(emoji_search_selector, emoji, timeout=10)
-                    sb.sleep(0.5)  # Small delay for realism
+                    sb.sleep(3.5)  # Small delay for realism
 
                     # Select the emoji from the search results
                     try:
