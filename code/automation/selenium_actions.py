@@ -136,33 +136,28 @@ class SeleniumActions:
             return False
 
     def post_tweet(self, sb, message, picture):
+        tweet_box_selector = "[data-testid='tweetTextarea_0']"
+        submit_button_selector = "[data-testid='tweetButtonInline']"
+        # Type the tweet message
         try:
-            self.random_delay(sb)
-            tweet_box_selector = "[data-testid='tweetTextarea_0']"
-            submit_button_selector = "[data-testid='tweetButtonInline']"
-            # Type the tweet message
-            try:
-                sb.add_text(tweet_box_selector, message, timeout=10)
-            except:
-                return False
-
-            self.random_delay(sb)
             tweet_box = sb.find_element(tweet_box_selector)
-            self.add_emojis(sb, tweet_box, get_random_emojis())
+            self.send_keys_with_emojis(sb, tweet_box, "LFG🚀😀")
+        except:
+            return False
 
-            self.random_delay(sb)
+        self.random_delay(sb)
+        try:
             self.send_picture(sb, picture)
+        except:
+            pass
 
+        self.random_delay(sb)
+
+        # Submit the tweet
+        try:
+            sb.click(submit_button_selector, timeout=10, delay=1)
             self.random_delay(sb)
-
-            # Submit the tweet
-            try:
-                sb.click(submit_button_selector, timeout=10, delay=1)
-                self.random_delay(sb)
-                return True
-            except:
-                return False
-
+            return True
         except:
             return False
 
@@ -272,7 +267,7 @@ class SeleniumActions:
         except Exception as e:
             print(f"Failed to send keys with emojis: {e}")
             return False
-    '''
+    
     def add_emojis(self, sb, emojis):
         # Click the "Add emoji" button
         emoji_button_selector = "[aria-label='Add emoji']"
@@ -314,17 +309,6 @@ class SeleniumActions:
             sb.sleep(1)  # Delay for realism
             return True
         except:
-            return False
-    '''
-    def add_emojis(self, sb, element, emojis):
-        """Add emojis to the text input."""
-        try:
-            for emoji in emojis:
-                self.send_keys_with_emojis(sb, element, emoji)
-                sb.sleep(0.5)  # Small delay for realism
-            return True
-        except Exception as e:
-            print(f"Error adding emojis: {e}")
             return False
     
     def comment(self, sb, message):
