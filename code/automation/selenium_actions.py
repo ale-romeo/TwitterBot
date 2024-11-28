@@ -264,10 +264,8 @@ class SeleniumActions:
             elm.dispatchEvent(new Event('keyup', {bubbles: true}));
         """
         try:
-            # Locate the element using SeleniumBase
-            element = sb.find_element(element_selector, timeout=10)
             # Execute the JavaScript to send keys with emojis
-            sb.execute_script(script, element, text)
+            sb.execute_script(script, element_selector, text)
             sb.sleep(1)  # Optional delay for realism
             return True
         except Exception as e:
@@ -321,9 +319,8 @@ class SeleniumActions:
         """Add emojis to the text input."""
         try:
             for emoji in emojis:
-                if sb.is_element_visible(text_box_selector, timeout=10):
-                    self.send_keys_with_emojis(sb, text_box_selector, emoji)
-                    sb.sleep(0.5)  # Small delay for realism
+                self.send_keys_with_emojis(sb, text_box_selector, emoji)
+                sb.sleep(0.5)  # Small delay for realism
             return True
         except Exception as e:
             print(f"Error adding emojis: {e}")
