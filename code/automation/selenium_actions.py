@@ -140,12 +140,19 @@ class SeleniumActions:
         submit_button_selector = "[data-testid='tweetButtonInline']"
         # Type the tweet message
         try:
-            tweet_box = sb.find_element(tweet_box_selector)
-            self.send_keys_with_emojis(sb, tweet_box, "LFG🚀😀")
+            sb.add_text(tweet_box_selector, message, timeout=10)
         except:
             return False
 
         self.random_delay(sb)
+
+        try:
+            self.add_emojis(sb, get_random_emojis())
+        except:
+            pass
+
+        self.random_delay(sb)
+
         try:
             self.send_picture(sb, picture)
         except:
@@ -247,23 +254,6 @@ class SeleniumActions:
                 return False  # File input element not found
         except:
             return False
-        
-    def send_keys_with_emojis(self, sb, element, text):
-        """Send keys with support for emojis using JavaScript."""
-        script = """
-            var elm = arguments[0];
-            var txt = arguments[1];
-            elm.value += txt;
-            elm.dispatchEvent(new Event('input', {bubbles: true}));
-        """
-        try:
-            # Execute the JavaScript to send keys with emojis
-            sb.execute_script(script, element, text)
-            sb.sleep(1)  # Optional delay for realism
-            return True
-        except Exception as e:
-            print(f"Failed to send keys with emojis: {e}")
-            return False
     
     def add_emojis(self, sb, emojis):
         # Click the "Add emoji" button
@@ -276,6 +266,7 @@ class SeleniumActions:
 
             for emoji in emojis:
                 emoji_button_selector = f"[aria-label='{emoji}']"
+                sb.sleep(5)
                 # Type the emoji name in the search bar
                 try:
                     # Focus on the search bar and clear it
