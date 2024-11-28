@@ -33,14 +33,10 @@ def load_cookies(username):
     return False
 
 def get_random_emojis():
-    emojis = [
-        "Rocket", "Full moon symbol", "Fire", "Money bag", "Gem stone",
-        "Small orange diamond", "Crown", "Sparkles", "Clapping hands sign"
-    ]
     # Emojis array
     emojis = [
-        "🚀", "🌕", "🔥", "💰", "💎",
-        "🧡", "👑", "✨", "👏"
+        '🚀', '🌕', '🔥', '💰', '💎',
+        '🧡', '👑', '✨', '👏'
     ]
     return random.choices(emojis, k=random.randint(1, 3))
 
