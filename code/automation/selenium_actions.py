@@ -268,11 +268,10 @@ class SeleniumActions:
                 emoji_button_selector = f"[aria-label='{emoji}']"
                 # Type the emoji name in the search bar
                 try:
-                    
-                    sb.click(emoji_search_selector, timeout=10)
-                    sb.sleep(5)
+                    search_bar = sb.find_element(emoji_search_selector)
+                    print(search_bar)
                     # Type the emoji name into the search bar
-                    sb.add_text(emoji_search_selector, emoji, timeout=10)
+                    sb.add_text(search_bar, emoji, timeout=10)
                     sb.sleep(1.5)  # Wait for results to load
 
                     # Select the emoji from the search results
