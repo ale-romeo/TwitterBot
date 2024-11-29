@@ -73,7 +73,7 @@ class TelegramBot:
             await update.message.reply_text('Posting your tweet...')
             # Run post in the background with a lock
             selenium_actions = SeleniumActions(None)
-            success = await self.run_locked(selenium_actions.post, account, message, picture)
+            success = asyncio.create_task(self.run_locked(selenium_actions.post, account, message, picture))
             if success:
                 await update.message.reply_text('Tweet posted successfully!')
             else:
