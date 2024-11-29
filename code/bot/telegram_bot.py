@@ -98,7 +98,7 @@ class TelegramBot:
         accounts = get_accounts()
         for link in self.processed_tracker:
             if len(self.processed_tracker[link]) == len(accounts):
-                self.processed_tracker.pop(link)
+                del self.processed_tracker[link]              
                 save_interacted_tweet(link)
 
     async def logs(self, update, context):
