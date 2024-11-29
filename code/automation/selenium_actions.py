@@ -165,15 +165,18 @@ class SeleniumActions:
         try:
             sb.uc_open(tweet_url)
             self.random_delay(sb)
+            print(tweet_url)
             
             try:
                 self.tweet = sb.find_element(tweet_selector_with_tabindex, by=By.XPATH)
+                print("Found tweet with tabindex")
                 return True
             except:
                 pass
 
             try:
                 self.tweet = sb.find_element(tweet_selector, by=By.XPATH)
+                print("Found tweet without tabindex")
                 return True
             except:
                 return False
