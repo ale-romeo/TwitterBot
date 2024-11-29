@@ -164,7 +164,7 @@ class SeleniumActions:
 
         # Submit the tweet
         try:
-            sb.slow_click(submit_button_selector, timeout=10, delay=1)
+            sb.slow_click(submit_button_selector, timeout=10)
             self.random_delay(sb)
             return True
         except:
