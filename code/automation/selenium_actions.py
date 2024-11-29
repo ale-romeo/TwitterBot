@@ -142,7 +142,7 @@ class SeleniumActions:
         submit_button_selector = "[data-testid='tweetButtonInline']"
         # Type the tweet message
         try:
-            sb.update_text(tweet_box_selector, message, timeout=10, retry=True)
+            sb.add_text(tweet_box_selector, message, timeout=10)
         except:
             return False
 
@@ -249,9 +249,11 @@ class SeleniumActions:
         # Locate and upload the picture using the file input element
         file_input_selector = "[data-testid='fileInput']"
         try:
-            sb.send_keys(file_input_selector, picture, timeout=5)
+            sb.choose_file(file_input_selector, picture, timeout=5)
+            sb.sleep(1)  # Delay for upload completion
             return True  # Picture upload successful
-        except:
+        except Exception as e:
+            print("Error sending picture: ", e)
             return False  # File input element not found
      
     def add_emojis(self, sb, text_box, emojis):
