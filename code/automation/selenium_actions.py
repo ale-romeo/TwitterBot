@@ -79,11 +79,12 @@ class SeleniumActions:
             input_selector = "input[name='text']"
             password_selector = "input[name='password']"
             next_button_selector = "//span[contains(text(), 'Next')]"
+            login_button_selector = "//span[contains(text(), 'Log in')]"
 
             # Enter email and proceed
             try:
                 sb.update_text(input_selector, email, timeout=10, retry=1)
-                sb.click(next_button_selector, by=By.XPATH)
+                sb.slow_click(next_button_selector, by=By.XPATH)
                 self.random_delay(sb)
             except:
                 return False
@@ -91,14 +92,14 @@ class SeleniumActions:
             # Handle username or password input
             try:
                 sb.update_text(input_selector, username, timeout=10, retry=1)
-                sb.click(next_button_selector, by=By.XPATH)
+                sb.slow_click(next_button_selector, by=By.XPATH)
                 self.random_delay(sb)
             except:
                 pass
 
             try:
                 sb.update_text(password_selector, password, timeout=10, retry=1)
-                sb.click("//span[contains(text(), 'Log in')]", by=By.XPATH)
+                sb.slow_click(login_button_selector, by=By.XPATH)
                 self.random_delay(sb)
                 sb.save_cookies(username)
                 return True
@@ -141,7 +142,7 @@ class SeleniumActions:
         submit_button_selector = "[data-testid='tweetButtonInline']"
         # Type the tweet message
         try:
-            sb.send_keys(tweet_box_selector, message, timeout=10)
+            sb.update_text(tweet_box_selector, message, timeout=10)
         except:
             return False
 
@@ -263,46 +264,7 @@ class SeleniumActions:
             return True
         except:
             return False
-    '''
-    def add_emojis(self, sb, emojis):
-        # Click the "Add emoji" button
-        emoji_button_selector = "[aria-label='Add emoji']"
-        emoji_search_selector = "[aria-label='Search emojis']"
-        clear_button_selector = "[data-testid='clearButton']"
-        try:
-            sb.click(emoji_button_selector, timeout=10)
-            sb.sleep(0.5)
-            sb.wait_for_element_visible(emoji_search_selector, timeout=10)
-
-            for emoji in emojis:
-                emoji_button_selector = f"[aria-label='{emoji}']"
-                # Type the emoji name in the search bar
-                try:
-                    # Use JavaScript to type the emoji name in the search bar input
-                    sb.execute_script("arguments[0].value = arguments[1];", emoji_search_selector, emoji)
-                    sb.sleep(0.5)  # Wait for results to load
-
-                    # Select the emoji from the search results
-                    try:
-                        sb.click(emoji_button_selector, timeout=10, delay=1)
-                        sb.sleep(0.5)
-                        try:
-                            sb.click(clear_button_selector, timeout=10, delay=1)
-                            sb.sleep(0.5)  # Delay for realism
-                        except:
-                            continue
-                    except:
-                        continue
-                except:
-                    continue
-
-            # Close the emoji picker
-            sb.press_keys(emoji_search_selector, Keys.ESCAPE, timeout=5)
-            sb.sleep(1)  # Delay for realism
-            return True
-        except:
-            return False
-    ''' 
+    
     def comment(self, sb, message):
         # Click the reply button
         reply_button_selector = "[data-testid='reply']"
