@@ -73,11 +73,16 @@ class TelegramBot:
             await update.message.reply_text('Posting your tweet...')
             # Run post in the background with a lock
             selenium_actions = SeleniumActions(None)
-            success = asyncio.create_task(self.run_locked(selenium_actions.post, account, message, picture))
-            if success:
-                await update.message.reply_text('Tweet posted successfully!')
-            else:
-                await update.message.reply_text('Failed to post the tweet. Please check the logs.')
+            post = asyncio.create_task(self.run_locked(selenium_actions.post, account, message, picture))
+            asyncio.create_task(self.wait_post_completion(post, update))
+
+    async def wait_post_completion(self, post, update):
+        """Wait for the post task to complete."""
+        success = await post
+        if success:
+            await update.message.reply_text('Tweet posted successfully!')
+        else:
+            await update.message.reply_text('Failed to post the tweet. Please check the logs.')
 
     async def raid(self):
         erase_logs()
