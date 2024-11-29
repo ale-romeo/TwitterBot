@@ -3,26 +3,18 @@ import pyperclip
 from seleniumbase import SB
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from utils.logging_handler import trace_account_status, log_error
-from utils.file_handler import get_random_emojis, get_random_picture, get_random_message, move_account_to_quarantine, move_account_to_suspended, save_interacted_tweet
+from utils.logging_handler import trace_account_status, log_error, trace_account_raid
+from utils.file_handler import get_random_emojis, get_random_picture, get_random_message, move_account_to_quarantine, move_account_to_suspended
 from config.settings import TEST_TWITTER_URL
 #from config.env import PROXY_STRING
 
 class SeleniumActions:
-    def __init__(self, link_queue, processed_tracker):
-        self.tweet = None  # Store the tweet element
-        self.link_queue = link_queue
+    def __init__(self, processed_tracker):
+        self.tweet = None
         self.processed_tracker = processed_tracker
-
 
     def random_delay(self, sb):
         sb.sleep(random.uniform(1, 3))
-
-    def safe_find_element(self, sb, selector, timeout=10):
-        try:
-            return sb.wait_for_element_visible(selector, timeout=timeout)
-        except:
-            return None
 
     def deal_auth_required(self, username):
         log_error(f"AUTH REQUIRED - {username}")
@@ -32,42 +24,44 @@ class SeleniumActions:
         return True
 
     def check_auth_required(self, sb, username):
+        if sb.get_current_url() == "https://x.com/account/access":
+            self.deal_auth_required(username)
+            return True
+        
         try:
-            # Check if redirected to access page
-            if sb.get_current_url() == "https://x.com/account/access":
-                self.deal_auth_required(username)
-                return True
+            sb.assert_element("iframe#arkose_iframe", timeout=5)
+            self.deal_auth_required(username)
+            return True
+        except:
+            pass
 
-            # Check for Arkose iframe (common for FunCaptcha)
-            if sb.is_element_present("iframe#arkose_iframe"):
-                sb.switch_to_frame("arkose_iframe")
-                self.deal_auth_required(username)
-                return True
+        try:
+            sb.assert_element("iframe#arkoseFrame", timeout=5)
+            self.deal_auth_required(username)
+            return True
+        except:
+            pass
 
-            # Check for ArkoseFrame
-            if sb.is_element_present("iframe#arkoseFrame"):
-                sb.switch_to_frame("arkoseFrame")
-                self.deal_auth_required(username)
-                return True
+        try:
+            sb.assert_element("input[type='submit']", timeout=5)
+            self.deal_auth_required(username)
+            return True
+        except:
+            pass
 
-            # Check for submit button
-            if sb.is_element_present("input[type='submit']"):
-                self.deal_auth_required(username)
-                return True
+        try:
+            sb.assert_element("button:contains('email')", timeout=5)
+            self.deal_auth_required(username)
+            return True
+        except:
+            pass
 
-            # Check for email button
-            if sb.is_element_present("button:contains('email')"):
-                self.deal_auth_required(username)
-                return True
-
-            # Check for "Try again" link
-            if sb.is_element_present("//a[contains(text(), 'Try again')]", by=By.XPATH):
-                self.deal_auth_required(username)
-                return True
-
-        except Exception as e:
-            log_error(f"Error checking auth required: {e}")
-            return False
+        try:
+            sb.assert_element("//a[contains(text(), 'Try again')]", by=By.XPATH, timeout=5)
+            self.deal_auth_required(username)
+            return True
+        except:
+            pass
 
         return False
 
@@ -111,22 +105,17 @@ class SeleniumActions:
             return False
         
     def check_suspended(self, sb, username):
-        try:
-            if sb.is_text_visible("Your account is suspended", "span"):
-                log_error(f"SUSPENDED - {username}")
-                move_account_to_suspended(username)
-                return True
-            return False
-        except Exception as e:
-            log_error(f"Error checking suspension for {username}: {e}")
-            return False
+        if sb.is_text_visible("Your account is suspended", "span"):
+            log_error(f"SUSPENDED - {username}")
+            move_account_to_suspended(username)
+            return True
+        return False
 
     def verify_login(self, sb, username, tweet_url):
         try:
-            self.random_delay(sb)
             sb.open(tweet_url)
+            self.random_delay(sb)
 
-            # Check if the "login" element is present
             try:
                 sb.assert_element("[data-testid='login']", timeout=5)
                 log_error(f"COOKIES FAILED - {username}")
@@ -162,7 +151,6 @@ class SeleniumActions:
 
         self.random_delay(sb)
 
-        # Submit the tweet
         try:
             sb.slow_click(submit_button_selector, timeout=10)
             self.random_delay(sb)
@@ -171,25 +159,20 @@ class SeleniumActions:
             return False
 
     def get_tweet(self, sb, tweet_url):
+        tweet_selector_with_tabindex = "//article[@data-testid='tweet'][@tabindex='-1']"
+        tweet_selector = "//article[@data-testid='tweet']"
         try:
-            sb.open(tweet_url)
+            sb.uc_open(tweet_url)
             self.random_delay(sb)
-
-            tweet_selector_with_tabindex = "//article[@data-testid='tweet'][@tabindex='-1']"
-            tweet_selector = "//article[@data-testid='tweet']"
-
-            # Try to find the tweet with tabindex="-1"
+            
             try:
                 self.tweet = sb.find_element(tweet_selector_with_tabindex)
-                self.random_delay(sb)
                 return True
             except:
                 pass
 
-            # Fall back to finding the tweet without tabindex
             try:
                 self.tweet = sb.find_element(tweet_selector)
-                self.random_delay(sb)
                 return True
             except:
                 return False
@@ -198,50 +181,38 @@ class SeleniumActions:
             return False
 
     def like(self, sb):
+        unlike_selector = "[data-testid='unlike']"
+        like_selector = "[data-testid='like']"
+        # Check if the tweet is already liked
         try:
-            unlike_selector = "[data-testid='unlike']"
-            like_selector = "[data-testid='like']"
-            # Check if the tweet is already liked
-            try:
-                sb.assert_element(unlike_selector, timeout=5)
-                return True  # Already liked
-            except:
-                pass
+            sb.assert_element(unlike_selector, timeout=5)
+            return True  # Already liked
+        except:
+            pass
 
-            try:
-                sb.click(like_selector, timeout=5, delay=1)
-                sb.sleep(0.5)  # Optional small delay for realism
-                return True
-            except:
-                return False
-
+        try:
+            sb.slow_click(like_selector, timeout=5)
+            sb.sleep(0.5)
+            return True
         except:
             return False
 
     def repost(self, sb):
+        unretweet_selector = "[data-testid='unretweet']"
+        retweet_selector = "[data-testid='retweet']"
+        retweet_confirm_selector = "[data-testid='retweetConfirm']"
+        # Check if already reposted
         try:
-            unretweet_selector = "[data-testid='unretweet']"
-            retweet_selector = "[data-testid='retweet']"
-            retweet_confirm_selector = "[data-testid='retweetConfirm']"
-            # Check if already reposted
-            try:
-                sb.assert_element(unretweet_selector, timeout=5)
-                return True
-            except:
-                pass  # If unretweet button is not present, proceed to retweet
+            sb.assert_element(unretweet_selector, timeout=5)
+            return True
+        except:
+            pass
 
-            try:
-                sb.click(retweet_selector, timeout=5, delay=1)
-                sb.sleep(0.5)  # Optional small delay for realism
-                try:
-                    sb.click(retweet_confirm_selector, timeout=5, delay=1)
-                    sb.sleep(1)  # Delay for confirmation realism
-                    return True
-                except:
-                    return False
-            except:
-                return False
-
+        try:
+            sb.slow_click(retweet_selector, timeout=5)
+            sb.sleep(0.5)
+            sb.slow_click(retweet_confirm_selector, timeout=5)
+            return True
         except:
             return False
 
@@ -250,89 +221,77 @@ class SeleniumActions:
         file_input_selector = "[data-testid='fileInput']"
         try:
             sb.choose_file(file_input_selector, picture, timeout=5)
-            sb.sleep(1)  # Delay for upload completion
-            return True  # Picture upload successful
+            return True 
         except:
-            return False  # File input element not found
+            return False
      
     def add_emojis(self, sb, text_box, emojis):
         try:
             for emoji in emojis:
                 pyperclip.copy(emoji)
                 sb.send_keys(text_box, Keys.CONTROL + 'v', timeout=5)
-                sb.sleep(1)  # Delay for realism
             return True
         except:
             return False
     
     def comment(self, sb, message):
-        # Click the reply button
         reply_button_selector = "[data-testid='reply']"
         textarea_selector = "[data-testid='tweetTextarea_0']"
         submit_button_selector = "[data-testid='tweetButton']"
+        # Click the reply button
         try:
-            sb.click(reply_button_selector, timeout=10, delay=1)
-            sb.sleep(1)  # Slight delay for realism
+            sb.slow_click(reply_button_selector, timeout=10)
         except:
             return False
         
-        # Randomly choose comment type
         comment_type = random.choices(
             ['text', 'picture', 'text_picture', 'emojis'],
-            weights=[0.1, 0.05, 0.8, 0.05]
+            weights=[0.15, 0.1, 0.7, 0.05]
         )[0]
 
         # Comment logic based on the type
         if comment_type in ['text', 'text_picture']:
             try:
-                sb.update_text(textarea_selector, message, timeout=10, retry=1)
-                if comment_type == 'text_picture' or comment_type == 'text':
-                    self.add_emojis(sb, get_random_emojis())
-                sb.sleep(1)  # Pause for realism
+                sb.add_text(textarea_selector, message, timeout=10)
+                self.add_emojis(sb, textarea_selector, get_random_emojis())
+                self.random_delay(sb)
             except:
                 return False
 
         if comment_type in ['picture', 'text_picture']:
             try:
-                # Attach a picture
-                picture = get_random_picture()
-                self.send_picture(sb, picture)
+                self.send_picture(sb, get_random_picture())
+                self.random_delay(sb)
             except:
                 return False
 
         if comment_type == 'emojis':
             try:
-                # Add only emojis
-                self.add_emojis(sb, get_random_emojis())
+                self.add_emojis(sb, textarea_selector, get_random_emojis())
+                self.random_delay(sb)
             except:
                 return False
 
-        # Submit the comment
         try:
-            sb.click(submit_button_selector, timeout=10, delay=1)
-            sb.sleep(2)  # Pause for completion
+            sb.slow_click(submit_button_selector, timeout=10)
+            self.random_delay(sb)
             return True
         except:
             return False
 
     def bookmark(self, sb):
+        unbookmark_selector = "[data-testid='unbookmark']"
+        bookmark_selector = "[data-testid='bookmark']"
+        # Check if the tweet is already bookmarked
         try:
-            unbookmark_selector = "[data-testid='unbookmark']"
-            bookmark_selector = "[data-testid='bookmark']"
-            # Selector for the "unbookmark" button
-            try:
-                sb.assert_element(unbookmark_selector, timeout=10)
-                return True  # Tweet is already bookmarked
-            except:
-                pass
+            sb.assert_element(unbookmark_selector, timeout=10)
+            return True # Already bookmarked
+        except:
+            pass
 
-            # Selector for the "bookmark" button
-            try:
-                sb.click(bookmark_selector, timeout=10, delay=1)
-                sb.sleep(1)  # Slight delay after clicking
-                return True  # Bookmark operation successful
-            except:
-                return False
+        try:
+            sb.slow_click(bookmark_selector, timeout=10)
+            return True
         except:
             return False
         
@@ -355,55 +314,46 @@ class SeleniumActions:
                 if sb.load_cookies(username, -1):  # Load cookies if available
                     self.random_delay(sb)
                     
-                    if not self.verify_login(sb, username, TEST_TWITTER_URL):  # Validate cookies
-                        sb.delete_all_cookies()  # Attempt to clear cookies
+                    if not self.verify_login(sb, username, TEST_TWITTER_URL):
+                        sb.delete_all_cookies()
                         sb.sleep(1)
 
                         if not self.login(sb, email, username, password):
-                            trace_account_status(account, False)
-                            return False
+                            return trace_account_status(account, False)
                 else:
                     # Perform login if no cookies are available
                     if not self.login(sb, email, username, password):
-                        trace_account_status(account, False)
-                        return False
+                        return trace_account_status(account, False)
 
                 # Check for redirection to an authentication page
                 sb.open(TEST_TWITTER_URL)
                 self.random_delay(sb)
-                if sb.get_current_url() != TEST_TWITTER_URL:
-                    if self.check_auth_required(sb, username):
-                        return False
-                    else:
-                        sb.delete_all_cookies()
-                        return False
+                if sb.get_current_url() != TEST_TWITTER_URL and self.check_auth_required(sb, username):
+                    sb.delete_all_cookies()
+                    return trace_account_status(account, False)
 
                 # Navigate to home and attempt to post the tweet
                 sb.open("https://x.com/home")
                 self.random_delay(sb)
                 if not self.post_tweet(sb, message, picture):
-                    trace_account_status(account, False)
-                    return False
+                    return trace_account_status(account, False)
 
-                # Mark success
-                trace_account_status(account, True)
-                sb.delete_all_cookies()  # Clean up session
-                return True
+                sb.delete_all_cookies()
+                return trace_account_status(account, True)
 
         except:
-            trace_account_status(account, False)
             sb.delete_all_cookies()
-            return False
+            return trace_account_status(account, False)
 
     def interact(self, sb, account, tweet_url, comment=True):
-        # Navigate to the tweet URL
-        sb.open(tweet_url)
+        if not self.get_tweet(sb, tweet_url):
+            return trace_account_status(account, False)
+        
         self.random_delay(sb)
 
         # Check for redirection to an authentication page
-        if sb.get_current_url() != tweet_url:
-            if self.check_auth_required(sb, account['username']):
-                return False
+        if sb.get_current_url() != tweet_url and self.check_auth_required(sb, account['username']):
+            return False
 
         # Perform interactions (like, repost, comment, bookmark)
         interaction_success = (
@@ -416,13 +366,8 @@ class SeleniumActions:
             interaction_success = interaction_success and self.comment(sb, get_random_message())
 
         if not interaction_success:
-            trace_account_status(account, False)
             return False
 
-        # Mark account interaction as successful
-        trace_account_status(account, True)
-
-        # Clean up session
         sb.delete_all_cookies()
         return True
 
@@ -439,48 +384,40 @@ class SeleniumActions:
                 window_size="800,800"  # Set window size for the browser
             ) as sb:
                 # Open X.com and clear session for a fresh start
-                sb.open("https://x.com")
-                sb.sleep(1)
+                sb.uc_open("https://x.com")
+                self.random_delay(sb)
 
-                # Load cookies if available
-                if sb.load_cookies(name=username):
+                if sb.load_cookies(username, -1):  # Load cookies if available
                     self.random_delay(sb)
 
-                    # Verify login status with the cookies
-                    if not self.verify_login(username, TEST_TWITTER_URL):
-                        log_error(f"COOKIES EXPIRED - {username}", level="WARNING")
+                    if not self.verify_login(sb, username, TEST_TWITTER_URL):
                         sb.delete_all_cookies()
                         sb.sleep(1)
 
-                        if not self.login(email, username, password):
-                            trace_account_status(account, False)
-                            return False
+                        if not self.login(sb, email, username, password):
+                            return trace_account_status(account, False)
                 else:
                     # Perform login if no cookies are found
-                    if not self.login(email, username, password):
-                        trace_account_status(account, False)
-                        return False
+                    if not self.login(sb, email, username, password):
+                        return trace_account_status(account, False)
 
                 # Check if the account is suspended
                 if self.check_suspended(username):
-                    trace_account_status(account, False)
                     return False
 
-                for link in list(self.link_queue.queue):
-                    if username in self.processed_tracker[link]:
+                success_count = 0 # Track the number of successful interactions
+                for link, processed_accounts in list(self.processed_tracker.items()):
+                    if username in processed_accounts:
                         continue
 
-                    success = self.interact(account, link, comment=random.choice([True, False]))
+                    success = self.interact(sb, account, link, comment=random.choice([True, False]))
             
                     if success:
                         self.processed_tracker[link].add(username)
-                        if len(self.processed_tracker[link]) == len(self.link_queue):
-                            self.link_queue.get()
-                            del self.processed_tracker[link]
-                            save_interacted_tweet(link)
+                        success_count += 1
                 
+                trace_account_raid(account, len(self.processed_tracker.keys()), success_count)
                 return True
 
         except:
-            trace_account_status(account, False)
-            return False
+            return trace_account_status(account, False)

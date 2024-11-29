@@ -90,12 +90,12 @@ def move_account_to_suspended(username):
         json.dump(active_accounts, file, indent=4)
 
     # Load quarantined accounts and add the account
-    quarantine_accounts = load_json(SUSPENDED_PATH)
-    quarantine_accounts.append(account_to_move)
+    suspended_accounts = load_json(SUSPENDED_PATH)
+    suspended_accounts.append(account_to_move)
 
-    # Save the updated quarantined accounts
+    # Save the updated suspended accounts
     with open(SUSPENDED_PATH, "w") as file:
-        json.dump(quarantine_accounts, file, indent=4)
+        json.dump(suspended_accounts, file, indent=4)
         
     return True
 

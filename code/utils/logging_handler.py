@@ -37,3 +37,10 @@ def trace_account_status(account, status):
         logging.info(f"SUCCESS - {account['username']}")
     else:
         logging.error(f"FAIL - {account['username']}")
+    return status
+
+def trace_account_raid(account, num_tweets, num_success):
+    if num_success == num_tweets:
+        logging.info(f"{account['username']} - {num_success}/{num_tweets} - SUCCESS")
+    else:
+        logging.error(f"{account['username']} - {num_success}/{num_tweets} - FAIL")

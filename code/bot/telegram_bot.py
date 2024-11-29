@@ -11,7 +11,8 @@ from utils.file_handler import (
     erase_logs, 
     get_logs, 
     get_quarantined_accounts, 
-    move_account_to_active
+    move_account_to_active,
+    save_interacted_tweet
 )
 import random
 from utils.logging_handler import log_error
@@ -23,7 +24,6 @@ class TelegramBot:
         self.token = token
         self.application = Application.builder().token(token).build()
         self.lock = Lock()  # Shared lock for raid and post
-        self.link_queue = Queue()
         self.processed_tracker = {}
         self.setup_handlers()
 
@@ -48,7 +48,6 @@ class TelegramBot:
                         animation=get_raid_picture(), 
                         caption=f"ZHOA ARMY!! IT'S TIME TO SHINE 🔥🔥\n{twitter_url}"
                     )
-                self.link_queue.put(twitter_url)
                 self.processed_tracker[twitter_url] = set()
                 # Run raid in the background with a lock
                 asyncio.create_task(self.run_locked(self.raid))
@@ -81,18 +80,26 @@ class TelegramBot:
                 await update.message.reply_text('Failed to post the tweet. Please check the logs.')
 
     async def raid(self):
-        erase_logs()  # Clear logs before starting a new raid
-        selenium_actions = SeleniumActions(self.link_queue, self.processed_tracker)
+        erase_logs()
         accounts = get_accounts()
         if not accounts:
             log_error("No accounts available for raid.")
             return
         random.shuffle(accounts)
+        selenium_actions = SeleniumActions(self.processed_tracker)
         for account in accounts:
             selenium_actions.process_account(account)
+            self.remove_link_if_interacted_by_all()
             random_delay()
-            random_delay()
+            
 
+    def remove_link_if_interacted_by_all(self):
+        """Check if a link in self.processed_tracker has been interacted by all accounts."""
+        accounts = get_accounts()
+        for link in self.processed_tracker:
+            if len(self.processed_tracker[link]) == len(accounts):
+                self.processed_tracker.pop(link)
+                save_interacted_tweet(link)
 
     async def logs(self, update, context):
         """Retrieve and send the latest logs."""
