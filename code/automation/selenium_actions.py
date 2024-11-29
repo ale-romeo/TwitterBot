@@ -167,13 +167,13 @@ class SeleniumActions:
             self.random_delay(sb)
             
             try:
-                self.tweet = sb.find_element(tweet_selector_with_tabindex)
+                self.tweet = sb.find_element(tweet_selector_with_tabindex, by=By.XPATH)
                 return True
             except:
                 pass
 
             try:
-                self.tweet = sb.find_element(tweet_selector)
+                self.tweet = sb.find_element(tweet_selector, by=By.XPATH)
                 return True
             except:
                 return False

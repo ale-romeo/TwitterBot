@@ -32,6 +32,7 @@ class TelegramBot:
         self.application.add_handler(CommandHandler("logs", self.logs))
         self.application.add_handler(CommandHandler("quarantined", self.get_quarantined_accounts))
         self.application.add_handler(CommandHandler("move", self.move_account_to_active))
+        self.application.add_handler(CommandHandler("clear_logs", self.clear_logs))
         self.application.add_handler(MessageHandler(filters.TEXT, self.monitor_group_messages))
 
     async def monitor_group_messages(self, update, context):
@@ -112,6 +113,13 @@ class TelegramBot:
         if chat_type == 'private':
             logs = get_logs()
             await update.message.reply_text(logs)
+
+    async def clear_logs(self, update, context):
+        """Clear the logs."""
+        chat_type = update.effective_chat.type
+        if chat_type == 'private':
+            erase_logs()
+            await update.message.reply_text('Logs cleared.')
 
     async def get_quarantined_accounts(self, update, context):
         """Get and display quarantined accounts."""
