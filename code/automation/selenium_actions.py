@@ -165,18 +165,15 @@ class SeleniumActions:
         try:
             sb.uc_open(tweet_url)
             self.random_delay(sb)
-            print(tweet_url)
             
             try:
                 self.tweet = sb.find_element(tweet_selector_with_tabindex, by=By.XPATH)
-                print("Found tweet with tabindex")
                 return True
             except:
                 pass
 
             try:
                 self.tweet = sb.find_element(tweet_selector, by=By.XPATH)
-                print("Found tweet without tabindex")
                 return True
             except:
                 return False
@@ -409,7 +406,7 @@ class SeleniumActions:
                 # Check if the account is suspended
                 if self.check_suspended(username):
                     return False
-
+                print("Checking for raid")
                 success_count = 0 # Track the number of successful interactions
                 for link, processed_accounts in list(self.processed_tracker.items()):
                     if username in processed_accounts:
