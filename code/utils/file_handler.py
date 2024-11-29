@@ -18,20 +18,6 @@ def check_interacted_tweet(tweet_url):
     tweets = load_json(TWEETS_PATH)
     return tweet_url in tweets
 
-def save_cookies(username, cookies):
-    # Save cookies to COOKIES_PATH directory
-    if not os.path.exists(COOKIES_PATH):
-        os.makedirs(COOKIES_PATH)
-    with open(COOKIES_PATH + f"{username}_cookies.pkl", "wb") as file:
-        pickle.dump(cookies, file)
-
-def load_cookies(username):
-    # Load cookies from COOKIES_PATH directory if exists
-    if os.path.exists(COOKIES_PATH + f"{username}_cookies.pkl"):
-        with open(COOKIES_PATH + f"{username}_cookies.pkl", "rb") as file:
-            return pickle.load(file)
-    return False
-
 def get_random_emojis():
     emojis = [
         " 🚀", " 🌕", " 🔥", " 💰", " 💎",
@@ -40,10 +26,10 @@ def get_random_emojis():
     return random.choices(emojis, k=random.randint(1, 3))
 
 def get_random_picture():
-    return PICTURES_PATH + random.choice(os.listdir(PICTURES_PATH))
+    return os.path.join(PICTURES_PATH, random.choice(os.listdir(PICTURES_PATH)))
 
 def get_raid_picture():
-    return PICTURES_PATH + "push.gif"
+    return os.path.join(PICTURES_PATH, "push.gif")
 
 def get_random_message():
     messages = load_json(MESSAGE_PATH)
