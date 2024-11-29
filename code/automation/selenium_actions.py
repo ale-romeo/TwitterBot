@@ -249,11 +249,11 @@ class SeleniumActions:
         # Locate and upload the picture using the file input element
         file_input_selector = "[data-testid='fileInput']"
         try:
+            print(picture)
             sb.choose_file(file_input_selector, picture, timeout=5)
             sb.sleep(1)  # Delay for upload completion
             return True  # Picture upload successful
-        except Exception as e:
-            print("Error sending picture: ", e)
+        except:
             return False  # File input element not found
      
     def add_emojis(self, sb, text_box, emojis):
