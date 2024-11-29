@@ -148,6 +148,8 @@ class SeleniumActions:
         self.random_delay(sb)
 
         try:
+            pyperclip.copy('👏')
+            sb.send_keys(tweet_box_selector, Keys.CONTROL + 'v', timeout=5)
             self.add_emojis(sb, tweet_box_selector, get_random_emojis())
         except:
             pass
