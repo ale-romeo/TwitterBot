@@ -139,11 +139,6 @@ class SeleniumActions:
     def post_tweet(self, sb, message, picture):
         tweet_box_selector = "[data-testid='tweetTextarea_0']"
         submit_button_selector = "[data-testid='tweetButtonInline']"
-        # Type the tweet message
-        try:
-            sb.add_text(tweet_box_selector, message, timeout=10)
-        except:
-            return False
 
         self.random_delay(sb)
 
@@ -254,46 +249,47 @@ class SeleniumActions:
         except:
             return False  # File input element not found
      
-    def add_emojis(self, sb, text_box_selector, emojis):
+    def add_emojis(self, sb, text_box_selector, message, emojis):
         try:
-            text_box = sb.find_element(text_box_selector)
+            if not emojis:
+                sb.add_text(text_box_selector, message, timeout=10)
             for emoji in emojis:
                 # Copy the emoji to the clipboard
                 if emoji == 'Clapping hands sign':
-                    pyperclip.copy("👏")
-                    sb.send_keys(text_box, Keys.CONTROL + 'v', timeout=5)
+                    pyperclip.copy(message + "👏")
+                    sb.send_keys(text_box_selector, Keys.CONTROL + 'v', timeout=5)
                     sb.sleep(1)  # Delay for realism
                 elif emoji == 'Crown':
-                    pyperclip.copy("👑")
-                    sb.send_keys(text_box, Keys.CONTROL + 'v', timeout=5)
+                    pyperclip.copy(message + "👑")
+                    sb.send_keys(text_box_selector, Keys.CONTROL + 'v', timeout=5)
                     sb.sleep(1)  # Delay for realism
                 elif emoji == 'Sparkles':
-                    pyperclip.copy("✨")
-                    sb.send_keys(text_box, Keys.CONTROL + 'v', timeout=5)
+                    pyperclip.copy(message + "✨")
+                    sb.send_keys(text_box_selector, Keys.CONTROL + 'v', timeout=5)
                     sb.sleep(1)  # Delay for realism
                 elif emoji == 'Rocket':
-                    pyperclip.copy("🚀")
-                    sb.send_keys(text_box, Keys.CONTROL + 'v', timeout=5)
+                    pyperclip.copy(message + "🚀")
+                    sb.send_keys(text_box_selector, Keys.CONTROL + 'v', timeout=5)
                     sb.sleep(1)  # Delay for realism
                 elif emoji == 'Full moon symbol':
-                    pyperclip.copy("🌕")
-                    sb.send_keys(text_box, Keys.CONTROL + 'v', timeout=5)
+                    pyperclip.copy(message + "🌕")
+                    sb.send_keys(text_box_selector, Keys.CONTROL + 'v', timeout=5)
                     sb.sleep(1)  # Delay for realism
                 elif emoji == 'Fire':
-                    pyperclip.copy("🔥")
-                    sb.send_keys(text_box, Keys.CONTROL + 'v', timeout=5)
+                    pyperclip.copy(message + "🔥")
+                    sb.send_keys(text_box_selector, Keys.CONTROL + 'v', timeout=5)
                     sb.sleep(1)  # Delay for realism
                 elif emoji == 'Money bag':
-                    pyperclip.copy("💰")
-                    sb.send_keys(text_box, Keys.CONTROL + 'v', timeout=5)
+                    pyperclip.copy(message + "💰")
+                    sb.send_keys(text_box_selector, Keys.CONTROL + 'v', timeout=5)
                     sb.sleep(1)  # Delay for realism
                 elif emoji == 'Gem stone':
-                    pyperclip.copy("💎")
-                    sb.send_keys(text_box, Keys.CONTROL + 'v', timeout=5)
+                    pyperclip.copy(message + "💎")
+                    sb.send_keys(text_box_selector, Keys.CONTROL + 'v', timeout=5)
                     sb.sleep(1)  # Delay for realism
                 elif emoji == 'Small orange diamond':
-                    pyperclip.copy("🔸")
-                    sb.send_keys(text_box, Keys.CONTROL + 'v', timeout=5)
+                    pyperclip.copy(message + "🔸")
+                    sb.send_keys(text_box_selector, Keys.CONTROL + 'v', timeout=5)
                     sb.sleep(1)  # Delay for realism
             return True
         except:
