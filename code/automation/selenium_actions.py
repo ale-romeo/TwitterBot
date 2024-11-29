@@ -143,7 +143,7 @@ class SeleniumActions:
         self.random_delay(sb)
 
         try:
-            self.add_emojis(sb, tweet_box_selector, get_random_emojis())
+            self.add_emojis(sb, tweet_box_selector, message, get_random_emojis())
         except:
             pass
 
