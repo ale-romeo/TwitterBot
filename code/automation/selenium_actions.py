@@ -249,8 +249,7 @@ class SeleniumActions:
         # Locate and upload the picture using the file input element
         file_input_selector = "[data-testid='fileInput']"
         try:
-            file_input = sb.find_element(file_input_selector)
-            file_input.send_keys(picture)
+            sb.send_keys(file_input_selector, picture, timeout=5)
             return True  # Picture upload successful
         except:
             return False  # File input element not found
