@@ -114,7 +114,7 @@ class SeleniumActions:
 
     def verify_login(self, sb, username, tweet_url):
         try:
-            sb.open(tweet_url)
+            sb.uc_open(tweet_url)
             self.random_delay(sb)
 
             try:
@@ -403,10 +403,11 @@ class SeleniumActions:
                     if not self.login(sb, email, username, password):
                         return trace_account_status(account, False)
 
+                print("Checking for raid")
                 # Check if the account is suspended
                 if self.check_suspended(username):
                     return False
-                print("Checking for raid")
+                
                 success_count = 0 # Track the number of successful interactions
                 for link, processed_accounts in list(self.processed_tracker.items()):
                     if username in processed_accounts:
