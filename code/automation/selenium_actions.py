@@ -254,8 +254,9 @@ class SeleniumActions:
         except:
             return False  # File input element not found
      
-    def add_emojis(self, sb, text_box, emojis):
+    def add_emojis(self, sb, text_box_selector, emojis):
         try:
+            text_box = sb.find_element(text_box_selector)
             for emoji in emojis:
                 # Copy the emoji to the clipboard
                 if emoji == 'Clapping hands sign':
