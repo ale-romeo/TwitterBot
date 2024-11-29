@@ -249,7 +249,6 @@ class SeleniumActions:
         # Locate and upload the picture using the file input element
         file_input_selector = "[data-testid='fileInput']"
         try:
-            print(picture)
             sb.choose_file(file_input_selector, picture, timeout=5)
             sb.sleep(1)  # Delay for upload completion
             return True  # Picture upload successful
