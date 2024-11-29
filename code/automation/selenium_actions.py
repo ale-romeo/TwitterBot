@@ -106,7 +106,8 @@ class SeleniumActions:
             return False
         
     def check_suspended(self, sb, username):
-        if sb.is_text_visible("Your account is suspended", "span"):
+        print("Checking if account is suspended")
+        if sb.is_text_visible("Your account is suspended", selector="span"):
             log_error(f"SUSPENDED - {username}")
             move_account_to_suspended(username)
             return True
@@ -403,7 +404,6 @@ class SeleniumActions:
                     if not self.login(sb, email, username, password):
                         return trace_account_status(account, False)
 
-                print("Checking for raid")
                 # Check if the account is suspended
                 if self.check_suspended(username):
                     return False
