@@ -106,7 +106,6 @@ class SeleniumActions:
             return False
         
     def check_suspended(self, sb, username):
-        print("Checking if account is suspended")
         if sb.is_text_visible("Your account is suspended", selector="span"):
             log_error(f"SUSPENDED - {username}")
             move_account_to_suspended(username)
@@ -405,7 +404,7 @@ class SeleniumActions:
                         return trace_account_status(account, False)
 
                 # Check if the account is suspended
-                if self.check_suspended(username):
+                if self.check_suspended(sb, username):
                     return False
                 
                 success_count = 0 # Track the number of successful interactions
