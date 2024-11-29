@@ -83,7 +83,7 @@ class SeleniumActions:
 
             # Enter email and proceed
             try:
-                sb.update_text(input_selector, email, timeout=10, retry=1)
+                sb.update_text(input_selector, email, timeout=10, retry=True)
                 sb.slow_click(next_button_selector, by=By.XPATH)
                 self.random_delay(sb)
             except:
@@ -91,14 +91,14 @@ class SeleniumActions:
 
             # Handle username or password input
             try:
-                sb.update_text(input_selector, username, timeout=10, retry=1)
+                sb.update_text(input_selector, username, timeout=10, retry=True)
                 sb.slow_click(next_button_selector, by=By.XPATH)
                 self.random_delay(sb)
             except:
                 pass
 
             try:
-                sb.update_text(password_selector, password, timeout=10, retry=1)
+                sb.update_text(password_selector, password, timeout=10, retry=True)
                 sb.slow_click(login_button_selector, by=By.XPATH)
                 self.random_delay(sb)
                 sb.save_cookies(username)
@@ -142,7 +142,7 @@ class SeleniumActions:
         submit_button_selector = "[data-testid='tweetButtonInline']"
         # Type the tweet message
         try:
-            sb.update_text(tweet_box_selector, message, timeout=10)
+            sb.update_text(tweet_box_selector, message, timeout=10, retry=True)
         except:
             return False
 
@@ -164,7 +164,7 @@ class SeleniumActions:
 
         # Submit the tweet
         try:
-            sb.click(submit_button_selector, timeout=10, delay=1)
+            sb.slow_click(submit_button_selector, timeout=10, delay=1)
             self.random_delay(sb)
             return True
         except:
