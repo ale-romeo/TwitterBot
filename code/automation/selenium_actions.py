@@ -15,6 +15,7 @@ class SeleniumActions:
 
     def random_delay(self, sb):
         sb.sleep(random.uniform(1, 3))
+        return True
 
     def deal_auth_required(self, username):
         log_error(f"AUTH REQUIRED - {username}")
@@ -274,7 +275,6 @@ class SeleniumActions:
 
         try:
             sb.slow_click(submit_button_selector, timeout=10)
-            self.random_delay(sb)
             return True
         except:
             return False
@@ -330,7 +330,7 @@ class SeleniumActions:
                 self.random_delay(sb)
                 if sb.get_current_url() != TEST_TWITTER_URL and self.check_auth_required(sb, username):
                     sb.delete_all_cookies()
-                    return trace_account_status(account, False)
+                    return False
 
                 # Navigate to home and attempt to post the tweet
                 sb.open("https://x.com/home")
@@ -347,7 +347,7 @@ class SeleniumActions:
 
     def interact(self, sb, account, tweet_url, comment=True):
         if not self.get_tweet(sb, tweet_url):
-            return trace_account_status(account, False)
+            return False
         
         self.random_delay(sb)
 
@@ -357,13 +357,15 @@ class SeleniumActions:
 
         # Perform interactions (like, repost, comment, bookmark)
         interaction_success = (
-            self.like(sb) and 
-            self.repost(sb) and 
-            self.bookmark(sb)
+            self.like(sb) and self.random_delay(sb) and
+            self.repost(sb) and self.random_delay(sb) and
+            self.bookmark(sb) and self.random_delay(sb)
         )
 
         if comment:
             interaction_success = interaction_success and self.comment(sb, get_random_message())
+
+        self.random_delay(sb)
 
         if not interaction_success:
             return False
