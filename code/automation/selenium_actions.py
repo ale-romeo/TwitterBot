@@ -417,7 +417,7 @@ class SeleniumActions:
                     success = self.interact(sb, account, link, comment=random.choice([True, False]))
             
                     if success:
-                        self.processed_tracker[link].add(username)
+                        processed_accounts.add(username)
                         success_count += 1
                 
                 trace_account_raid(account, len(self.processed_tracker.keys()), success_count)
