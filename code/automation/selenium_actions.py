@@ -241,9 +241,7 @@ class SeleniumActions:
         submit_button_selector = "[data-testid='tweetButton']"
         # Click the reply button
         try:
-            print("Clicking reply button")
             sb.execute_script("arguments[0].click();", self.tweet.find_element(By.CSS_SELECTOR, reply_button_selector))
-            print("Clicked reply button")
             self.random_delay(sb)
         except:
             return False
