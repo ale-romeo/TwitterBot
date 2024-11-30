@@ -98,14 +98,21 @@ class TelegramBot:
             self.remove_link_if_interacted_by_all()
             random_delay()
             
-
     def remove_link_if_interacted_by_all(self):
-        """Check if a link in self.processed_tracker has been interacted by all accounts."""
+        """Check if a link in self.processed_tracker has been interacted with by all accounts."""
         accounts = get_accounts()
-        for link in self.processed_tracker:
+        links_to_remove = []  # Keep track of links to remove
+
+        # Iterate over a copy of the dictionary keys to avoid the error
+        for link in list(self.processed_tracker.keys()):
             if len(self.processed_tracker[link]) == len(accounts):
-                del self.processed_tracker[link]              
-                save_interacted_tweet(link)
+                links_to_remove.append(link)
+
+        # Remove links and save them as interacted
+        for link in links_to_remove:
+            del self.processed_tracker[link]
+            save_interacted_tweet(link)
+
 
     async def logs(self, update, context):
         """Retrieve and send the latest logs."""
