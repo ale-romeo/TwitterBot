@@ -186,13 +186,13 @@ class SeleniumActions:
         like_selector = "[data-testid='like']"
         # Check if the tweet is already liked
         try:
-            self.tweet.assert_element(unlike_selector, timeout=5)
+            self.tweet.find_element(By.CSS_SELECTOR, unlike_selector)
             return True  # Already liked
         except:
             pass
 
         try:
-            self.tweet.slow_click(like_selector, timeout=5)
+            sb.__js_click_element(self.tweet.find_element(By.CSS_SELECTOR, like_selector))
             sb.sleep(0.5)
             return True
         except:
@@ -204,13 +204,13 @@ class SeleniumActions:
         retweet_confirm_selector = "[data-testid='retweetConfirm']"
         # Check if already reposted
         try:
-            self.tweet.assert_element(unretweet_selector, timeout=5)
+            self.tweet.find_element(By.CSS_SELECTOR, unretweet_selector)
             return True
         except:
             pass
 
         try:
-            self.tweet.slow_click(retweet_selector, timeout=5)
+            sb.__js_click_element(self.tweet.find_element(By.CSS_SELECTOR, retweet_selector))
             sb.sleep(0.5)
             sb.slow_click(retweet_confirm_selector, timeout=5)
             return True
@@ -241,7 +241,8 @@ class SeleniumActions:
         submit_button_selector = "[data-testid='tweetButton']"
         # Click the reply button
         try:
-            sb.slow_click(reply_button_selector, timeout=10)
+            sb.__js_click_element(self.tweet.find_element(By.CSS_SELECTOR, reply_button_selector))
+            self.random_delay(sb)
         except:
             return False
         
@@ -284,13 +285,15 @@ class SeleniumActions:
         bookmark_selector = "[data-testid='bookmark']"
         # Check if the tweet is already bookmarked
         try:
-            sb.assert_element(unbookmark_selector, timeout=10)
+            self.tweet.find_element(By.CSS_SELECTOR, unbookmark_selector)
             return True # Already bookmarked
         except:
             pass
 
         try:
-            sb.slow_click(bookmark_selector, timeout=10)
+            bookmark_button = self.tweet.find_element(By.CSS_SELECTOR, bookmark_selector)
+            sb.__js_click_element(bookmark_button)
+            sb.sleep(0.5)
             return True
         except:
             return False
