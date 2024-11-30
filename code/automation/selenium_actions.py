@@ -186,13 +186,13 @@ class SeleniumActions:
         like_selector = "[data-testid='like']"
         # Check if the tweet is already liked
         try:
-            sb.assert_element(unlike_selector, timeout=5)
+            self.tweet.assert_element(unlike_selector, timeout=5)
             return True  # Already liked
         except:
             pass
 
         try:
-            sb.slow_click(like_selector, timeout=5)
+            self.tweet.slow_click(like_selector, timeout=5)
             sb.sleep(0.5)
             return True
         except:
@@ -204,13 +204,13 @@ class SeleniumActions:
         retweet_confirm_selector = "[data-testid='retweetConfirm']"
         # Check if already reposted
         try:
-            sb.assert_element(unretweet_selector, timeout=5)
+            self.tweet.assert_element(unretweet_selector, timeout=5)
             return True
         except:
             pass
 
         try:
-            sb.slow_click(retweet_selector, timeout=5)
+            self.tweet.slow_click(retweet_selector, timeout=5)
             sb.sleep(0.5)
             sb.slow_click(retweet_confirm_selector, timeout=5)
             return True
