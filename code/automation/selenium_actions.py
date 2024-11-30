@@ -192,7 +192,7 @@ class SeleniumActions:
             pass
 
         try:
-            sb.__js_click_element(self.tweet.find_element(By.CSS_SELECTOR, like_selector))
+            sb.execute_script("arguments[0].click();", self.tweet.find_element(By.CSS_SELECTOR, like_selector))
             sb.sleep(0.5)
             return True
         except:
@@ -210,7 +210,7 @@ class SeleniumActions:
             pass
 
         try:
-            sb.__js_click_element(self.tweet.find_element(By.CSS_SELECTOR, retweet_selector))
+            sb.execute_script("arguments[0].click();", self.tweet.find_element(By.CSS_SELECTOR, retweet_selector))
             sb.sleep(0.5)
             sb.slow_click(retweet_confirm_selector, timeout=5)
             return True
@@ -241,7 +241,7 @@ class SeleniumActions:
         submit_button_selector = "[data-testid='tweetButton']"
         # Click the reply button
         try:
-            sb.__js_click_element(self.tweet.find_element(By.CSS_SELECTOR, reply_button_selector))
+            sb.execute_script("arguments[0].click();", self.tweet.find_element(By.CSS_SELECTOR, reply_button_selector))
             self.random_delay(sb)
         except:
             return False
@@ -291,8 +291,7 @@ class SeleniumActions:
             pass
 
         try:
-            bookmark_button = self.tweet.find_element(By.CSS_SELECTOR, bookmark_selector)
-            sb.__js_click_element(bookmark_button)
+            sb.execute_script("arguments[0].click();", self.tweet.find_element(By.CSS_SELECTOR, bookmark_selector))
             sb.sleep(0.5)
             return True
         except:
