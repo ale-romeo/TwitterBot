@@ -187,7 +187,6 @@ class SeleniumActions:
         # Check if the tweet is already liked
         try:
             self.tweet.find_element(By.CSS_SELECTOR, unlike_selector)
-            print("Already liked")
             return True  # Already liked
         except:
             pass
@@ -206,7 +205,6 @@ class SeleniumActions:
         # Check if already reposted
         try:
             self.tweet.find_element(By.CSS_SELECTOR, unretweet_selector)
-            print("Already reposted tweet")
             return True
         except:
             pass
@@ -243,7 +241,9 @@ class SeleniumActions:
         submit_button_selector = "[data-testid='tweetButton']"
         # Click the reply button
         try:
+            print("Clicking reply button")
             sb.execute_script("arguments[0].click();", self.tweet.find_element(By.CSS_SELECTOR, reply_button_selector))
+            print("Clicked reply button")
             self.random_delay(sb)
         except:
             return False
@@ -288,7 +288,6 @@ class SeleniumActions:
         # Check if the tweet is already bookmarked
         try:
             self.tweet.find_element(By.CSS_SELECTOR, unbookmark_selector)
-            print("Already bookmarked")
             return True # Already bookmarked
         except:
             pass
