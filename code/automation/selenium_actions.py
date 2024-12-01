@@ -238,7 +238,6 @@ class SeleniumActions:
         reply_button_selector = "[data-testid='reply']"
         textarea_selector = "[data-testid='tweetTextarea_0']"
         submit_button_selector = "[data-testid='tweetButton']"
-        # Click the reply button
         try:
             sb.execute_script("arguments[0].click();", self.tweet.find_element(By.CSS_SELECTOR, reply_button_selector))
             self.random_delay(sb)
@@ -346,7 +345,7 @@ class SeleniumActions:
             sb.delete_all_cookies()
             return trace_account_status(account, False)
 
-    def interact(self, sb, account, tweet_url, comment=True):
+    def interact(self, sb, account, tweet_url, comment=False):
         if not self.get_tweet(sb, tweet_url):
             return False
         
@@ -371,7 +370,6 @@ class SeleniumActions:
         if not interaction_success:
             return False
 
-        sb.delete_all_cookies()
         return True
 
     def process_account(self, account):
@@ -408,17 +406,20 @@ class SeleniumActions:
                 if self.check_suspended(sb, username):
                     return False
                 
-                success_count = 0 # Track the number of successful interactions
+                success_count = 0
                 for link, processed_accounts in list(self.processed_tracker.items()):
                     if username in processed_accounts:
                         continue
-
+                    
                     success = self.interact(sb, account, link, comment=random.choice([True, False]))
-            
+
                     if success:
                         processed_accounts.add(username)
                         success_count += 1
                 
+                sb.delete_all_cookies()
+                #sb.execute_script("window.localStorage.clear();")
+                #sb.execute_script("window.sessionStorage.clear();")
                 trace_account_raid(account, len(self.processed_tracker.keys()), success_count)
                 return True
 
