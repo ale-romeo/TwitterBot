@@ -61,11 +61,20 @@ def install_dependencies():
     if not os.path.exists("ca.crt"):
         os.system("python3 -m seleniumwire extractcert")
 
+def install_google_chrome():
+    """Install Google Chrome."""
+    print("Installing Google Chrome...")
+    os.system("sudo apt-get install libxss1 libappindicator1 libindicator7")
+    os.system("wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb")
+    os.system("sudo apt install ./google-chrome*.deb")
+    os.system("rm google-chrome*.deb")
+
 def setup():
     """Main setup function."""
     setup_directories_and_files()
     install_dependencies()
     replace_seleniumbase_file()
+    install_google_chrome()
     print("Setup complete.")
 
 def main():
