@@ -51,8 +51,6 @@ def get_accounts(number=None):
     accounts = load_json(ACCOUNTS_PATH)
     if number is not None:
         accounts = [account for account in accounts if account['number'] == number]
-    if not accounts:
-        return []
     return accounts
 
 def get_account(username):
