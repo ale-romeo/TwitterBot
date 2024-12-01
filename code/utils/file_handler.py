@@ -49,6 +49,7 @@ def get_random_post_text():
 
 def get_accounts(number=None):
     accounts = load_json(ACCOUNTS_PATH)
+    print(accounts)
     if number is not None:
         accounts = [account for account in accounts if account['number'] == number]
     return accounts
