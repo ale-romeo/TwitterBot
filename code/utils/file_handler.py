@@ -48,37 +48,34 @@ def get_random_post_text():
     posts = load_json(POST_PATH)
     return random.choice(posts)
 
-def get_accounts(number=1):
-    accounts_path = os.path.join(ACCOUNTS_PATH, f"accounts{number}.json")
-    accounts = load_json(accounts_path)
+def get_accounts(number=None):
+    accounts = load_json(ACCOUNTS_PATH)
+    if number is not None:
+        accounts = [account for account in accounts if account['number'] == number]
     if not accounts:
         return []
     return accounts
 
-def get_account_and_number(username):
-    for i in range(1, 5):
-        accounts = get_accounts(i)
-        for account in accounts:
-            if account['username'] == username:
-                return account, i
-    return None, None
+def get_account(username):
+    accounts = load_json(ACCOUNTS_PATH)
+    for account in accounts:
+        if account['username'] == username:
+            return account
+    return None
 
 def move_account_to_quarantine(username):
-    account_to_move, number = get_account_and_number(username)
+    account_to_move = get_account(username)
     if not account_to_move:
         return False
     
-    active_accounts = get_accounts(number)
+    active_accounts = get_accounts()
     
     active_accounts.remove(account_to_move)
-    accounts_path = os.path.join(ACCOUNTS_PATH, f"accounts{number}.json")
-    with open(accounts_path, "w") as file:
+    with open(ACCOUNTS_PATH, "w") as file:
         json.dump(active_accounts, file, indent=4)
 
     # Load quarantined accounts and add the account
     quarantine_accounts = load_json(QUARANTINE_PATH)
-    # Add the account number to the account
-    account_to_move['number'] = number
     quarantine_accounts.append(account_to_move)
 
     # Save the updated quarantined accounts
@@ -88,21 +85,18 @@ def move_account_to_quarantine(username):
     return True
 
 def move_account_to_suspended(username):
-    account_to_move, number = get_account_and_number(username)
+    account_to_move = get_account(username)
     if not account_to_move:
         return False
     
-    active_accounts = get_accounts(number)
+    active_accounts = get_accounts()
     
     active_accounts.remove(account_to_move)
-    accounts_path = os.path.join(ACCOUNTS_PATH, f"accounts{number}.json")
-    with open(accounts_path, "w") as file:
+    with open(ACCOUNTS_PATH, "w") as file:
         json.dump(active_accounts, file, indent=4)
 
     # Load quarantined accounts and add the account
     suspended_accounts = load_json(SUSPENDED_PATH)
-    # Add the account number to the account
-    account_to_move['number'] = number
     suspended_accounts.append(account_to_move)
 
     # Save the updated suspended accounts
@@ -125,23 +119,17 @@ def move_account_to_active(username):
             break
 
     if not account_to_move:
-        # Account not found in quarantine
         return False
     
     quarantine_accounts.remove(account_to_move)
     with open(QUARANTINE_PATH, "w") as file:
         json.dump(quarantine_accounts, file, indent=4)
 
-    account_number = account_to_move['number']
-    del account_to_move['number']
-
     # Load active accounts and add the account
-    active_accounts = get_accounts(account_number)
+    active_accounts = get_accounts()
     active_accounts.append(account_to_move)
-
-    accounts_path = os.path.join(ACCOUNTS_PATH, f"accounts{account_number}.json")
     # Save the updated active accounts
-    with open(accounts_path, "w") as file:
+    with open(ACCOUNTS_PATH, "w") as file:
         json.dump(active_accounts, file, indent=4)
 
     return True

@@ -65,7 +65,7 @@ class TelegramBot:
                 else ' '.join(update.message.text.split(' ')[1:])
             )
             picture = get_random_picture()
-            accounts = get_accounts()
+            accounts = get_accounts(random.randint(1, 5))
             if not accounts:
                 log_error("No accounts available for raid.")
                 return
@@ -85,9 +85,8 @@ class TelegramBot:
         else:
             await update.message.reply_text('Failed to post the tweet. Please check the logs.')
 
-    async def raid(self):
-        erase_logs()
-        accounts = get_accounts()
+    async def raid(self, number):
+        accounts = get_accounts(number)
         if not accounts:
             log_error("No accounts available for raid.")
             return
@@ -97,6 +96,12 @@ class TelegramBot:
             selenium_actions.process_account(account)
             self.remove_link_if_interacted_by_all()
             random_delay()
+
+    async def parallelize_raids(self):
+        """Parallelize raids across multiple accounts."""
+        erase_logs()
+        for i in range(1, 6):
+            asyncio.create_task(self.raid(i))
             
     def remove_link_if_interacted_by_all(self):
         """Check if a link in self.processed_tracker has been interacted with by all accounts."""
