@@ -1,8 +1,7 @@
 import json
 import os
-import pickle
 import random
-from config.settings import PICTURES_PATH, MESSAGE_PATH, POST_PATH, ACCOUNTS_PATH, QUARANTINE_PATH, LOG_PATH, COOKIES_PATH, TWEETS_PATH, SUSPENDED_PATH
+from config.settings import PICTURES_PATH, MESSAGE_PATH, POST_PATH, ACCOUNTS_PATH, QUARANTINE_PATH, LOG_PATH, TWEETS_PATH, SUSPENDED_PATH
 
 def load_json(filename):
     with open(filename, "r") as file:
