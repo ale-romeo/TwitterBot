@@ -51,7 +51,7 @@ class TelegramBot:
                 )
                 self.processed_tracker[twitter_url] = set()
                 # Run raid in the background with a lock
-                asyncio.create_task(self.run_locked(self.raid))
+                asyncio.create_task(self.run_locked(self.parallelize_raids))
         except Exception as e:
             log_error(f"Error processing group message: {e}")
 
