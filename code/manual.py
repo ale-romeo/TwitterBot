@@ -11,7 +11,7 @@ def launch_browser_with_proxy(proxy=None):
             window_size="800,800",  # Set the browser window size
         ) as sb:
             # Open Twitter for manual login
-            sb.uc_open("https://x.com/flow/i/login")
+            sb.uc_open("https://x.com/i/flow/login")
             print("Browser is ready for manual interaction.")
             print("Proxy:", proxy if proxy else "No proxy used.")
             
