@@ -285,9 +285,8 @@ class SeleniumActions:
         bookmark_selector = "[data-testid='bookmark']"
         # Check if the tweet is already bookmarked
         try:
-            unbookmark_button = self.tweet.find_element(By.CSS_SELECTOR, unbookmark_selector)
-            if unbookmark_button:
-                return True # Already bookmarked
+            self.tweet.find_element(By.CSS_SELECTOR, unbookmark_selector)
+            return True # Already bookmarked
         except:
             pass
 
