@@ -100,9 +100,11 @@ class TelegramBot:
     async def parallelize_raids(self):
         """Parallelize raids across multiple accounts."""
         erase_logs()
+        tasks = []
         for i in [1,2,3,4,5]:
-            asyncio.create_task(self.raid(i))
-            
+           tasks.append(asyncio.create_task(self.raid(i)))
+        await asyncio.gather(*tasks)
+        
     def remove_link_if_interacted_by_all(self):
         """Check if a link in self.processed_tracker has been interacted with by all accounts."""
         accounts = get_accounts()
