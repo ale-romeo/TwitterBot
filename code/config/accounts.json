@@ -77,13 +77,6 @@
         "number": "2"
     },
     {
-        "email": "zhoamooning@proton.me",
-        "username": "ZhoaMooning",
-        "password": "$$ZHOA$$1B",
-        "proxy": "14a5079adc8b0:b1ff49ab22@91.234.58.173:12323",
-        "number": "2"
-    },
-    {
         "email": "waitinguonthemoon@proton.me",
         "username": "WuOnthemoon",
         "password": "$$ZHOA$$1B",
@@ -99,7 +92,7 @@
     },
     {
         "email": "lastattemptfr@proton.me",
-        "username": "lastattemptfr",
+        "username": "lastattemptfrfr",
         "password": "$$ZHOA$$1B",
         "proxy": "14a5079adc8b0:b1ff49ab22@91.234.58.173:12323",
         "number": "2"
@@ -107,6 +100,13 @@
     {
         "email": "CryptoFieldGoal@proton.me",
         "username": "CryptoFieldGoal",
+        "password": "$$ZHOA$$1B",
+        "proxy": "14a5079adc8b0:b1ff49ab22@91.234.58.173:12323",
+        "number": "2"
+    },
+    {
+        "email": "bullwinsalwaysig@proton.me",
+        "username": "bullwinsalways",
         "password": "$$ZHOA$$1B",
         "proxy": "14a5079adc8b0:b1ff49ab22@91.234.58.173:12323",
         "number": "2"
@@ -168,22 +168,8 @@
         "number": "3"
     },
     {
-        "email": "cryptosiummmm@proton.me",
-        "username": "cryptosiummmm",
-        "password": "$$ZHOA$$1B",
-        "proxy": "14a5079adc8b0:b1ff49ab22@46.34.55.125:12323",
-        "number": "4"
-    },
-    {
         "email": "zhoaraider@proton.me",
         "username": "Zhoaraider1",
-        "password": "$$ZHOA$$1B",
-        "proxy": "14a5079adc8b0:b1ff49ab22@46.34.55.125:12323",
-        "number": "4"
-    },
-    {
-        "email": "HODLHeroXP@proton.me",
-        "username": "HodlxpHero",
         "password": "$$ZHOA$$1B",
         "proxy": "14a5079adc8b0:b1ff49ab22@46.34.55.125:12323",
         "number": "4"
@@ -224,15 +210,15 @@
         "number": "4"
     },
     {
-        "email": "mr_R0b0t_hax@proton.me",
-        "username": "HaxMrR0b07",
+        "email": "fntotallynotlife@proton.me",
+        "username": "fnnotmylifefs",
         "password": "$$ZHOA$$1B",
-        "proxy": "14a5079adc8b0:b1ff49ab22@85.254.83.194:12323",
-        "number": "5"
+        "proxy": "14a5079adc8b0:b1ff49ab22@46.34.55.125:12323",
+        "number": "4"
     },
     {
-        "email": "cryptainjacksparrow@proton.me",
-        "username": "CryptainJ",
+        "email": "mr_R0b0t_hax@proton.me",
+        "username": "HaxMrR0b07",
         "password": "$$ZHOA$$1B",
         "proxy": "14a5079adc8b0:b1ff49ab22@85.254.83.194:12323",
         "number": "5"
@@ -273,15 +259,8 @@
         "number": "5"
     },
     {
-        "email": "fntotallynotlife@proton.me",
-        "username": "fnnotmylifefs",
-        "password": "$$ZHOA$$1B",
-        "proxy": "14a5079adc8b0:b1ff49ab22@85.254.83.194:12323",
-        "number": "5"
-    },
-    {
-        "email": "bullwinsalwaysig@proton.me",
-        "username": "bullwinsalways",
+        "email": "mariabuonacrypto.bunkbed305@passinbox.com",
+        "username": "CryptoBuona",
         "password": "$$ZHOA$$1B",
         "proxy": "14a5079adc8b0:b1ff49ab22@85.254.83.194:12323",
         "number": "5"
