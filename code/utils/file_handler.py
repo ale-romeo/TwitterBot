@@ -18,6 +18,15 @@ def check_interacted_tweet(tweet_url):
     tweets = load_json(TWEETS_PATH)
     return tweet_url in tweets
 
+def remove_interacted_tweets(tweet_url):
+    tweets = load_json(TWEETS_PATH)
+    if not tweet_url in tweets:
+        return False
+    tweets.remove(tweet_url)
+    with open(TWEETS_PATH, "w") as file:
+        json.dump(tweets, file, indent=4)
+    return True
+
 def get_random_emojis():
     emojis = [
         " 🚀", " 🌕", " 🔥", " 💰", " 💎",

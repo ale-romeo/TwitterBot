@@ -6,7 +6,7 @@ from selenium.webdriver.common.keys import Keys
 from utils.logging_handler import trace_account_status, log_error, trace_account_raid
 from utils.file_handler import get_random_emojis, get_random_picture, get_random_message, move_account_to_quarantine, move_account_to_suspended
 from config.settings import TEST_TWITTER_URL
-#from config.env import PROXY_STRING
+from config.env import PROXY_STRING
 
 class SeleniumActions:
     def __init__(self, processed_tracker):
@@ -69,7 +69,7 @@ class SeleniumActions:
     def login(self, sb, email, username, password):
         try:
             # Navigate to Twitter login page
-            sb.open("https://x.com/i/flow/login")
+            sb.uc_open("https://x.com/i/flow/login")
             self.random_delay(sb)
             input_selector = "input[name='text']"
             password_selector = "input[name='password']"
@@ -306,7 +306,7 @@ class SeleniumActions:
                 uc=True,  # Enable undetected-chromedriver mode
                 headless=False,  # Optional: Set True for headless mode
                 incognito=True,  # Enable incognito mode for stealth
-                #proxy=PROXY_STRING,  # Assign proxy if needed
+                proxy=PROXY_STRING,  # Assign proxy if needed
                 window_size="800,800"  # Set window size for the browser
             ) as sb:
                 # Open the website and clear cookies for a fresh start
@@ -328,14 +328,14 @@ class SeleniumActions:
                         return trace_account_status(account, False)
 
                 # Check for redirection to an authentication page
-                sb.open(TEST_TWITTER_URL)
+                sb.uc_open(TEST_TWITTER_URL)
                 self.random_delay(sb)
                 if sb.get_current_url() != TEST_TWITTER_URL and self.check_auth_required(sb, username):
                     sb.delete_all_cookies()
                     return False
 
                 # Navigate to home and attempt to post the tweet
-                sb.open("https://x.com/home")
+                sb.uc_open("https://x.com/home")
                 self.random_delay(sb)
                 if not self.post_tweet(sb, message, picture):
                     return trace_account_status(account, False)
@@ -384,7 +384,7 @@ class SeleniumActions:
                 uc=True,  # Enable undetected-chromedriver mode
                 headless=False,  # Optional: Set True for headless mode
                 incognito=True,  # Enable incognito mode for stealth
-                #proxy=PROXY_STRING,  # Assign proxy if needed
+                proxy=PROXY_STRING,  # Assign proxy if needed
                 window_size="800,800"  # Set window size for the browser
             ) as sb:
                 # Open X.com and clear session for a fresh start
