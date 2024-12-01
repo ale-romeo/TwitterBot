@@ -1,7 +1,6 @@
 import os
 import shutil
 from config.settings import (
-    COOKIES_PATH,
     ACCOUNTS_PATH,
     MESSAGE_PATH,
     POST_PATH,
@@ -20,7 +19,7 @@ def setup_directories_and_files():
     print("Setting up directories...")
 
     # Create directories if they don't exist
-    for path in [PICTURES_PATH, COOKIES_PATH, LOGS_PATH]:
+    for path in [PICTURES_PATH, LOGS_PATH]:
         if not os.path.exists(path):
             os.makedirs(path, exist_ok=True)
 
