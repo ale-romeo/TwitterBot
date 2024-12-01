@@ -100,7 +100,7 @@ class TelegramBot:
     async def parallelize_raids(self):
         """Parallelize raids across multiple accounts."""
         erase_logs()
-        for i in range(1, 6):
+        for i in [1,2,3,4,5]:
             asyncio.create_task(self.raid(i))
             
     def remove_link_if_interacted_by_all(self):
