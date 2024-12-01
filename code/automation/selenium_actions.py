@@ -6,7 +6,7 @@ from selenium.webdriver.common.keys import Keys
 from utils.logging_handler import trace_account_status, log_error, trace_account_raid
 from utils.file_handler import get_random_emojis, get_random_picture, get_random_message, move_account_to_quarantine, move_account_to_suspended
 from config.settings import TEST_TWITTER_URL
-from config.env import PROXY_STRING
+from config.env import PROXY1_STRING, PROXY2_STRING, PROXY3_STRING, PROXY4_STRING, PROXY5_STRING
 
 class SeleniumActions:
     def __init__(self, processed_tracker):
@@ -297,7 +297,7 @@ class SeleniumActions:
         except:
             return False
         
-    def post(self, account, message, picture):
+    def post(self, proxy, account, message, picture):
         try:
             email = account['email']
             username = account['username']
@@ -306,7 +306,7 @@ class SeleniumActions:
                 uc=True,  # Enable undetected-chromedriver mode
                 headless=False,  # Optional: Set True for headless mode
                 incognito=True,  # Enable incognito mode for stealth
-                proxy=PROXY_STRING,  # Assign proxy if needed
+                proxy=proxy,  # Assign proxy if needed
                 window_size="800,800"  # Set window size for the browser
             ) as sb:
                 # Open the website and clear cookies for a fresh start
@@ -375,7 +375,7 @@ class SeleniumActions:
         sb.delete_all_cookies()
         return True
 
-    def process_account(self, account):
+    def process_account(self, proxy, account):
         try:
             email = account['email']
             username = account['username']
@@ -384,7 +384,7 @@ class SeleniumActions:
                 uc=True,  # Enable undetected-chromedriver mode
                 headless=False,  # Optional: Set True for headless mode
                 incognito=True,  # Enable incognito mode for stealth
-                proxy=PROXY_STRING,  # Assign proxy if needed
+                proxy=proxy,  # Assign proxy if needed
                 window_size="800,800"  # Set window size for the browser
             ) as sb:
                 # Open X.com and clear session for a fresh start

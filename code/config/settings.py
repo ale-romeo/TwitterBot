@@ -7,17 +7,17 @@ config_path = os.path.join(base_path, "code", "config")
 mod_files_path = os.path.join(base_path, "mod_files")
 logs_path = os.path.join(config_path, "logs")
 seleniumbase_path = os.path.dirname(os.path.abspath(_.__file__))
+media_path = os.path.join(base_path, "media")
 
 # Config paths
-PICTURES_PATH = os.path.join(base_path, "img")
-COOKIES_PATH = os.path.join(config_path, "cookies")
-MESSAGE_PATH = os.path.join(config_path, "messages.json")
-POST_PATH = os.path.join(config_path, "posts.json")
+PICTURES_PATH = os.path.join(media_path, "img")
+MESSAGE_PATH = os.path.join(media_path, "text", "messages.json")
+POST_PATH = os.path.join(media_path, "text", "posts.json")
 LOG_PATH = os.path.join(logs_path, "automation.log")
-ACCOUNTS_PATH = os.path.join(config_path, "accounts.json")
 QUARANTINE_PATH = os.path.join(config_path, "quarantine.json")
 SUSPENDED_PATH = os.path.join(config_path, "suspended.json")
 TWEETS_PATH = os.path.join(logs_path, "tweets.json")
+ACCOUNTS_PATH = os.path.join(config_path, "accounts.json")
 LOGS_PATH = logs_path
 
 # Modified SeleniumBase file

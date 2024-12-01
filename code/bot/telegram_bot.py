@@ -1,6 +1,5 @@
 import asyncio
 from threading import Lock
-from queue import Queue
 from telegram.ext import Application, CommandHandler, MessageHandler, filters
 from utils.file_handler import (
     get_random_post_text, 
