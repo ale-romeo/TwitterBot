@@ -12,7 +12,7 @@ from utils.file_handler import (
     get_quarantined_accounts, 
     move_account_to_active,
     save_interacted_tweet,
-    remove_interacted_tweet
+    remove_interacted_tweets
 )
 import random
 from utils.logging_handler import log_error
@@ -165,7 +165,7 @@ class TelegramBot:
                 await update.message.reply_text('No link provided.')
                 return
             link = update.message.text.split(' ')[1]
-            if remove_interacted_tweet(link):
+            if remove_interacted_tweets(link):
                 await update.message.reply_text(f"{link} removed.")
                 return
             await update.message.reply_text(f"{link} not found.")
