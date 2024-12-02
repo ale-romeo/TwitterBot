@@ -112,7 +112,7 @@ class SeleniumActions:
             return True
         return False
 
-    def verify_login(self, sb, username, tweet_url):
+    def verify_login(self, sb, tweet_url):
         try:
             sb.uc_open(tweet_url)
             self.random_delay(sb)
@@ -310,20 +310,23 @@ class SeleniumActions:
                 # Open the website and clear cookies for a fresh start
                 sb.uc_open("https://x.com")
                 self.random_delay(sb)
-                
-                if sb.load_cookies(username, -1):  # Load cookies if available
-                    self.random_delay(sb)
-                    
-                    if not self.verify_login(sb, username, TEST_TWITTER_URL):
-                        sb.delete_all_cookies()
-                        sb.sleep(1)
 
+                if not self.verify_login(sb, username, TEST_TWITTER_URL):
+                    sb.delete_all_cookies()
+                    sb.sleep(1)
+                    if sb.load_cookies(username, -1):  # Load cookies if available
+                        self.random_delay(sb)
+                        
+                        if not self.verify_login(sb, username, TEST_TWITTER_URL):
+                            sb.delete_all_cookies()
+                            sb.sleep(1)
+
+                            if not self.login(sb, email, username, password):
+                                return trace_account_status(account, False)
+                    else:
+                        # Perform login if no cookies are available
                         if not self.login(sb, email, username, password):
                             return trace_account_status(account, False)
-                else:
-                    # Perform login if no cookies are available
-                    if not self.login(sb, email, username, password):
-                        return trace_account_status(account, False)
 
                 # Check for redirection to an authentication page
                 sb.uc_open(TEST_TWITTER_URL)
@@ -386,19 +389,22 @@ class SeleniumActions:
                 sb.uc_open("https://x.com")
                 self.random_delay(sb)
 
-                if sb.load_cookies(username, -1):  # Load cookies if available
-                    self.random_delay(sb)
+                if not self.verify_login(sb, username, TEST_TWITTER_URL):
+                    sb.delete_all_cookies()
+                    sb.sleep(1)
+                    if sb.load_cookies(username, -1):  # Load cookies if available
+                        self.random_delay(sb)
 
-                    if not self.verify_login(sb, username, TEST_TWITTER_URL):
-                        sb.delete_all_cookies()
-                        sb.sleep(1)
+                        if not self.verify_login(sb, username, TEST_TWITTER_URL):
+                            sb.delete_all_cookies()
+                            sb.sleep(1)
 
+                            if not self.login(sb, email, username, password):
+                                return trace_account_status(account, False)
+                    else:
+                        # Perform login if no cookies are found
                         if not self.login(sb, email, username, password):
                             return trace_account_status(account, False)
-                else:
-                    # Perform login if no cookies are found
-                    if not self.login(sb, email, username, password):
-                        return trace_account_status(account, False)
 
                 # Check if the account is suspended
                 if self.check_suspended(sb, username):
