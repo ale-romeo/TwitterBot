@@ -23,6 +23,7 @@ class TelegramBot:
     def __init__(self, token, bot):
         self.token = token
         self.bot = bot
+        self.raid_running = False
         self.application = Application.builder().token(token).build()
         self.lock = Lock()  # Shared lock for raid and post
         self.processed_tracker = {}
@@ -45,15 +46,19 @@ class TelegramBot:
             message_text = update.message.text
             twitter_url = extract_tweet_link(message_text)
 
-            if twitter_url and not check_interacted_tweet(twitter_url) and twitter_url not in self.processed_tracker:
-                if self.token == '':
+            if twitter_url and not check_interacted_tweet(twitter_url) and twitter_url not in self.processed_tracker.keys():
+                if self.bot == 1:
                     await update.message.reply_animation(
                         animation=get_raid_picture(), 
                         caption=f"ZHOA ARMY!! IT'S TIME TO SHINE 🔥🔥\n{twitter_url}"
                     )
                 self.processed_tracker[twitter_url] = set()
                 # Run raid in the background with a lock
-                asyncio.create_task(self.run_locked(self.raid, self.bot))
+                if self.raid_running:
+                    return
+                else:
+                    self.raid_running = True
+                    asyncio.create_task(self.run_locked(self.raid, self.bot))
         except Exception as e:
             log_error(f"Error processing group message: {e}")
 
@@ -100,6 +105,7 @@ class TelegramBot:
             selenium_actions.process_account(account)
             self.remove_link_if_interacted_by_all(number)
             random_delay()
+        self.raid_running = False
         
     def remove_link_if_interacted_by_all(self, number):
         """Check if a link in self.processed_tracker has been interacted with by all accounts."""

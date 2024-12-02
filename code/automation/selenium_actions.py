@@ -1,3 +1,4 @@
+import os
 import random
 import pyperclip
 from seleniumbase import SB
@@ -5,7 +6,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from utils.logging_handler import trace_account_status, log_error, trace_account_raid
 from utils.file_handler import get_random_emojis, get_random_picture, get_random_message, move_account_to_quarantine, move_account_to_suspended
-from config.settings import TEST_TWITTER_URL
+from config.settings import TEST_TWITTER_URL, PROFILES_PATH
 
 class SeleniumActions:
     def __init__(self, processed_tracker):
@@ -302,9 +303,9 @@ class SeleniumActions:
             with SB(
                 uc=True,  # Enable undetected-chromedriver mode
                 headless=False,  # Optional: Set True for headless mode
-                incognito=True,  # Enable incognito mode for stealth
                 proxy=account['proxy'],  # Assign proxy if needed
-                window_size="800,800"  # Set window size for the browser
+                window_size="800,800",  # Set window size for the browser
+                user_data_dir=os.path.join(PROFILES_PATH, username)  # Set user data directory for the browser
             ) as sb:
                 # Open the website and clear cookies for a fresh start
                 sb.uc_open("https://x.com")
@@ -337,11 +338,9 @@ class SeleniumActions:
                 if not self.post_tweet(sb, message, picture):
                     return trace_account_status(account, False)
 
-                sb.delete_all_cookies()
                 return trace_account_status(account, True)
 
         except:
-            sb.delete_all_cookies()
             return trace_account_status(account, False)
 
     def interact(self, sb, account, tweet_url, comment=False):
@@ -379,9 +378,9 @@ class SeleniumActions:
             with SB(
                 uc=True,  # Enable undetected-chromedriver mode
                 headless=False,  # Optional: Set True for headless mode
-                incognito=True,  # Enable incognito mode for stealth
                 proxy=account['proxy'],  # Assign proxy if needed
-                window_size="800,800"  # Set window size for the browser
+                window_size="800,800",  # Set window size for the browser
+                user_data_dir=os.path.join(PROFILES_PATH, username)  # Set user data directory for the browser
             ) as sb:
                 # Open X.com and clear session for a fresh start
                 sb.uc_open("https://x.com")
@@ -415,10 +414,7 @@ class SeleniumActions:
                     if success:
                         processed_accounts.add(username)
                         success_count += 1
-                
-                sb.delete_all_cookies()
-                #sb.execute_script("window.localStorage.clear();")
-                #sb.execute_script("window.sessionStorage.clear();")
+                        
                 trace_account_raid(account, len(self.processed_tracker.keys()), success_count)
                 return True
 
