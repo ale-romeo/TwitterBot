@@ -20,8 +20,9 @@ from utils.helpers import extract_tweet_link, random_delay
 from automation.selenium_actions import SeleniumActions
 
 class TelegramBot:
-    def __init__(self, token):
+    def __init__(self, token, bot):
         self.token = token
+        self.bot = bot
         self.application = Application.builder().token(token).build()
         self.lock = Lock()  # Shared lock for raid and post
         self.processed_tracker = {}
@@ -45,13 +46,14 @@ class TelegramBot:
             twitter_url = extract_tweet_link(message_text)
 
             if twitter_url and not check_interacted_tweet(twitter_url) and twitter_url not in self.processed_tracker:
-                await update.message.reply_animation(
-                    animation=get_raid_picture(), 
-                    caption=f"ZHOA ARMY!! IT'S TIME TO SHINE 🔥🔥\n{twitter_url}"
-                )
+                if self.token == '':
+                    await update.message.reply_animation(
+                        animation=get_raid_picture(), 
+                        caption=f"ZHOA ARMY!! IT'S TIME TO SHINE 🔥🔥\n{twitter_url}"
+                    )
                 self.processed_tracker[twitter_url] = set()
                 # Run raid in the background with a lock
-                asyncio.create_task(self.run_locked(self.parallelize_raids))
+                asyncio.create_task(self.run_locked(self.raid, self.bot))
         except Exception as e:
             log_error(f"Error processing group message: {e}")
 
@@ -65,7 +67,7 @@ class TelegramBot:
                 else ' '.join(update.message.text.split(' ')[1:])
             )
             picture = get_random_picture()
-            accounts = get_accounts(random.randint(1, 5))
+            accounts = get_accounts(self.bot)
             if not accounts:
                 log_error("No accounts available for raid.")
                 return
@@ -86,6 +88,8 @@ class TelegramBot:
             await update.message.reply_text('Failed to post the tweet. Please check the logs.')
 
     async def raid(self, number):
+        """Raid a tweet with a random number of accounts."""
+        erase_logs()
         accounts = get_accounts(number)
         if not accounts:
             log_error("No accounts available for raid.")
@@ -96,14 +100,6 @@ class TelegramBot:
             selenium_actions.process_account(account)
             self.remove_link_if_interacted_by_all()
             random_delay()
-
-    async def parallelize_raids(self):
-        """Parallelize raids across multiple accounts."""
-        erase_logs()
-        tasks = []
-        for i in [1,2,3,4,5]:
-           tasks.append(asyncio.create_task(self.raid(i)))
-        await asyncio.gather(*tasks)
         
     def remove_link_if_interacted_by_all(self):
         """Check if a link in self.processed_tracker has been interacted with by all accounts."""
