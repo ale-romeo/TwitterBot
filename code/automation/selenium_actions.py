@@ -118,7 +118,6 @@ class SeleniumActions:
 
             try:
                 sb.assert_element("[data-testid='login']", timeout=5)
-                log_error(f"COOKIES FAILED - {username}")
                 sb.sleep(1)
                 return False
             except:
