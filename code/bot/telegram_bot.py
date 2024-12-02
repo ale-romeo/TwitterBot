@@ -98,12 +98,12 @@ class TelegramBot:
         selenium_actions = SeleniumActions(self.processed_tracker)
         for account in accounts:
             selenium_actions.process_account(account)
-            self.remove_link_if_interacted_by_all()
+            self.remove_link_if_interacted_by_all(number)
             random_delay()
         
-    def remove_link_if_interacted_by_all(self):
+    def remove_link_if_interacted_by_all(self, number):
         """Check if a link in self.processed_tracker has been interacted with by all accounts."""
-        accounts = get_accounts()
+        accounts = get_accounts(number)
         links_to_remove = []  # Keep track of links to remove
 
         # Iterate over a copy of the dictionary keys to avoid the error
