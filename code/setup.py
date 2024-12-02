@@ -71,8 +71,8 @@ def install_google_chrome():
 
 def setup():
     """Main setup function."""
-    setup_directories_and_files()
     install_dependencies()
+    setup_directories_and_files()
     replace_seleniumbase_file()
     install_google_chrome()
     print("Setup complete.")
