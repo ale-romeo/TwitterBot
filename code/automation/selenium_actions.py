@@ -395,7 +395,7 @@ class SeleniumActions:
                     if sb.load_cookies(username, -1):  # Load cookies if available
                         self.random_delay(sb)
 
-                        if not self.verify_login(sb, username, TEST_TWITTER_URL):
+                        if not self.verify_login(sb, TEST_TWITTER_URL):
                             sb.delete_all_cookies()
                             sb.sleep(1)
 
