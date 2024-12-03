@@ -1,12 +1,5 @@
 [
     {
-        "email": "testing.ripeness349@passinbox.com",
-        "username": "testingstuffhax",
-        "password": "$$ZHOA$$1B",
-        "proxy": "14a6a9de61a3b:1148882075@85.254.82.141:12323",
-        "number": "1"
-    },
-    {
         "email": "gettingcrazy.crudeness202@passinbox.com",
         "username": "gettingcr4zy",
         "password": "$$ZHOA$$1B",
@@ -70,20 +63,6 @@
         "number": "2"
     },
     {
-        "email": "what_the_ticker@proton.me",
-        "username": "YoWhatsTheTick",
-        "password": "$$ZHOA$$1B",
-        "proxy": "14a5079adc8b0:b1ff49ab22@91.234.58.173:12323",
-        "number": "2"
-    },
-    {
-        "email": "wearedonefornow@proton.me",
-        "username": "werdonefornow",
-        "password": "$$ZHOA$$1B",
-        "proxy": "14a5079adc8b0:b1ff49ab22@91.234.58.173:12323",
-        "number": "2"
-    },
-    {
         "email": "lastattemptfr@proton.me",
         "username": "lastattemptfrfr",
         "password": "$$ZHOA$$1B",
@@ -100,6 +79,27 @@
     {
         "email": "bullwinsalwaysig@proton.me",
         "username": "bullwinsalways",
+        "password": "$$ZHOA$$1B",
+        "proxy": "14a5079adc8b0:b1ff49ab22@91.234.58.173:12323",
+        "number": "2"
+    },
+    {
+        "email": "lootlunatic@proton.me",
+        "username": "lootlunatic",
+        "password": "$$ZHOA$$1B",
+        "proxy": "14a5079adc8b0:b1ff49ab22@91.234.58.173:12323",
+        "number": "2"
+    },
+    {
+        "email": "RespawnCrypt0@proton.me",
+        "username": "RespawnCrypto",
+        "password": "$$ZHOA$$1B",
+        "proxy": "14a5079adc8b0:b1ff49ab22@91.234.58.173:12323",
+        "number": "2"
+    },
+    {
+        "email": "SunsetStaker@proton.me",
+        "username": "SunsetStaker",
         "password": "$$ZHOA$$1B",
         "proxy": "14a5079adc8b0:b1ff49ab22@91.234.58.173:12323",
         "number": "2"
