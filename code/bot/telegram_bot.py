@@ -36,6 +36,7 @@ class TelegramBot:
         self.application.add_handler(CommandHandler("move", self.move_account_to_active))
         self.application.add_handler(CommandHandler("clear_logs", self.clear_logs))
         self.application.add_handler(CommandHandler("remove_link", self.remove_link_from_interacted))
+        self.application.add_handler(CommandHandler("empty_tracker", self.empty_processed_tracker))
         self.application.add_handler(MessageHandler(filters.TEXT, self.monitor_group_messages))
 
     async def monitor_group_messages(self, update, context):
@@ -173,6 +174,13 @@ class TelegramBot:
                 await update.message.reply_text(f"{link} removed.")
                 return
             await update.message.reply_text(f"{link} not found.")
+
+    async def empty_processed_tracker(self, update, context):
+        """Empty the processed tracker."""
+        chat_type = update.effective_chat.type
+        if chat_type == 'private':
+            self.processed_tracker = {}
+            await update.message.reply_text('Processed tracker emptied.')
 
     async def run_locked(self, func, *args):
         """Run a function with a shared lock to prevent simultaneous raids/posts."""
