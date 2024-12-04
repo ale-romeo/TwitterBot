@@ -264,5 +264,19 @@
         "password": "$$ZHOA$$1B",
         "proxy": "14a5079adc8b0:b1ff49ab22@85.254.83.194:12323",
         "number": "5"
+    },
+    {
+        "email": "BlockchainExplor@proton.me",
+        "username": "BlockchainExplorer",
+        "password": "$$ZHOA$$1B",
+        "proxy": "14a5079adc8b0:b1ff49ab22@85.254.83.194:12323",
+        "number": "5"
+    },
+    {
+        "email": "PixelPione3r@proton.me",
+        "username": "PPioneer31611",
+        "password": "$$ZHOA$$1B",
+        "proxy": "14a5079adc8b0:b1ff49ab22@85.254.83.194:12323",
+        "number": "5"
     }
 ]
