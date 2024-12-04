@@ -115,7 +115,7 @@ class TelegramBot:
 
         # Iterate over a copy of the dictionary keys to avoid the error
         for link in list(self.processed_tracker.keys()):
-            if len(self.processed_tracker[link]) == len(accounts):
+            if len(self.processed_tracker[link]) == (len(accounts) - 2):
                 links_to_remove.append(link)
 
         # Remove links and save them as interacted
