@@ -40,7 +40,9 @@ def trace_account_status(account, status):
     return status
 
 def trace_account_raid(account, num_tweets, num_success):
-    if num_success == num_tweets:
+    if num_tweets == 0:
+        logging.error(f"{account['username']} - NOT USED")
+    elif num_success == num_tweets:
         logging.info(f"{account['username']} - {num_success}/{num_tweets} - SUCCESS")
     else:
         logging.error(f"{account['username']} - {num_success}/{num_tweets} - FAIL")

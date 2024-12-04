@@ -378,6 +378,12 @@ class SeleniumActions:
             email = account['email']
             username = account['username']
             password = account['password']
+
+            # Check if the tracker is empty
+            if not self.processed_tracker:
+                trace_account_raid(account, len(self.processed_tracker.keys()), success_count)
+                return True
+
             with SB(
                 uc=True,  # Enable undetected-chromedriver mode
                 headless=False,  # Optional: Set True for headless mode
