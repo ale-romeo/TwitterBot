@@ -2,6 +2,7 @@ import asyncio
 from threading import Lock
 from telegram.ext import Application, CommandHandler, MessageHandler, filters
 from utils.file_handler import (
+    get_project_raid_message,
     get_random_post_text, 
     get_random_picture, 
     get_raid_picture, 
@@ -9,8 +10,9 @@ from utils.file_handler import (
     check_interacted_tweet, 
     erase_logs, 
     get_logs, 
-    get_quarantined_accounts, 
-    move_account_to_active,
+    get_locked_accounts,
+    get_suspended_accounts,
+    unlock_account,
     save_interacted_tweet,
     remove_interacted_tweets
 )
@@ -20,51 +22,74 @@ from utils.helpers import extract_tweet_link, random_delay
 from automation.selenium_actions import SeleniumActions
 
 class TelegramBot:
-    def __init__(self, token, bot):
+    def __init__(self, token, vps, project):
         self.token = token
-        self.bot = bot
+        self.vps = vps
+        self.project = project
         self.raid_running = False
         self.application = Application.builder().token(token).build()
-        self.lock = Lock()  # Shared lock for raid and post
+        self.queue = asyncio.Queue()
+        self.task_running = False 
         self.processed_tracker = {}
+        asyncio.create_task(self.task_worker())
         self.setup_handlers()
 
     def setup_handlers(self):
         self.application.add_handler(CommandHandler("post", self.post))
         self.application.add_handler(CommandHandler("logs", self.logs))
-        self.application.add_handler(CommandHandler("quarantined", self.get_quarantined_accounts))
-        self.application.add_handler(CommandHandler("move", self.move_account_to_active))
+        self.application.add_handler(CommandHandler("locked", self.get_locked_accounts))
+        self.application.add_handler(CommandHandler("suspended", self.get_suspended_accounts))
+        self.application.add_handler(CommandHandler("unlock", self.unlock_account))
         self.application.add_handler(CommandHandler("clear_logs", self.clear_logs))
         self.application.add_handler(CommandHandler("remove_link", self.remove_link_from_interacted))
         self.application.add_handler(CommandHandler("empty_tracker", self.empty_processed_tracker))
         self.application.add_handler(MessageHandler(filters.TEXT, self.monitor_group_messages))
 
+    async def task_worker(self):
+        """Background worker to process raid/post tasks sequentially."""
+        while True:
+            task, args = await self.queue.get()
+            try:
+                await task(*args)  # Execute the function
+            except Exception as e:
+                log_error(f"Error processing task: {e}")
+            finally:
+                self.task_running = False
+                self.queue.task_done()
+
     async def monitor_group_messages(self, update, context):
         """Monitor group messages for Twitter links."""
         try:
-            if not update.message.text:
+            if update.message is None or not update.message.text:
                 return
             message_text = update.message.text
             twitter_url = extract_tweet_link(message_text)
 
             if twitter_url and not check_interacted_tweet(twitter_url) and twitter_url not in self.processed_tracker.keys():
-                if self.bot == 1:
+                if self.vps == 1:
                     await update.message.reply_animation(
                         animation=get_raid_picture(), 
-                        caption=f"ZHOA ARMY!! IT'S TIME TO SHINE 🔥🔥\n{twitter_url}"
+                        caption=f"{get_project_raid_message}{twitter_url}"
                     )
                 self.processed_tracker[twitter_url] = set()
-                # Run raid in the background with a lock
+                
                 if self.raid_running:
                     return
                 else:
                     self.raid_running = True
-                    asyncio.create_task(self.run_locked(self.raid, self.bot))
+                    await self.queue.put((self.raid, (twitter_url, self.project)))
         except Exception as e:
             log_error(f"Error processing group message: {e}")
 
     async def post(self, update, context):
         """Post a tweet using a random account."""
+        picture = get_random_picture()
+        accounts = get_accounts(self.vps, self.project)
+        if not accounts:
+            log_error("No accounts available for raid.")
+            return
+        account = random.choice(accounts)
+
         chat_type = update.effective_chat.type
         if chat_type == 'private':
             message = (
@@ -72,31 +97,23 @@ class TelegramBot:
                 if len(update.message.text.split(' ')) < 2
                 else ' '.join(update.message.text.split(' ')[1:])
             )
-            picture = get_random_picture()
-            accounts = get_accounts(self.bot)
-            if not accounts:
-                log_error("No accounts available for raid.")
-                return
-            account = random.choice(accounts)
 
             await update.message.reply_text('Posting your tweet...')
-            # Run post in the background with a lock
-            selenium_actions = SeleniumActions(None)
-            post = asyncio.create_task(self.run_locked(selenium_actions.post, account, message, picture))
-            asyncio.create_task(self.wait_post_completion(post, update))
+            await self.queue.put((self.execute_post, (account, message, picture, update)))
 
-    async def wait_post_completion(self, post, update):
-        """Wait for the post task to complete."""
-        success = await post
+    async def execute_post(self, account, message, picture, update):
+        """Actual function to post the tweet."""
+        selenium_actions = SeleniumActions(None)
+        success = await asyncio.to_thread(selenium_actions.post, account, message, picture)
         if success:
-            await update.message.reply_text('Tweet posted successfully!')
+            await update.message.reply_text("Tweet posted successfully!")
         else:
-            await update.message.reply_text('Failed to post the tweet. Please check the logs.')
+            await update.message.reply_text("Failed to post the tweet.")
 
-    async def raid(self, number):
+    async def raid(self, vps, project):
         """Raid a tweet with a random number of accounts."""
         erase_logs()
-        accounts = get_accounts(number)
+        accounts = get_accounts(vps=vps, project=project)
         if not accounts:
             log_error("No accounts available for raid.")
             return
@@ -104,21 +121,19 @@ class TelegramBot:
         selenium_actions = SeleniumActions(self.processed_tracker)
         for account in accounts:
             selenium_actions.process_account(account)
-            self.remove_link_if_interacted_by_all(number)
+            self.remove_link_if_interacted_by_all(vps, project)
             random_delay()
         self.raid_running = False
         
-    def remove_link_if_interacted_by_all(self, number):
+    def remove_link_if_interacted_by_all(self, vps, project):
         """Check if a link in self.processed_tracker has been interacted with by all accounts."""
-        accounts = get_accounts(number)
-        links_to_remove = []  # Keep track of links to remove
+        accounts = get_accounts(vps=vps, project=project)
+        links_to_remove = []
 
-        # Iterate over a copy of the dictionary keys to avoid the error
         for link in list(self.processed_tracker.keys()):
             if len(self.processed_tracker[link]) == (len(accounts) - 2):
                 links_to_remove.append(link)
 
-        # Remove links and save them as interacted
         for link in links_to_remove:
             del self.processed_tracker[link]
             save_interacted_tweet(link)
@@ -137,18 +152,29 @@ class TelegramBot:
             erase_logs()
             await update.message.reply_text('Logs cleared.')
 
-    async def get_quarantined_accounts(self, update, context):
+    async def get_locked_accounts(self, update, context):
         """Get and display quarantined accounts."""
         chat_type = update.effective_chat.type
         if chat_type == 'private':
-            quarantined_accounts = get_quarantined_accounts()
+            quarantined_accounts = get_locked_accounts()
             if not quarantined_accounts:
                 await update.message.reply_text('No accounts in quarantine.')
                 return
             usernames = ', '.join([account['username'] for account in quarantined_accounts])
             await update.message.reply_text(usernames)
 
-    async def move_account_to_active(self, update, context):
+    async def get_suspended_accounts(self, update, context):
+        """Get and display suspended accounts."""
+        chat_type = update.effective_chat.type
+        if chat_type == 'private':
+            suspended_accounts = get_suspended_accounts()
+            if not suspended_accounts:
+                await update.message.reply_text('No suspended accounts.')
+                return
+            usernames = ', '.join([account['username'] for account in suspended_accounts])
+            await update.message.reply_text(usernames)
+
+    async def unlock_account(self, update, context):
         """Move a quarantined account back to active."""
         chat_type = update.effective_chat.type
         if chat_type == 'private':
@@ -156,7 +182,7 @@ class TelegramBot:
                 await update.message.reply_text('No username provided.')
                 return
             username = update.message.text.split(' ')[1]
-            operation_result = move_account_to_active(username)
+            operation_result = unlock_account(username)
             if not operation_result:
                 await update.message.reply_text(f"Failed to move {username} to active accounts.")
                 return
@@ -181,25 +207,6 @@ class TelegramBot:
         if chat_type == 'private':
             self.processed_tracker = {}
             await update.message.reply_text('Processed tracker emptied.')
-
-    async def run_locked(self, func, *args):
-        """Run a function with a shared lock to prevent simultaneous raids/posts."""
-        if self.lock.locked():
-            log_error("A raid or post is already in progress. Please wait.")
-            return False  # Prevent concurrent raids/posts
-
-        with self.lock:
-            try:
-                # If func is a coroutine (async function), await it
-                if asyncio.iscoroutinefunction(func):
-                    return await func(*args)
-                # Otherwise, run it as a blocking function in a thread
-                else:
-                    loop = asyncio.get_running_loop()
-                    return await loop.run_in_executor(None, func, *args)
-            except Exception as e:
-                log_error(f"Error running locked function: {e}")
-                return False
 
     def start(self):
         """Start the Telegram bot."""

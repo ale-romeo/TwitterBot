@@ -1,7 +1,7 @@
 import json
 import os
 import random
-from config.settings import PICTURES_PATH, MESSAGE_PATH, POST_PATH, ACCOUNTS_PATH, QUARANTINE_PATH, LOG_PATH, TWEETS_PATH, SUSPENDED_PATH
+from config.settings import PICTURES_PATH, MESSAGE_PATH, POST_PATH, ACCOUNTS_PATH, LOG_PATH, TWEETS_PATH, RAID_MESSAGE_PATH
 
 def load_json(filename):
     with open(filename, "r") as file:
@@ -39,98 +39,193 @@ def get_random_picture():
 def get_raid_picture():
     return os.path.join(PICTURES_PATH, "push.gif")
 
-def get_random_message():
-    messages = load_json(MESSAGE_PATH)
-    return random.choice(messages)
-
-def get_random_post_text():
-    posts = load_json(POST_PATH)
-    return random.choice(posts)
-
-def get_accounts(number=None):
-    accounts = load_json(ACCOUNTS_PATH)
-    if number is not None:
-        # Get only accounts with the specified number field
-        accounts = [account for account in accounts if account['number'] == str(number)] 
-    return accounts
-
-def get_account(username):
-    accounts = load_json(ACCOUNTS_PATH)
-    for account in accounts:
-        if account['username'] == username:
-            return account
+def get_project_raid_message(project):
+    messages = load_json(RAID_MESSAGE_PATH)
+    if project in messages:
+        return messages[project]
     return None
 
-def move_account_to_quarantine(username):
-    account_to_move = get_account(username)
-    if not account_to_move:
+def get_random_message(project):
+    messages = load_json(MESSAGE_PATH)
+    if project in messages:
+        return random.choice(messages[project])
+    return None
+
+def get_random_post_text(project):
+    posts = load_json(POST_PATH)
+    if project in posts:
+        return random.choice(posts)
+    return None
+
+def get_accounts(vps=None, project=None):
+    accounts_data = load_json(ACCOUNTS_PATH)  # Load the JSON data
+
+    active_accounts = []
+
+    if project:
+        # Check if the project exists
+        if project in accounts_data:
+            project_data = accounts_data[project]
+
+            # If VPS is specified, fetch specific VPS accounts
+            if vps:
+                if vps in project_data:
+                    vps_accounts = project_data[vps]['accounts']
+                    active_accounts.extend([
+                        account for account in vps_accounts 
+                        if not account.get('isLocked') and not account.get('isSuspended')
+                    ])
+            else:
+                # Fetch all accounts for all VPSs under the project
+                for vps_data in project_data.values():
+                    vps_accounts = vps_data['accounts']
+                    active_accounts.extend([
+                        account for account in vps_accounts 
+                        if not account.get('isLocked') and not account.get('isSuspended')
+                    ])
+    else:
+        # If project is None, fetch all active accounts across all projects
+        for project_data in accounts_data.values():
+            for vps_data in project_data.values():
+                vps_accounts = vps_data['accounts']
+                active_accounts.extend([
+                    account for account in vps_accounts 
+                    if not account.get('isLocked') and not account.get('isSuspended')
+                ])
+
+    return active_accounts
+
+def lock_account(username):
+    accounts_data = load_json(ACCOUNTS_PATH)  # Load the JSON data
+    account_found = False
+
+    # Search through all projects and VPSs
+    for project, project_data in accounts_data.items():
+        for vps, vps_data in project_data.items():
+            for account in vps_data['accounts']:
+                if account.get('username') == username:
+                    account['isLocked'] = True  # Lock the account
+                    account_found = True
+                    break
+
+    if account_found:
+        with open(ACCOUNTS_PATH, "w") as file:
+            json.dump(accounts_data, file, indent=4)
+        return True
+    else:
         return False
-    
-    active_accounts = get_accounts()
-    
-    active_accounts.remove(account_to_move)
-    with open(ACCOUNTS_PATH, "w") as file:
-        json.dump(active_accounts, file, indent=4)
 
-    # Load quarantined accounts and add the account
-    quarantine_accounts = load_json(QUARANTINE_PATH)
-    quarantine_accounts.append(account_to_move)
+def unlock_account(username):
+    accounts_data = load_json(ACCOUNTS_PATH)  # Load the JSON data
+    account_found = False
 
-    # Save the updated quarantined accounts
-    with open(QUARANTINE_PATH, "w") as file:
-        json.dump(quarantine_accounts, file, indent=4)
-        
-    return True
+    # Search through all projects and VPSs
+    for project, project_data in accounts_data.items():
+        for vps, vps_data in project_data.items():
+            for account in vps_data['accounts']:
+                if account.get('username') == username:
+                    account['isLocked'] = False  # Unlock the account
+                    account_found = True
+                    break
 
-def move_account_to_suspended(username):
-    account_to_move = get_account(username)
-    if not account_to_move:
+    if account_found:
+        with open(ACCOUNTS_PATH, "w") as file:
+            json.dump(accounts_data, file, indent=4)
+        return True
+    else:
         return False
-    
-    active_accounts = get_accounts()
-    
-    active_accounts.remove(account_to_move)
-    with open(ACCOUNTS_PATH, "w") as file:
-        json.dump(active_accounts, file, indent=4)
 
-    # Load quarantined accounts and add the account
-    suspended_accounts = load_json(SUSPENDED_PATH)
-    suspended_accounts.append(account_to_move)
+def suspend_account(username):
+    accounts_data = load_json(ACCOUNTS_PATH)  # Load the JSON data
+    account_found = False
 
-    # Save the updated suspended accounts
-    with open(SUSPENDED_PATH, "w") as file:
-        json.dump(suspended_accounts, file, indent=4)
-        
-    return True
+    # Search through all projects and VPSs
+    for project, project_data in accounts_data.items():
+        for vps, vps_data in project_data.items():
+            for account in vps_data['accounts']:
+                if account.get('username') == username:
+                    account['isSuspended'] = True  # Suspend the account
+                    account_found = True
+                    break
 
-def get_quarantined_accounts():
-    accounts = load_json(QUARANTINE_PATH)
-    return accounts
-
-def move_account_to_active(username):
-    quarantine_accounts = load_json(QUARANTINE_PATH)
-
-    account_to_move = None
-    for account in quarantine_accounts:
-        if account['username'] == username:
-            account_to_move = account
-            break
-
-    if not account_to_move:
+    if account_found:
+        with open(ACCOUNTS_PATH, "w") as file:
+            json.dump(accounts_data, file, indent=4)
+        return True
+    else:
         return False
+
+def unsuspend_account(username):
+    accounts_data = load_json(ACCOUNTS_PATH)  # Load the JSON data
+    account_found = False
+
+    # Search through all projects and VPSs
+    for project, project_data in accounts_data.items():
+        for vps, vps_data in project_data.items():
+            for account in vps_data['accounts']:
+                if account.get('username') == username:
+                    account['isSuspended'] = False  # Unsuspend the account
+                    account_found = True
+                    break
+
+    if account_found:
+        with open(ACCOUNTS_PATH, "w") as file:
+            json.dump(accounts_data, file, indent=4)
+        return True
+    else:
+        return False
+
+def get_locked_accounts(project=None, vps=None):
+    accounts_data = load_json(ACCOUNTS_PATH)  # Load the JSON data
     
-    quarantine_accounts.remove(account_to_move)
-    with open(QUARANTINE_PATH, "w") as file:
-        json.dump(quarantine_accounts, file, indent=4)
+    if not project or project not in accounts_data:
+        print("Invalid project or project not found.")
+        return []
 
-    # Load active accounts and add the account
-    active_accounts = get_accounts()
-    active_accounts.append(account_to_move)
-    # Save the updated active accounts
-    with open(ACCOUNTS_PATH, "w") as file:
-        json.dump(active_accounts, file, indent=4)
+    project_data = accounts_data[project]
 
-    return True
+    # If VPS is specified, fetch locked accounts for that VPS
+    if vps and vps in project_data:
+        locked_accounts = [
+            account for account in project_data[vps]['accounts']
+            if account.get('isLocked', False)
+        ]
+        return locked_accounts
+
+    # If VPS is not specified, fetch locked accounts for all VPSs under the project
+    locked_accounts = []
+    for vps_key, vps_data in project_data.items():
+        locked_accounts.extend([
+            account for account in vps_data['accounts']
+            if account.get('isLocked', False)
+        ])
+    return locked_accounts
+
+def get_suspended_accounts(project=None, vps=None):
+    accounts_data = load_json(ACCOUNTS_PATH)  # Load the JSON data
+    
+    if not project or project not in accounts_data:
+        print("Invalid project or project not found.")
+        return []
+
+    project_data = accounts_data[project]
+
+    # If VPS is specified, fetch locked accounts for that VPS
+    if vps and vps in project_data:
+        locked_accounts = [
+            account for account in project_data[vps]['accounts']
+            if account.get('isSuspended', False)
+        ]
+        return locked_accounts
+
+    # If VPS is not specified, fetch locked accounts for all VPSs under the project
+    locked_accounts = []
+    for vps_key, vps_data in project_data.items():
+        locked_accounts.extend([
+            account for account in vps_data['accounts']
+            if account.get('isSuspended', False)
+        ])
+    return locked_accounts
 
 def get_logs():
     if os.path.exists(LOG_PATH):

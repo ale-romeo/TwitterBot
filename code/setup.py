@@ -9,9 +9,7 @@ from config.settings import (
     TWEETS_PATH,
     PICTURES_PATH,
     SUSPENDED_PATH,
-    LOGS_PATH,
-    ORIGINAL_BASECASE_PATH,
-    MODIFIED_BASECASE_PATH
+    LOGS_PATH
 )
 
 def setup_directories_and_files():
@@ -39,7 +37,7 @@ def setup_directories_and_files():
                 with open(file_path, "w") as f:
                     f.write("[]")
 
-def replace_seleniumbase_file():
+def replace_seleniumbase_file(ORIGINAL_BASECASE_PATH, MODIFIED_BASECASE_PATH):
     """Replaces SeleniumBase's `base_case.py` with the modified version."""
     print("Replacing SeleniumBase's base_case.py...")
 
@@ -73,7 +71,9 @@ def setup():
     """Main setup function."""
     install_dependencies()
     setup_directories_and_files()
-    replace_seleniumbase_file()
+
+    from config.settings import ORIGINAL_BASECASE_PATH, MODIFIED_BASECASE_PATH
+    replace_seleniumbase_file(ORIGINAL_BASECASE_PATH, MODIFIED_BASECASE_PATH)
     install_google_chrome()
     print("Setup complete.")
 

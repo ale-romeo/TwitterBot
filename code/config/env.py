@@ -1,4 +1,5 @@
 import os
 
 TELEGRAM_TOKEN = os.getenv("TEL_BOT_TOKEN")
-BOT = os.getenv("BOT")
+VPS = os.getenv("VPS")
+PROJECT = os.getenv("PROJECT")

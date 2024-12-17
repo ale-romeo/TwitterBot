@@ -5,7 +5,7 @@ from seleniumbase import SB
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from utils.logging_handler import trace_account_status, log_error, trace_account_raid
-from utils.file_handler import get_random_emojis, get_random_picture, get_random_message, move_account_to_quarantine, move_account_to_suspended
+from utils.file_handler import get_random_emojis, get_random_picture, get_random_message, lock_account, suspend_account
 from config.settings import TEST_TWITTER_URL, PROFILES_PATH
 
 class SeleniumActions:
@@ -19,53 +19,30 @@ class SeleniumActions:
 
     def deal_auth_required(self, username):
         log_error(f"AUTH REQUIRED - {username}")
-        quarantine_op = move_account_to_quarantine(username)
+        quarantine_op = lock_account(username)
         if not quarantine_op:
+            log_error(f"NOT FOUND - {username}")
+        return True
+    
+    def deal_suspended(self, username):
+        log_error(f"SUSPENDED - {username}")
+        suspended_op = suspend_account(username)
+        if not suspended_op:
             log_error(f"NOT FOUND - {username}")
         return True
 
     def check_auth_required(self, sb, username):
-        if sb.get_current_url() == "https://x.com/account/access":
-            self.deal_auth_required(username)
-            return True
-        
-        try:
-            sb.assert_element("iframe#arkose_iframe", timeout=5)
-            self.deal_auth_required(username)
-            return True
-        except:
-            pass
-
-        try:
-            sb.assert_element("iframe#arkoseFrame", timeout=5)
-            self.deal_auth_required(username)
-            return True
-        except:
-            pass
-
-        try:
-            sb.assert_element("input[type='submit']", timeout=5)
-            self.deal_auth_required(username)
-            return True
-        except:
-            pass
-
-        try:
-            sb.assert_element("button:contains('email')", timeout=5)
-            self.deal_auth_required(username)
-            return True
-        except:
-            pass
-
-        try:
-            sb.assert_element("//a[contains(text(), 'Try again')]", by=By.XPATH, timeout=5)
-            self.deal_auth_required(username)
-            return True
-        except:
-            pass
+        if sb.get_current_url() == "https://x.com/account/access" or sb.is_text_visible("Your account has been locked", selector="span"):
+            return self.deal_auth_required(username)
 
         return False
 
+    def check_suspended(self, sb, username):
+        if sb.is_text_visible("suspended", selector="span"):
+            return self.deal_suspended(username)
+        
+        return False
+    
     def login(self, sb, email, username, password):
         try:
             # Navigate to Twitter login page
@@ -104,13 +81,6 @@ class SeleniumActions:
 
         except:
             return False
-        
-    def check_suspended(self, sb, username):
-        if sb.is_text_visible("Your account is suspended", selector="span"):
-            log_error(f"SUSPENDED - {username}")
-            move_account_to_suspended(username)
-            return True
-        return False
 
     def verify_login(self, sb, tweet_url):
         try:
@@ -381,7 +351,7 @@ class SeleniumActions:
 
             # Check if the tracker is empty
             if not self.processed_tracker:
-                trace_account_raid(account, len(self.processed_tracker.keys()), success_count)
+                trace_account_raid(account, 0, 0)
                 return True
 
             with SB(
@@ -394,6 +364,9 @@ class SeleniumActions:
                 # Open X.com and clear session for a fresh start
                 sb.uc_open("https://x.com")
                 self.random_delay(sb)
+
+                if self.check_auth_required(sb, username):
+                    return False
 
                 if not self.verify_login(sb, TEST_TWITTER_URL):
                     sb.delete_all_cookies()
