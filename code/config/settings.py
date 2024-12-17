@@ -1,6 +1,6 @@
 import os
 import seleniumbase as _
-from config.settings import PROJECT
+from config.env import PROJECT
 
 # Paths
 base_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
