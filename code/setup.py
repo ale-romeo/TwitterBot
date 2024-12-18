@@ -5,10 +5,8 @@ from config.settings import (
     MESSAGE_PATH,
     POST_PATH,
     LOG_PATH,
-    QUARANTINE_PATH,
     TWEETS_PATH,
     PICTURES_PATH,
-    SUSPENDED_PATH,
     LOGS_PATH
 )
 
@@ -25,8 +23,8 @@ def setup_directories_and_files():
 
     # Create files if they don't exist
     for file_path in [
-        MESSAGE_PATH, POST_PATH, QUARANTINE_PATH, TWEETS_PATH,
-        LOG_PATH, ACCOUNTS_PATH, SUSPENDED_PATH
+        MESSAGE_PATH, POST_PATH, TWEETS_PATH,
+        LOG_PATH, ACCOUNTS_PATH
     ]:
         if not os.path.exists(file_path):
             # Create an empty json file if not log_path
