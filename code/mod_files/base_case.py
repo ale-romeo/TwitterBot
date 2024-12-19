@@ -4478,7 +4478,7 @@ class BaseCase(unittest.TestCase):
         try:
             cookies = self.get_saved_cookies(name)
         except Exception:
-            return None
+            return False
         self.wait_for_ready_state_complete()
         origin = self.get_origin()
         trim_origin = origin.split("://")[-1]
@@ -4495,7 +4495,7 @@ class BaseCase(unittest.TestCase):
             elif expiry:
                 cookie["expiry"] = int(time.time()) + 86400
             self.driver.add_cookie(cookie)
-            return True
+        return True
 
     def delete_all_cookies(self):
         """Deletes all cookies in the web browser.
