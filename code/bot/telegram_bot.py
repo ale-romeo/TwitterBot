@@ -133,7 +133,7 @@ class TelegramBot:
         links_to_remove = []
 
         for link in list(self.processed_tracker.keys()):
-            if len(self.processed_tracker[link]) == (len(accounts) - 2):
+            if len(self.processed_tracker[link]) == (len(accounts) - 1):
                 links_to_remove.append(link)
 
         for link in links_to_remove:

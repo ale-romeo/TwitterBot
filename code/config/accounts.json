@@ -316,6 +316,116 @@
                     "password": "$$SQUID$$1B",
                     "isLocked": false,
                     "isSuspended": false
+                },
+                {
+                    "email": "readyorn0t@proton.me",
+                    "username": "readyorn0t34101",
+                    "password": "$$SQUID$$1B",
+                    "isLocked": false,
+                    "isSuspended": false
+                },
+                {
+                    "email": "willn0tsmith@proton.me",
+                    "username": "willn0tsmith",
+                    "password": "$$SQUID$$1B",
+                    "isLocked": false,
+                    "isSuspended": false
+                },
+                {
+                    "email": "jesuscrypt0@proton.me",
+                    "username": "jesuscrypt86296",
+                    "password": "$$SQUID$$1B",
+                    "isLocked": false,
+                    "isSuspended": false
+                },
+                {
+                    "email": "gimme2kpls@proton.me",
+                    "username": "gimme2kpls",
+                    "password": "$$SQUID$$1B",
+                    "isLocked": false,
+                    "isSuspended": false
+                },
+                {
+                    "email": "dumbplusdumb@proton.me",
+                    "username": "dumbplusdumb",
+                    "password": "$$SQUID$$1B",
+                    "isLocked": false,
+                    "isSuspended": false
+                },
+                {
+                    "email": "kingofthehill0@proton.me",
+                    "username": "kingoftheh82561",
+                    "password": "$$SQUID$$1B",
+                    "isLocked": false,
+                    "isSuspended": false
+                },
+                {
+                    "email": "retardedbutlucky@proton.me",
+                    "username": "luckyretarded",
+                    "password": "$$SQUID$$1B",
+                    "isLocked": false,
+                    "isSuspended": false
+                }
+            ]
+        },
+        "2": {
+            "proxy": "",
+            "accounts": [
+                {
+                    "email": "@proton.me",
+                    "username": "",
+                    "password": "$$SQUID$$1B",
+                    "isLocked": false,
+                    "isSuspended": false
+                },
+                {
+                    "email": "@proton.me",
+                    "username": "",
+                    "password": "$$SQUID$$1B",
+                    "isLocked": false,
+                    "isSuspended": false
+                },
+                {
+                    "email": "@proton.me",
+                    "username": "",
+                    "password": "$$SQUID$$1B",
+                    "isLocked": false,
+                    "isSuspended": false
+                },
+                {
+                    "email": "@proton.me",
+                    "username": "",
+                    "password": "$$SQUID$$1B",
+                    "isLocked": false,
+                    "isSuspended": false
+                },
+                {
+                    "email": "@proton.me",
+                    "username": "",
+                    "password": "$$SQUID$$1B",
+                    "isLocked": false,
+                    "isSuspended": false
+                },
+                {
+                    "email": "@proton.me",
+                    "username": "",
+                    "password": "$$SQUID$$1B",
+                    "isLocked": false,
+                    "isSuspended": false
+                },
+                {
+                    "email": "@proton.me",
+                    "username": "",
+                    "password": "$$SQUID$$1B",
+                    "isLocked": false,
+                    "isSuspended": false
+                },
+                {
+                    "email": "@proton.me",
+                    "username": "",
+                    "password": "$$SQUID$$1B",
+                    "isLocked": false,
+                    "isSuspended": false
                 }
             ]
         }
