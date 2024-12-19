@@ -31,7 +31,7 @@ class TelegramBot:
         self.queue = asyncio.Queue()
         self.task_running = False 
         self.processed_tracker = {}
-        asyncio.create_task(self.task_worker())
+        asyncio.get_event_loop().create_task(self.task_worker())
         self.setup_handlers()
 
     def setup_handlers(self):
