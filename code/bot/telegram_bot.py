@@ -158,7 +158,7 @@ class TelegramBot:
         if chat_type == 'private':
             quarantined_accounts = get_locked_accounts(vps=self.vps, project=self.project)
             if not quarantined_accounts:
-                await update.message.reply_text('No accounts in quarantine.')
+                await update.message.reply_text('No locked accounts.')
                 return
             usernames = ', '.join([account['username'] for account in quarantined_accounts])
             await update.message.reply_text(usernames)

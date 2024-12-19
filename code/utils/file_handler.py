@@ -34,10 +34,11 @@ def get_random_emojis():
     return random.choices(emojis, k=random.randint(1, 3))
 
 def get_random_picture():
+    print(PICTURES_PATH)
     return os.path.join(PICTURES_PATH, random.choice(os.listdir(PICTURES_PATH)))
 
 def get_raid_picture():
-    return os.path.join(PICTURES_PATH, "push.gif")
+    return os.path.join(PICTURES_PATH, "raid.gif")
 
 def get_project_raid_message(project):
     messages = load_json(RAID_MESSAGE_PATH)
