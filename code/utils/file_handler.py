@@ -54,7 +54,7 @@ def get_random_message(project):
 def get_random_post_text(project):
     posts = load_json(POST_PATH)
     if project in posts:
-        return random.choice(posts)
+        return random.choice(posts[project])
     return None
 
 def get_accounts(vps=None, project=None):
