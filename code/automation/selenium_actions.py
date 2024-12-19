@@ -320,7 +320,7 @@ class SeleniumActions:
         self.random_delay(sb)
 
         # Check for redirection to an authentication page
-        if sb.get_current_url() != tweet_url and self.check_auth_required(sb, account['username']):
+        if self.check_auth_required(sb, account['username']):
             return False
 
         # Perform interactions (like, repost, comment, bookmark)
@@ -366,6 +366,7 @@ class SeleniumActions:
                     return False
 
                 if not self.verify_login(sb, TEST_TWITTER_URL):
+                    print("Login verification failed")
                     sb.sleep(1)
                     if sb.load_cookies(username, -1):  # Load cookies if available
                         self.random_delay(sb)
