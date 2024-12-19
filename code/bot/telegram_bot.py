@@ -110,10 +110,10 @@ class TelegramBot:
         else:
             await update.message.reply_text("Failed to post the tweet.")
 
-    async def raid(self, vps, project):
+    async def raid(self):
         """Raid a tweet with a random number of accounts."""
         erase_logs()
-        accounts = get_accounts(vps=vps, project=project)
+        accounts = get_accounts(vps=self.vps, project=self.project)
         if not accounts:
             log_error("No accounts available for raid.")
             return
@@ -121,13 +121,13 @@ class TelegramBot:
         selenium_actions = SeleniumActions(self.processed_tracker)
         for account in accounts:
             selenium_actions.process_account(account)
-            self.remove_link_if_interacted_by_all(vps, project)
+            self.remove_link_if_interacted_by_all()
             random_delay()
         self.raid_running = False
         
-    def remove_link_if_interacted_by_all(self, vps, project):
+    def remove_link_if_interacted_by_all(self):
         """Check if a link in self.processed_tracker has been interacted with by all accounts."""
-        accounts = get_accounts(vps=vps, project=project)
+        accounts = get_accounts(vps=self.vps, project=self.project)
         links_to_remove = []
 
         for link in list(self.processed_tracker.keys()):
@@ -156,7 +156,7 @@ class TelegramBot:
         """Get and display quarantined accounts."""
         chat_type = update.effective_chat.type
         if chat_type == 'private':
-            quarantined_accounts = get_locked_accounts()
+            quarantined_accounts = get_locked_accounts(vps=self.vps, project=self.project)
             if not quarantined_accounts:
                 await update.message.reply_text('No accounts in quarantine.')
                 return
@@ -167,7 +167,7 @@ class TelegramBot:
         """Get and display suspended accounts."""
         chat_type = update.effective_chat.type
         if chat_type == 'private':
-            suspended_accounts = get_suspended_accounts()
+            suspended_accounts = get_suspended_accounts(vps=self.vps, project=self.project)
             if not suspended_accounts:
                 await update.message.reply_text('No suspended accounts.')
                 return
