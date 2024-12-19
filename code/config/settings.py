@@ -1,6 +1,5 @@
 import os
 import seleniumbase as _
-from config.env import PROJECT
 
 # Paths
 base_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -12,7 +11,7 @@ media_path = os.path.join(base_path, "media")
 profiles_path = os.path.join(base_path, "profiles")
 
 # Config paths
-PICTURES_PATH = os.path.join(media_path, "img", PROJECT)
+PICTURES_PATH = os.path.join(media_path, "img")
 MESSAGE_PATH = os.path.join(media_path, "text", "messages.json")
 RAID_MESSAGE_PATH = os.path.join(media_path, "text", "raid_messages.json")
 POST_PATH = os.path.join(media_path, "text", "posts.json")

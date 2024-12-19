@@ -365,7 +365,7 @@ class SeleniumActions:
                 if self.check_auth_required(sb, username) or self.check_suspended(sb, username):
                     return False
 
-                if not self.verify_login(sb, "https://x.com/ChengpangZhoa/status/1859703180977897978"):
+                if not self.verify_login(sb, TEST_TWITTER_URL):
                     print("Login verification failed")
                     sb.sleep(1)
                     if sb.load_cookies(username, -1):  # Load cookies if available
