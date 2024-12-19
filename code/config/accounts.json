@@ -305,5 +305,19 @@
                 }
             ]
         }
+    },
+    "squid": {
+        "1": {
+            "proxy": "14aa1dd6de741:88574d5353@85.254.80.11:12323",
+            "accounts": [
+                {
+                    "email": "squidder1@proton.me",
+                    "username": "squidder1",
+                    "password": "$$SQUID$$1B",
+                    "isLocked": false,
+                    "isSuspended": false
+                }
+            ]
+        }
     }
 }
