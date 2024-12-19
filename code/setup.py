@@ -1,16 +1,17 @@
 import os
 import shutil
-from config.settings import (
-    ACCOUNTS_PATH,
-    MESSAGE_PATH,
-    POST_PATH,
-    LOG_PATH,
-    TWEETS_PATH,
-    PICTURES_PATH,
-    LOGS_PATH
-)
 
 def setup_directories_and_files():
+    
+    from config.settings import (
+        ACCOUNTS_PATH,
+        MESSAGE_PATH,
+        POST_PATH,
+        LOG_PATH,
+        TWEETS_PATH,
+        PICTURES_PATH,
+        LOGS_PATH
+    )
     """Sets up required directories and files."""
     print("Setting up directories...")
 
@@ -35,7 +36,8 @@ def setup_directories_and_files():
                 with open(file_path, "w") as f:
                     f.write("[]")
 
-def replace_seleniumbase_file(ORIGINAL_BASECASE_PATH, MODIFIED_BASECASE_PATH):
+def replace_seleniumbase_file():
+    from config.settings import ORIGINAL_BASECASE_PATH, MODIFIED_BASECASE_PATH
     """Replaces SeleniumBase's `base_case.py` with the modified version."""
     print("Replacing SeleniumBase's base_case.py...")
 
@@ -69,9 +71,7 @@ def setup():
     """Main setup function."""
     install_dependencies()
     setup_directories_and_files()
-
-    from config.settings import ORIGINAL_BASECASE_PATH, MODIFIED_BASECASE_PATH
-    replace_seleniumbase_file(ORIGINAL_BASECASE_PATH, MODIFIED_BASECASE_PATH)
+    replace_seleniumbase_file()
     install_google_chrome()
     print("Setup complete.")
 
