@@ -79,7 +79,7 @@ class TelegramBot:
                     return
                 else:
                     self.raid_running = True
-                    await self.queue.put((self.raid, (twitter_url)))
+                    await self.queue.put((self.raid, twitter_url))
         except Exception as e:
             log_error(f"Error processing group message: {e}")
 
