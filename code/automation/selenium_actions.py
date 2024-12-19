@@ -366,20 +366,17 @@ class SeleniumActions:
                     return False
 
                 if not self.verify_login(sb, TEST_TWITTER_URL):
-                    print("Login verification failed")
                     sb.sleep(1)
+                    
                     if sb.load_cookies(username, -1):  # Load cookies if available
                         self.random_delay(sb)
-                        print("Loaded cookies")
 
                         if not self.verify_login(sb, TEST_TWITTER_URL):
                             sb.sleep(1)
-                            print("Cookies failed")
 
                             if not self.login(sb, email, username, password):
                                 return trace_account_status(account, False)
                     else:
-                        print("No cookies found")
                         # Perform login if no cookies are found
                         if not self.login(sb, email, username, password):
                             return trace_account_status(account, False)
