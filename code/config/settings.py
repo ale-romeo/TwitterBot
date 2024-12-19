@@ -12,7 +12,7 @@ media_path = os.path.join(base_path, "media")
 profiles_path = os.path.join(base_path, "profiles")
 
 # Config paths
-PICTURES_PATH = os.path.join(media_path, PROJECT, "img")
+PICTURES_PATH = os.path.join(media_path, "img", PROJECT)
 MESSAGE_PATH = os.path.join(media_path, "text", "messages.json")
 RAID_MESSAGE_PATH = os.path.join(media_path, "text", "raid_messages.json")
 POST_PATH = os.path.join(media_path, "text", "posts.json")
