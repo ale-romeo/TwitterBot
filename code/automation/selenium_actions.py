@@ -284,6 +284,9 @@ class SeleniumActions:
                 sb.uc_open("https://x.com")
                 self.random_delay(sb)
 
+                if self.check_auth_required(sb, username) or self.check_suspended(sb, username):
+                    return False
+
                 if not self.verify_login(sb, TEST_TWITTER_URL):
                     sb.delete_all_cookies()
                     sb.sleep(1)
@@ -300,13 +303,6 @@ class SeleniumActions:
                         # Perform login if no cookies are available
                         if not self.login(sb, email, username, password):
                             return trace_account_status(account, False)
-
-                # Check for redirection to an authentication page
-                sb.uc_open(TEST_TWITTER_URL)
-                self.random_delay(sb)
-                if sb.get_current_url() != TEST_TWITTER_URL and self.check_auth_required(sb, username):
-                    sb.delete_all_cookies()
-                    return False
 
                 # Navigate to home and attempt to post the tweet
                 sb.uc_open("https://x.com/home")
@@ -368,7 +364,7 @@ class SeleniumActions:
                 sb.uc_open("https://x.com")
                 self.random_delay(sb)
 
-                if self.check_auth_required(sb, username):
+                if self.check_auth_required(sb, username) or self.check_suspended(sb, username):
                     return False
 
                 if not self.verify_login(sb, TEST_TWITTER_URL):
@@ -387,10 +383,6 @@ class SeleniumActions:
                         # Perform login if no cookies are found
                         if not self.login(sb, email, username, password):
                             return trace_account_status(account, False)
-
-                # Check if the account is suspended
-                if self.check_suspended(sb, username):
-                    return False
                 
                 success_count = 0
                 for link, processed_accounts in list(self.processed_tracker.items()):
