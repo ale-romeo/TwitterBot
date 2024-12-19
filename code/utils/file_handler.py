@@ -57,6 +57,12 @@ def get_random_post_text(project):
         return random.choice(posts[project])
     return None
 
+def get_proxy(project, vps):
+    accounts_data = load_json(ACCOUNTS_PATH)  # Load the JSON data
+    if project in accounts_data and vps in accounts_data[project]:
+        return accounts_data[project][vps]['proxy']
+    return None
+
 def get_accounts(vps=None, project=None):
     accounts_data = load_json(ACCOUNTS_PATH)  # Load the JSON data
 

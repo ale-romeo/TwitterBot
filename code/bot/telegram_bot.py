@@ -5,7 +5,8 @@ from utils.file_handler import (
     get_project_raid_message,
     get_random_post_text, 
     get_random_picture, 
-    get_raid_picture, 
+    get_raid_picture,
+    get_proxy,
     get_accounts, 
     check_interacted_tweet, 
     erase_logs, 
@@ -26,6 +27,7 @@ class TelegramBot:
         self.token = token
         self.vps = vps
         self.project = project
+        self.proxy = get_proxy(project=project, vps=vps)
         self.raid_running = False
         self.application = Application.builder().token(token).build()
         self.queue = asyncio.Queue()
@@ -103,7 +105,7 @@ class TelegramBot:
 
     async def execute_post(self, account, message, picture, update):
         """Actual function to post the tweet."""
-        selenium_actions = SeleniumActions(None)
+        selenium_actions = SeleniumActions(self.proxy, None)
         success = await asyncio.to_thread(selenium_actions.post, account, message, picture)
         if success:
             await update.message.reply_text("Tweet posted successfully!")
@@ -118,7 +120,7 @@ class TelegramBot:
             log_error("No accounts available for raid.")
             return
         random.shuffle(accounts)
-        selenium_actions = SeleniumActions(self.processed_tracker)
+        selenium_actions = SeleniumActions(self.proxy, self.processed_tracker)
         for account in accounts:
             selenium_actions.process_account(account)
             self.remove_link_if_interacted_by_all()

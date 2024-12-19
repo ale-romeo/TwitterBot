@@ -10,8 +10,9 @@ from config.settings import TEST_TWITTER_URL, PROFILES_PATH
 from config.env import PROJECT
 
 class SeleniumActions:
-    def __init__(self, processed_tracker):
+    def __init__(self, proxy, processed_tracker):
         self.tweet = None
+        self.proxy = proxy
         self.processed_tracker = processed_tracker
 
     def random_delay(self, sb):
@@ -267,14 +268,15 @@ class SeleniumActions:
             return False
         
     def post(self, account, message, picture):
+        email = account['email']
+        username = account['username']
+        password = account['password']
+        
         try:
-            email = account['email']
-            username = account['username']
-            password = account['password']
             with SB(
                 uc=True,  # Enable undetected-chromedriver mode
                 headless=False,  # Optional: Set True for headless mode
-                proxy=account['proxy'],  # Assign proxy if needed
+                proxy=self.proxy,  # Assign proxy if needed
                 window_size="800,800",  # Set window size for the browser
                 user_data_dir=os.path.join(PROFILES_PATH, username)  # Set user data directory for the browser
             ) as sb:
@@ -358,7 +360,7 @@ class SeleniumActions:
             with SB(
                 uc=True,  # Enable undetected-chromedriver mode
                 headless=False,  # Optional: Set True for headless mode
-                proxy=account['proxy'],  # Assign proxy if needed
+                proxy=self.proxy,  # Assign proxy if needed
                 window_size="800,800",  # Set window size for the browser
                 user_data_dir=os.path.join(PROFILES_PATH, username)  # Set user data directory for the browser
             ) as sb:
