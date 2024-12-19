@@ -34,7 +34,6 @@ def get_random_emojis():
     return random.choices(emojis, k=random.randint(1, 3))
 
 def get_random_picture():
-    print(PICTURES_PATH)
     return os.path.join(PICTURES_PATH, random.choice(os.listdir(PICTURES_PATH)))
 
 def get_raid_picture():

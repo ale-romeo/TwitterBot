@@ -7,6 +7,7 @@ from selenium.webdriver.common.keys import Keys
 from utils.logging_handler import trace_account_status, log_error, trace_account_raid
 from utils.file_handler import get_random_emojis, get_random_picture, get_random_message, lock_account, suspend_account
 from config.settings import TEST_TWITTER_URL, PROFILES_PATH
+from config.env import PROJECT
 
 class SeleniumActions:
     def __init__(self, processed_tracker):
@@ -334,7 +335,7 @@ class SeleniumActions:
         )
 
         if comment:
-            interaction_success = interaction_success and self.comment(sb, get_random_message())
+            interaction_success = interaction_success and self.comment(sb, get_random_message(project=PROJECT))
 
         self.random_delay(sb)
 

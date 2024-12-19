@@ -93,7 +93,7 @@ class TelegramBot:
         chat_type = update.effective_chat.type
         if chat_type == 'private':
             message = (
-                get_random_post_text()
+                get_random_post_text(project=self.project)
                 if len(update.message.text.split(' ')) < 2
                 else ' '.join(update.message.text.split(' ')[1:])
             )
