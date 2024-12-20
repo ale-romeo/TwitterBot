@@ -369,17 +369,139 @@
             ]
         },
         "2": {
-            "proxy": "",
+            "proxy": "14aa1dd6de741:88574d5353@31.133.85.253:12323",
             "accounts": [
                 {
-                    "email": "@proton.me",
+                    "email": "iwanttobepoor@proton.me",
+                    "username": "iwanttobepoor",
+                    "password": "$$SQUID$$1B",
+                    "isLocked": false,
+                    "isSuspended": false
+                },
+                {
+                    "email": "squidoutofthisworld@proton.me",
+                    "username": "squidoutofworld",
+                    "password": "$$SQUID$$1B",
+                    "isLocked": false,
+                    "isSuspended": false
+                },
+                {
+                    "email": "xmasmagicishere@proton.me",
+                    "username": "xmasmagicishere",
+                    "password": "$$SQUID$$1B",
+                    "isLocked": false,
+                    "isSuspended": false
+                },
+                {
+                    "email": "tokententacle.opposite732@passinbox.com",
+                    "username": "tokententacle",
+                    "password": "$$SQUID$$1B",
+                    "isLocked": false,
+                    "isSuspended": false
+                },
+                {
+                    "email": "cryptosquidgame.unfitted190@passinbox.com",
+                    "username": "cryptosquidg1",
+                    "password": "$$SQUID$$1B",
+                    "isLocked": false,
+                    "isSuspended": false
+                },
+                {
+                    "email": "squidder2@proton.me",
+                    "username": "squidder2152294",
+                    "password": "$$SQUID$$1B",
+                    "isLocked": false,
+                    "isSuspended": false
+                },
+                {
+                    "email": "PopcornAndCrypto@proton.me",
+                    "username": "PCrypto53504",
+                    "password": "$$SQUID$$1B",
+                    "isLocked": false,
+                    "isSuspended": false
+                },
+                {
+                    "email": "GameOfTokens@proton.me",
+                    "username": "",
+                    "password": "$$SQUID$$1B",
+                    "isLocked": false,
+                    "isSuspended": false
+                }
+            ]
+        },
+        "3": {
+            "proxy": "14aa1dd6de741:88574d5353@31.133.92.179:12323",
+            "accounts": [
+                {
+                    "email": "HODL2Survive@proton.me",
                     "username": "",
                     "password": "$$SQUID$$1B",
                     "isLocked": false,
                     "isSuspended": false
                 },
                 {
-                    "email": "@proton.me",
+                    "email": "WiredFinn@proton.me",
+                    "username": "",
+                    "password": "$$SQUID$$1B",
+                    "isLocked": false,
+                    "isSuspended": false
+                },
+                {
+                    "email": "ChillVibesJay@proton.me",
+                    "username": "",
+                    "password": "$$SQUID$$1B",
+                    "isLocked": false,
+                    "isSuspended": false
+                },
+                {
+                    "email": "NightOwlRyan@proton.me",
+                    "username": "",
+                    "password": "$$SQUID$$1B",
+                    "isLocked": false,
+                    "isSuspended": false
+                },
+                {
+                    "email": "ProfitPanda0@proton.me",
+                    "username": "",
+                    "password": "$$SQUID$$1B",
+                    "isLocked": false,
+                    "isSuspended": false
+                },
+                {
+                    "email": "GoldRushGreg@proton.me",
+                    "username": "",
+                    "password": "$$SQUID$$1B",
+                    "isLocked": false,
+                    "isSuspended": false
+                },
+                {
+                    "email": "GalaxyChris@proton.me",
+                    "username": "",
+                    "password": "$$SQUID$$1B",
+                    "isLocked": false,
+                    "isSuspended": false
+                },
+                {
+                    "email": "CoffeeCodex@proton.me",
+                    "username": "",
+                    "password": "$$SQUID$$1B",
+                    "isLocked": false,
+                    "isSuspended": false
+                }
+            ]
+        },
+        "4": {
+            "proxy": "14aa1dd6de741:88574d5353@176.103.238.195:12323",
+            "accounts": [
+                {
+                    "email": "redlightrunner.anguished571@passinbox.com",
+                    "username": "",
+                    "password": "$$SQUID$$1B",
+                    "isLocked": false,
+                    "isSuspended": false
+                },
+                {
+                    "email": "tugofwarrior.taekwondo330@passinbox.com",
                     "username": "",
                     "password": "$$SQUID$$1B",
                     "isLocked": false,

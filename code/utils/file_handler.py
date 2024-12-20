@@ -29,7 +29,8 @@ def remove_interacted_tweets(tweet_url):
 def get_random_emojis():
     emojis = [
         " 🚀", " 🌕", " 🔥", " 💰", " 💎",
-        " 🔸", " 👑", " ✨", " 👏"
+        " 🔸", " 👑", " ✨", " 👏", " 💸",
+        " 🪙"
     ]
     return random.choices(emojis, k=random.randint(1, 3))
 
