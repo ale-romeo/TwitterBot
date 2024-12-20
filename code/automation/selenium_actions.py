@@ -232,7 +232,7 @@ class SeleniumActions:
 
         if comment_type in ['picture', 'text_picture']:
             try:
-                self.send_picture(sb, get_random_picture())
+                self.send_picture(sb, get_random_picture(project=PROJECT))
                 self.random_delay(sb)
             except:
                 return False
