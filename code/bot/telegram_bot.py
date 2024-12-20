@@ -70,8 +70,8 @@ class TelegramBot:
             if twitter_url and not check_interacted_tweet(twitter_url) and twitter_url not in self.processed_tracker.keys():
                 if self.vps == "1":
                     await update.message.reply_animation(
-                        animation=get_raid_picture(), 
-                        caption=f"{get_project_raid_message}{twitter_url}"
+                        animation=get_raid_picture(self.project), 
+                        caption=f"{get_project_raid_message(self.project)}{twitter_url}"
                     )
                 self.processed_tracker[twitter_url] = set()
                 
