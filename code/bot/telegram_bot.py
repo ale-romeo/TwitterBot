@@ -118,6 +118,7 @@ class TelegramBot:
         accounts = get_accounts(vps=self.vps, project=self.project)
         if not accounts:
             log_error("No accounts available for raid.")
+            self.raid_running = False
             return
         random.shuffle(accounts)
         selenium_actions = SeleniumActions(self.proxy, self.processed_tracker)
