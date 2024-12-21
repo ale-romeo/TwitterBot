@@ -73,7 +73,8 @@ class TelegramBot:
                         animation=get_raid_picture(self.project), 
                         caption=f"{get_project_raid_message(self.project)}{twitter_url}"
                     )
-                self.processed_tracker[twitter_url] = set()
+                if self.processed_tracker.get(twitter_url) is None:
+                    self.processed_tracker[twitter_url] = set()
                 
                 if self.raid_running:
                     return
