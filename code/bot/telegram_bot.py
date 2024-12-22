@@ -114,12 +114,17 @@ class TelegramBot:
             await update.message.reply_text("Failed to post the tweet.")
 
     async def accounts_interact(self, accounts, selenium_actions):
-        """Interact with a list of accounts."""
+        """Interact with a list of accounts asynchronously."""
         for account in accounts:
-            selenium_actions.process_account(account)
-            self.remove_link_if_interacted_by_all()
-            random_delay()
+            try:
+                selenium_actions.process_account(account)
+                self.remove_link_if_interacted_by_all()
+                await asyncio.sleep(random.uniform(1, 3))
+            except Exception as e:
+                log_error(f"Error processing account {account['username']}: {e}")
+
         self.raid_running = False
+
 
     async def raid(self):
         """Raid a tweet with a random number of accounts."""
@@ -131,7 +136,7 @@ class TelegramBot:
             return
         random.shuffle(accounts)
         selenium_actions = SeleniumActions(self.proxy, self.processed_tracker)
-        await asyncio.to_thread(self.accounts_interact, accounts, selenium_actions)
+        await self.accounts_interact(accounts, selenium_actions)
         
     def remove_link_if_interacted_by_all(self):
         """Check if a link in self.processed_tracker has been interacted with by all accounts."""
