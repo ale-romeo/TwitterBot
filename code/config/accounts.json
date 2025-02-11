@@ -1,7 +1,7 @@
 {
     "zhoa": {
         "1": {
-            "proxy": "14a6a9de61a3b:1148882075@85.254.82.141:12323",
+            "proxy": "14a804ce14b1f:de6308edd4@185.106.195.176:12323",
             "accounts": [
                 {
                     "email": "lootlunatic@proton.me",
@@ -62,7 +62,7 @@
             ]
         },
         "2": {
-            "proxy": "14a6a9de61a3b:1148882075@85.254.82.141:12323",
+            "proxy": "14a804ce14b1f:de6308edd4@194.40.204.70:12323",
             "accounts": [
                 {
                     "email": "CoinCasual@proton.me",
